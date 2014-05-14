@@ -1,0 +1,34 @@
+PODS:
+  - Bolts (1.1.0)
+  - Facebook-iOS-SDK (3.14.0):
+    - Bolts
+  - HexColors (2.2.1)
+  - LBBlurredImage (0.2.0)
+  - MBProgressHUD (0.8)
+  - ReactiveCocoa (2.3):
+    - ReactiveCocoa/UI
+  - ReactiveCocoa/Core (2.3):
+    - ReactiveCocoa/no-arc
+  - ReactiveCocoa/no-arc (2.3)
+  - ReactiveCocoa/UI (2.3):
+    - ReactiveCocoa/Core
+  - TSMessages (0.9.8):
+    - HexColors
+
+DEPENDENCIES:
+  - Facebook-iOS-SDK (~> 3.14)
+  - LBBlurredImage
+  - MBProgressHUD (~> 0.8)
+  - ReactiveCocoa
+  - TSMessages
+
+SPEC CHECKSUMS:
+  Bolts: dc620a31cf67c29bce3e3d14a07a12e797a1a154
+  Facebook-iOS-SDK: 63e19ff8d275d63b765819f492a4e71e445f9822
+  HexColors: 99211502e17904af7891fc8f687d0e4958a6d66e
+  LBBlurredImage: 26bacd10063a6e886de6a374f4727c3cefb22fc2
+  MBProgressHUD: 2bbc6f470111daf7f3eaa4eb12b8cbf01c4c0622
+  ReactiveCocoa: dde7b11a14954edf789e7343b2c32e595caabd01
+  TSMessages: 051325667c81643634f6458fa22bdbeb31d654a9
+
+COCOAPODS: 0.32.1
