@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B633C5551933EC7E00B0B8F5 /* SCLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B633C5541933EC7E00B0B8F5 /* SCLoginViewController.m */; };
 		B671287B1919E9A200E6AFC1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B671287A1919E9A200E6AFC1 /* Foundation.framework */; };
 		B671287D1919E9A200E6AFC1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B671287C1919E9A200E6AFC1 /* CoreGraphics.framework */; };
 		B671287F1919E9A200E6AFC1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B671287E1919E9A200E6AFC1 /* UIKit.framework */; };
@@ -22,6 +23,8 @@
 		B671289F1919E9A200E6AFC1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B671287E1919E9A200E6AFC1 /* UIKit.framework */; };
 		B67128A71919E9A200E6AFC1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B67128A51919E9A200E6AFC1 /* InfoPlist.strings */; };
 		B67128A91919E9A200E6AFC1 /* SitCirclesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B67128A81919E9A200E6AFC1 /* SitCirclesTests.m */; };
+		B693374E1943B90B0073E2A0 /* SCLoginHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B693374D1943B90B0073E2A0 /* SCLoginHelper.m */; };
+		B693374F1943B90B0073E2A0 /* SCLoginHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B693374D1943B90B0073E2A0 /* SCLoginHelper.m */; };
 		CB0199430A4E4F4C9EBA57A8 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 46B0A998E30B455D931B0C2B /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +40,8 @@
 
 /* Begin PBXFileReference section */
 		46B0A998E30B455D931B0C2B /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		B633C5531933EC7E00B0B8F5 /* SCLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLoginViewController.h; sourceTree = "<group>"; };
+		B633C5541933EC7E00B0B8F5 /* SCLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCLoginViewController.m; sourceTree = "<group>"; };
 		B67128771919E9A200E6AFC1 /* SitCircles.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SitCircles.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B671287A1919E9A200E6AFC1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B671287C1919E9A200E6AFC1 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -58,6 +63,8 @@
 		B67128A41919E9A200E6AFC1 /* SitCirclesTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SitCirclesTests-Info.plist"; sourceTree = "<group>"; };
 		B67128A61919E9A200E6AFC1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B67128A81919E9A200E6AFC1 /* SitCirclesTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SitCirclesTests.m; sourceTree = "<group>"; };
+		B693374C1943B90B0073E2A0 /* SCLoginHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLoginHelper.h; sourceTree = "<group>"; };
+		B693374D1943B90B0073E2A0 /* SCLoginHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCLoginHelper.m; sourceTree = "<group>"; };
 		F94BD0290E004F8B91393934 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -86,6 +93,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B633C5561933EEFF00B0B8F5 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B693374C1943B90B0073E2A0 /* SCLoginHelper.h */,
+				B693374D1943B90B0073E2A0 /* SCLoginHelper.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
 		B671286E1919E9A200E6AFC1 = {
 			isa = PBXGroup;
 			children = (
@@ -121,9 +137,12 @@
 		B67128801919E9A200E6AFC1 /* SitCircles */ = {
 			isa = PBXGroup;
 			children = (
+				B633C5561933EEFF00B0B8F5 /* Models */,
 				B67128891919E9A200E6AFC1 /* SCAppDelegate.h */,
 				B671288A1919E9A200E6AFC1 /* SCAppDelegate.m */,
 				B671288C1919E9A200E6AFC1 /* Main.storyboard */,
+				B633C5531933EC7E00B0B8F5 /* SCLoginViewController.h */,
+				B633C5541933EC7E00B0B8F5 /* SCLoginViewController.m */,
 				B671288F1919E9A200E6AFC1 /* SCFirstViewController.h */,
 				B67128901919E9A200E6AFC1 /* SCFirstViewController.m */,
 				B67128921919E9A200E6AFC1 /* SCSecondViewController.h */,
@@ -299,6 +318,8 @@
 				B67128941919E9A200E6AFC1 /* SCSecondViewController.m in Sources */,
 				B67128911919E9A200E6AFC1 /* SCFirstViewController.m in Sources */,
 				B671288B1919E9A200E6AFC1 /* SCAppDelegate.m in Sources */,
+				B693374E1943B90B0073E2A0 /* SCLoginHelper.m in Sources */,
+				B633C5551933EC7E00B0B8F5 /* SCLoginViewController.m in Sources */,
 				B67128871919E9A200E6AFC1 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -308,6 +329,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B67128A91919E9A200E6AFC1 /* SitCirclesTests.m in Sources */,
+				B693374F1943B90B0073E2A0 /* SCLoginHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

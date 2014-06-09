@@ -7,12 +7,30 @@
 //
 
 #import "SCAppDelegate.h"
+#import <FacebookSDK/FacebookSDK.h>
 
 @implementation SCAppDelegate
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    return [FBAppCall handleOpenURL:url
+                  sourceApplication:sourceApplication
+                    fallbackHandler:^(FBAppCall *call) {
+                        NSLog(@"Unable to get user string");
+                    }];
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded) {
+        NSLog(@"token is laoded");
+    }
+    
+    if (FBSession.activeSession.state == FBSessionStateOpen) {
+        NSLog(@"session is open!");
+        // Push the next view controller without animation
+    }
+    
     return YES;
 }
 							
@@ -36,6 +54,7 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [FBAppCall handleDidBecomeActive];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
