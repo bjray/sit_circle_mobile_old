@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B616C907194E477D00FB5D68 /* SCUser.m in Sources */ = {isa = PBXBuildFile; fileRef = B616C906194E477D00FB5D68 /* SCUser.m */; };
+		B616C908194E477D00FB5D68 /* SCUser.m in Sources */ = {isa = PBXBuildFile; fileRef = B616C906194E477D00FB5D68 /* SCUser.m */; };
+		B616C90B194E5E7500FB5D68 /* SCHomeTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B616C90A194E5E7500FB5D68 /* SCHomeTableViewController.m */; };
+		B616C90C194E5E7500FB5D68 /* SCHomeTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B616C90A194E5E7500FB5D68 /* SCHomeTableViewController.m */; };
+		B616C90F194E5EE600FB5D68 /* SCTermsConditionsController.m in Sources */ = {isa = PBXBuildFile; fileRef = B616C90E194E5EE600FB5D68 /* SCTermsConditionsController.m */; };
+		B616C910194E5EE600FB5D68 /* SCTermsConditionsController.m in Sources */ = {isa = PBXBuildFile; fileRef = B616C90E194E5EE600FB5D68 /* SCTermsConditionsController.m */; };
 		B633C5551933EC7E00B0B8F5 /* SCLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B633C5541933EC7E00B0B8F5 /* SCLoginViewController.m */; };
 		B671287B1919E9A200E6AFC1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B671287A1919E9A200E6AFC1 /* Foundation.framework */; };
 		B671287D1919E9A200E6AFC1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B671287C1919E9A200E6AFC1 /* CoreGraphics.framework */; };
@@ -15,8 +21,6 @@
 		B67128871919E9A200E6AFC1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B67128861919E9A200E6AFC1 /* main.m */; };
 		B671288B1919E9A200E6AFC1 /* SCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B671288A1919E9A200E6AFC1 /* SCAppDelegate.m */; };
 		B671288E1919E9A200E6AFC1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B671288C1919E9A200E6AFC1 /* Main.storyboard */; };
-		B67128911919E9A200E6AFC1 /* SCFirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B67128901919E9A200E6AFC1 /* SCFirstViewController.m */; };
-		B67128941919E9A200E6AFC1 /* SCSecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B67128931919E9A200E6AFC1 /* SCSecondViewController.m */; };
 		B67128961919E9A200E6AFC1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B67128951919E9A200E6AFC1 /* Images.xcassets */; };
 		B671289D1919E9A200E6AFC1 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B671289C1919E9A200E6AFC1 /* XCTest.framework */; };
 		B671289E1919E9A200E6AFC1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B671287A1919E9A200E6AFC1 /* Foundation.framework */; };
@@ -40,6 +44,12 @@
 
 /* Begin PBXFileReference section */
 		46B0A998E30B455D931B0C2B /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		B616C905194E477D00FB5D68 /* SCUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCUser.h; sourceTree = "<group>"; };
+		B616C906194E477D00FB5D68 /* SCUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCUser.m; sourceTree = "<group>"; };
+		B616C909194E5E7500FB5D68 /* SCHomeTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCHomeTableViewController.h; sourceTree = "<group>"; };
+		B616C90A194E5E7500FB5D68 /* SCHomeTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCHomeTableViewController.m; sourceTree = "<group>"; };
+		B616C90D194E5EE600FB5D68 /* SCTermsConditionsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCTermsConditionsController.h; sourceTree = "<group>"; };
+		B616C90E194E5EE600FB5D68 /* SCTermsConditionsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCTermsConditionsController.m; sourceTree = "<group>"; };
 		B633C5531933EC7E00B0B8F5 /* SCLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLoginViewController.h; sourceTree = "<group>"; };
 		B633C5541933EC7E00B0B8F5 /* SCLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCLoginViewController.m; sourceTree = "<group>"; };
 		B67128771919E9A200E6AFC1 /* SitCircles.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SitCircles.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -53,10 +63,6 @@
 		B67128891919E9A200E6AFC1 /* SCAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCAppDelegate.h; sourceTree = "<group>"; };
 		B671288A1919E9A200E6AFC1 /* SCAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCAppDelegate.m; sourceTree = "<group>"; };
 		B671288D1919E9A200E6AFC1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		B671288F1919E9A200E6AFC1 /* SCFirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCFirstViewController.h; sourceTree = "<group>"; };
-		B67128901919E9A200E6AFC1 /* SCFirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCFirstViewController.m; sourceTree = "<group>"; };
-		B67128921919E9A200E6AFC1 /* SCSecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCSecondViewController.h; sourceTree = "<group>"; };
-		B67128931919E9A200E6AFC1 /* SCSecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCSecondViewController.m; sourceTree = "<group>"; };
 		B67128951919E9A200E6AFC1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		B671289B1919E9A200E6AFC1 /* SitCirclesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SitCirclesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B671289C1919E9A200E6AFC1 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -93,11 +99,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B616C911194FE60400FB5D68 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
 		B633C5561933EEFF00B0B8F5 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				B693374C1943B90B0073E2A0 /* SCLoginHelper.h */,
 				B693374D1943B90B0073E2A0 /* SCLoginHelper.m */,
+				B616C905194E477D00FB5D68 /* SCUser.h */,
+				B616C906194E477D00FB5D68 /* SCUser.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -137,18 +152,19 @@
 		B67128801919E9A200E6AFC1 /* SitCircles */ = {
 			isa = PBXGroup;
 			children = (
+				B616C911194FE60400FB5D68 /* Helpers */,
 				B633C5561933EEFF00B0B8F5 /* Models */,
 				B67128891919E9A200E6AFC1 /* SCAppDelegate.h */,
 				B671288A1919E9A200E6AFC1 /* SCAppDelegate.m */,
 				B671288C1919E9A200E6AFC1 /* Main.storyboard */,
 				B633C5531933EC7E00B0B8F5 /* SCLoginViewController.h */,
 				B633C5541933EC7E00B0B8F5 /* SCLoginViewController.m */,
-				B671288F1919E9A200E6AFC1 /* SCFirstViewController.h */,
-				B67128901919E9A200E6AFC1 /* SCFirstViewController.m */,
-				B67128921919E9A200E6AFC1 /* SCSecondViewController.h */,
-				B67128931919E9A200E6AFC1 /* SCSecondViewController.m */,
+				B616C909194E5E7500FB5D68 /* SCHomeTableViewController.h */,
+				B616C90A194E5E7500FB5D68 /* SCHomeTableViewController.m */,
 				B67128951919E9A200E6AFC1 /* Images.xcassets */,
 				B67128811919E9A200E6AFC1 /* Supporting Files */,
+				B616C90D194E5EE600FB5D68 /* SCTermsConditionsController.h */,
+				B616C90E194E5EE600FB5D68 /* SCTermsConditionsController.m */,
 			);
 			path = SitCircles;
 			sourceTree = "<group>";
@@ -315,10 +331,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B67128941919E9A200E6AFC1 /* SCSecondViewController.m in Sources */,
-				B67128911919E9A200E6AFC1 /* SCFirstViewController.m in Sources */,
 				B671288B1919E9A200E6AFC1 /* SCAppDelegate.m in Sources */,
+				B616C90F194E5EE600FB5D68 /* SCTermsConditionsController.m in Sources */,
 				B693374E1943B90B0073E2A0 /* SCLoginHelper.m in Sources */,
+				B616C90B194E5E7500FB5D68 /* SCHomeTableViewController.m in Sources */,
+				B616C907194E477D00FB5D68 /* SCUser.m in Sources */,
 				B633C5551933EC7E00B0B8F5 /* SCLoginViewController.m in Sources */,
 				B67128871919E9A200E6AFC1 /* main.m in Sources */,
 			);
@@ -328,7 +345,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B616C90C194E5E7500FB5D68 /* SCHomeTableViewController.m in Sources */,
+				B616C910194E5EE600FB5D68 /* SCTermsConditionsController.m in Sources */,
 				B67128A91919E9A200E6AFC1 /* SitCirclesTests.m in Sources */,
+				B616C908194E477D00FB5D68 /* SCUser.m in Sources */,
 				B693374F1943B90B0073E2A0 /* SCLoginHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -10,4 +10,11 @@
 
 @implementation SCLoginHelper
 
+
+#pragma mark - FBLoginViewDelegate
+- (void)loginViewFetchedUserInfo:(FBLoginView *)loginView
+                            user:(id<FBGraphUser>)user {
+    NSLog(@"user: %@", user);
+}
+
 @end

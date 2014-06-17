@@ -7,7 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <FacebookSDK/FacebookSDK.h>
+#import "SCUser.h"
 
-@interface SCLoginHelper : NSObject
+@interface SCLoginHelper : NSObject <FBLoginViewDelegate>
+
 
 @end

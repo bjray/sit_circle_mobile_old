@@ -38,7 +38,6 @@
     [super viewDidLoad];
 
     // Create Login View so that the app will be granted "status_update" permission.
-//    FBLoginView *loginview = [[FBLoginView alloc] init];
     FBLoginView *loginView = [[FBLoginView alloc] initWithReadPermissions:@[@"public_profile",@"email", @"user_friends", @"publish_actions", @"read_friendlists"]];
     
     loginView.frame = CGRectOffset(loginView.frame, (self.view.center.x - (loginView.frame.size.width /2)), (self.view.center.y - (loginView.frame.size.height /2)));
@@ -70,6 +69,11 @@
 - (void)loginViewFetchedUserInfo:(FBLoginView *)loginView
                             user:(id<FBGraphUser>)user {
     NSLog(@"user: %@", user);
+    NSLog(@"fb token: %@", FBSession.activeSession.accessTokenData);
+}
+
+- (void)loginViewShowingLoggedInUser:(FBLoginView *)loginView {
+    NSLog(@"FBLoginView: %@", loginView);
 }
 
 @end
