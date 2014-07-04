@@ -15,8 +15,6 @@
 		B6114EC21957B9D80076BB03 /* SCSitterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6114EC01957B9D80076BB03 /* SCSitterViewController.m */; };
 		B6114EC51957BA110076BB03 /* SCAddressesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6114EC41957BA110076BB03 /* SCAddressesViewController.m */; };
 		B6114EC61957BA110076BB03 /* SCAddressesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6114EC41957BA110076BB03 /* SCAddressesViewController.m */; };
-		B6114EC91957BA310076BB03 /* SCAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6114EC81957BA310076BB03 /* SCAddressViewController.m */; };
-		B6114ECA1957BA310076BB03 /* SCAddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6114EC81957BA310076BB03 /* SCAddressViewController.m */; };
 		B6114ECD1957BEAE0076BB03 /* SCClient.m in Sources */ = {isa = PBXBuildFile; fileRef = B6114ECC1957BEAE0076BB03 /* SCClient.m */; };
 		B6114ECE1957BEAE0076BB03 /* SCClient.m in Sources */ = {isa = PBXBuildFile; fileRef = B6114ECC1957BEAE0076BB03 /* SCClient.m */; };
 		B6114ED11957BEF30076BB03 /* SCManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B6114ED01957BEF30076BB03 /* SCManager.m */; };
@@ -43,6 +41,12 @@
 		B67128A91919E9A200E6AFC1 /* SitCirclesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B67128A81919E9A200E6AFC1 /* SitCirclesTests.m */; };
 		B693374E1943B90B0073E2A0 /* SCLoginHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B693374D1943B90B0073E2A0 /* SCLoginHelper.m */; };
 		B693374F1943B90B0073E2A0 /* SCLoginHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B693374D1943B90B0073E2A0 /* SCLoginHelper.m */; };
+		B6A53DFA1967365F006D95B9 /* SCContact.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A53DF91967365F006D95B9 /* SCContact.m */; };
+		B6A53DFB1967365F006D95B9 /* SCContact.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A53DF91967365F006D95B9 /* SCContact.m */; };
+		B6FD32C7195F670000534CA4 /* SCContactTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FD32C6195F670000534CA4 /* SCContactTableViewCell.m */; };
+		B6FD32C8195F670000534CA4 /* SCContactTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FD32C6195F670000534CA4 /* SCContactTableViewCell.m */; };
+		B6FD32CB19607D2800534CA4 /* SCContactsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FD32CA19607D2800534CA4 /* SCContactsHelper.m */; };
+		B6FD32CC19607D2800534CA4 /* SCContactsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FD32CA19607D2800534CA4 /* SCContactsHelper.m */; };
 		CB0199430A4E4F4C9EBA57A8 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 46B0A998E30B455D931B0C2B /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -66,8 +70,6 @@
 		B6114EC01957B9D80076BB03 /* SCSitterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCSitterViewController.m; sourceTree = "<group>"; };
 		B6114EC31957BA110076BB03 /* SCAddressesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCAddressesViewController.h; sourceTree = "<group>"; };
 		B6114EC41957BA110076BB03 /* SCAddressesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCAddressesViewController.m; sourceTree = "<group>"; };
-		B6114EC71957BA310076BB03 /* SCAddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCAddressViewController.h; sourceTree = "<group>"; };
-		B6114EC81957BA310076BB03 /* SCAddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCAddressViewController.m; sourceTree = "<group>"; };
 		B6114ECB1957BEAE0076BB03 /* SCClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCClient.h; sourceTree = "<group>"; };
 		B6114ECC1957BEAE0076BB03 /* SCClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCClient.m; sourceTree = "<group>"; };
 		B6114ECF1957BEF30076BB03 /* SCManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCManager.h; sourceTree = "<group>"; };
@@ -99,6 +101,12 @@
 		B67128A81919E9A200E6AFC1 /* SitCirclesTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SitCirclesTests.m; sourceTree = "<group>"; };
 		B693374C1943B90B0073E2A0 /* SCLoginHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLoginHelper.h; sourceTree = "<group>"; };
 		B693374D1943B90B0073E2A0 /* SCLoginHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCLoginHelper.m; sourceTree = "<group>"; };
+		B6A53DF81967365F006D95B9 /* SCContact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCContact.h; sourceTree = "<group>"; };
+		B6A53DF91967365F006D95B9 /* SCContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCContact.m; sourceTree = "<group>"; };
+		B6FD32C5195F670000534CA4 /* SCContactTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCContactTableViewCell.h; sourceTree = "<group>"; };
+		B6FD32C6195F670000534CA4 /* SCContactTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCContactTableViewCell.m; sourceTree = "<group>"; };
+		B6FD32C919607D2800534CA4 /* SCContactsHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCContactsHelper.h; sourceTree = "<group>"; };
+		B6FD32CA19607D2800534CA4 /* SCContactsHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCContactsHelper.m; sourceTree = "<group>"; };
 		F94BD0290E004F8B91393934 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -144,8 +152,6 @@
 				B6114EC01957B9D80076BB03 /* SCSitterViewController.m */,
 				B6114EC31957BA110076BB03 /* SCAddressesViewController.h */,
 				B6114EC41957BA110076BB03 /* SCAddressesViewController.m */,
-				B6114EC71957BA310076BB03 /* SCAddressViewController.h */,
-				B6114EC81957BA310076BB03 /* SCAddressViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -154,6 +160,8 @@
 			isa = PBXGroup;
 			children = (
 				B671288C1919E9A200E6AFC1 /* Main.storyboard */,
+				B6FD32C5195F670000534CA4 /* SCContactTableViewCell.h */,
+				B6FD32C6195F670000534CA4 /* SCContactTableViewCell.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -161,6 +169,8 @@
 		B616C911194FE60400FB5D68 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				B6FD32C919607D2800534CA4 /* SCContactsHelper.h */,
+				B6FD32CA19607D2800534CA4 /* SCContactsHelper.m */,
 				B67128891919E9A200E6AFC1 /* SCAppDelegate.h */,
 				B671288A1919E9A200E6AFC1 /* SCAppDelegate.m */,
 				B6114ECB1957BEAE0076BB03 /* SCClient.h */,
@@ -178,6 +188,8 @@
 				B616C906194E477D00FB5D68 /* SCUser.m */,
 				B6114ECF1957BEF30076BB03 /* SCManager.h */,
 				B6114ED01957BEF30076BB03 /* SCManager.m */,
+				B6A53DF81967365F006D95B9 /* SCContact.h */,
+				B6A53DF91967365F006D95B9 /* SCContact.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -396,10 +408,12 @@
 				B616C90B194E5E7500FB5D68 /* SCHomeTableViewController.m in Sources */,
 				B616C907194E477D00FB5D68 /* SCUser.m in Sources */,
 				B633C5551933EC7E00B0B8F5 /* SCLoginViewController.m in Sources */,
-				B6114EC91957BA310076BB03 /* SCAddressViewController.m in Sources */,
 				B6114ECD1957BEAE0076BB03 /* SCClient.m in Sources */,
+				B6A53DFA1967365F006D95B9 /* SCContact.m in Sources */,
 				B6114ED11957BEF30076BB03 /* SCManager.m in Sources */,
 				B6114EC11957B9D80076BB03 /* SCSitterViewController.m in Sources */,
+				B6FD32C7195F670000534CA4 /* SCContactTableViewCell.m in Sources */,
+				B6FD32CB19607D2800534CA4 /* SCContactsHelper.m in Sources */,
 				B6114EC51957BA110076BB03 /* SCAddressesViewController.m in Sources */,
 				B6114EB91957B9470076BB03 /* SCCirclesViewController.m in Sources */,
 				B67128871919E9A200E6AFC1 /* main.m in Sources */,
@@ -410,14 +424,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6A53DFB1967365F006D95B9 /* SCContact.m in Sources */,
 				B616C90C194E5E7500FB5D68 /* SCHomeTableViewController.m in Sources */,
 				B616C910194E5EE600FB5D68 /* SCTermsConditionsController.m in Sources */,
 				B6114EBE1957B9B00076BB03 /* SCCircleViewController.m in Sources */,
-				B6114ECA1957BA310076BB03 /* SCAddressViewController.m in Sources */,
+				B6FD32C8195F670000534CA4 /* SCContactTableViewCell.m in Sources */,
 				B6114EC21957B9D80076BB03 /* SCSitterViewController.m in Sources */,
 				B6114EC61957BA110076BB03 /* SCAddressesViewController.m in Sources */,
 				B67128A91919E9A200E6AFC1 /* SitCirclesTests.m in Sources */,
 				B6114ED21957BEF30076BB03 /* SCManager.m in Sources */,
+				B6FD32CC19607D2800534CA4 /* SCContactsHelper.m in Sources */,
 				B616C908194E477D00FB5D68 /* SCUser.m in Sources */,
 				B6114EBA1957B9470076BB03 /* SCCirclesViewController.m in Sources */,
 				B6114ECE1957BEAE0076BB03 /* SCClient.m in Sources */,

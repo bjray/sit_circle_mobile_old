@@ -7,21 +7,29 @@
 //
 
 #import "SCAddressesViewController.h"
+#import "SCContactTableViewCell.h"
 
-@interface SCAddressesViewController ()
+@interface SCAddressesViewController () <UISearchDisplayDelegate>
+@property (nonatomic, retain) NSArray *contacts;
+@property (nonatomic, retain) NSMutableArray *sitters;    //TODO: replace with userclass property
 
 @end
 
 @implementation SCAddressesViewController
-
-- (id)initWithStyle:(UITableViewStyle)style
 {
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
+    NSArray *_searchResults;
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    if(self = [super initWithCoder:aDecoder]) {
+        NSLog(@"Init method fired...");
+        
+        
     }
+    
     return self;
 }
+
 
 - (void)viewDidLoad
 {
@@ -44,66 +52,50 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    return [self.contacts count];
 }
 
-/*
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        //TODO: Set up controller to support search...
+
+        static NSString *CellIdentifier = @"SearchCell";
+		UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+		if (cell == nil)
+			cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        
+        
+        cell.textLabel.text = [_searchResults objectAtIndex:indexPath.row];
+        return cell;
+    } else {
+        // config cell....
+        static NSString *CellIdentifier = @"contactCell";
+        SCContactTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+        
+        //TODO: Add logic to display contact cell and whether they are selected or not...
+        
+        return cell;
+    }
     
-    // Configure the cell...
     
-    return cell;
-}
-*/
+    
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+    
 }
-*/
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
 }
-*/
 
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 /*
 #pragma mark - Navigation
@@ -115,5 +107,29 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+#pragma mark - Search
+- (void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller {
+    self.searchDisplayController.searchBar.showsCancelButton = YES;
+}
+
+- (void)searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller {
+    self.searchDisplayController.searchBar.showsCancelButton = NO;
+}
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
+    _searchResults = [self filterContacts:searchString];
+    return YES;
+}
+
+- (NSArray *)filterContacts:(NSString *)searchText {
+    //TODO: determine what the predicate needs to be...
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.firstName contains[c] %@", searchText];
+    return [self.contacts filteredArrayUsingPredicate:predicate];
+}
+
+#pragma mark - Picker DataSource Methods
+
+#pragma mark - Picker Delegate Methods
 
 @end
