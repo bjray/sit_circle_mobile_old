@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SCAddressesViewController : UITableViewController
+@interface SCAddressesViewController : UITableViewController <UIPickerViewDataSource, UIPickerViewDelegate>
 
 @end
