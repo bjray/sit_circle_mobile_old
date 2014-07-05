@@ -23,13 +23,16 @@
 {
     // Override point for customization after application launch.
     if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded) {
-        NSLog(@"token is laoded");
+        NSLog(@"token is loaded");
     }
     
     if (FBSession.activeSession.state == FBSessionStateOpen) {
         NSLog(@"session is open!");
         // Push the next view controller without animation
     }
+    
+    // TODO: Temp logic - replace with real User object...
+    self.user = [[SCUser alloc] init];
     
     return YES;
 }

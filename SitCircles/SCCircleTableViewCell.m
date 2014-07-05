@@ -1,21 +1,20 @@
 //
-//  SCContactTableViewCell.m
+//  SCCircleTableViewCell.m
 //  SitCircles
 //
-//  Created by B.J. Ray on 6/28/14.
+//  Created by B.J. Ray on 7/4/14.
 //  Copyright (c) 2014 109Software. All rights reserved.
 //
 
-#import "SCContactTableViewCell.h"
+#import "SCCircleTableViewCell.h"
 
-@implementation SCContactTableViewCell
+@implementation SCCircleTableViewCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        NSLog(@"This was called!");
     }
     return self;
 }

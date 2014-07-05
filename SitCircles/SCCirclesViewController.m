@@ -8,6 +8,9 @@
 
 #import "SCCirclesViewController.h"
 #import "SCContactsHelper.h"
+#import "SCAppDelegate.h"
+#import "SCCircles.h"
+#import "SCCircleTableViewCell.h"
 
 @interface SCCirclesViewController ()
 
@@ -15,14 +18,17 @@
 
 @implementation SCCirclesViewController
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    if(self = [super initWithCoder:aDecoder]) {
+        NSLog(@"Init method fired...");
+        
     }
+    
+    
     return self;
 }
+
+
 
 - (void)viewDidLoad
 {
@@ -49,28 +55,39 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
-    return 0;
+    SCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+
+    
+    return [appDelegate.user.circles count];
 }
 
-/*
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    static NSString *CellIdentifier = @"CircleCell";
+    SCCircleTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    // Configure the cell...
+    SCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    
+    id<SCCircles>circle = [appDelegate.user.circles objectAtIndex:indexPath.row];
+    cell.circleNameLbl.text = circle.name;
+
+    if (circle.sitters) {
+        cell.circleCountLbl.text = [NSString stringWithFormat:@"%lu", (unsigned long)[circle.sitters count]];
+    } else {
+        cell.circleCountLbl.text = @"0";
+    }
+
     
     return cell;
 }
-*/
+
 
 /*
 // Override to support conditional editing of the table view.

@@ -1,29 +1,28 @@
 //
-//  SCTermsConditionsController.m
+//  SCTabBarController.m
 //  SitCircles
 //
-//  Created by B.J. Ray on 6/15/14.
+//  Created by B.J. Ray on 7/4/14.
 //  Copyright (c) 2014 109Software. All rights reserved.
 //
 
-#import "SCTermsConditionsController.h"
+#import "SCTabBarController.h"
 
-@interface SCTermsConditionsController ()
+@interface SCTabBarController ()
 
 @end
 
-@implementation SCTermsConditionsController
+@implementation SCTabBarController
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     if(self = [super initWithCoder:aDecoder]) {
         NSLog(@"Init method fired...");
-        
+        self.delegate = self;
     }
     
     
     return self;
 }
-
 
 - (void)viewDidLoad
 {
@@ -47,5 +46,15 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
+    
+    if (tabBarController.selectedIndex == 1) {
+        UINavigationController *navController = (UINavigationController *)viewController;
+        NSLog(@"navController.viewControllers: %lu", (unsigned long)[navController.viewControllers count]);
+        
+    }
+}
+
 
 @end

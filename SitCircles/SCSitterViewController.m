@@ -14,14 +14,16 @@
 
 @implementation SCSitterViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    if(self = [super initWithCoder:aDecoder]) {
+        NSLog(@"Init method fired...");
+        
     }
+    
+    
     return self;
 }
+
 
 - (void)viewDidLoad
 {

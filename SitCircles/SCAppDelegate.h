@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SCUser.h"
 
 @interface SCAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property (strong, nonatomic) SCUser *user;
 
 @end
