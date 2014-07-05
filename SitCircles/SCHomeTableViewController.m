@@ -23,14 +23,16 @@
     NSInteger _minute;
 }
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    if(self = [super initWithCoder:aDecoder]) {
+        NSLog(@"Init method fired...");
+        
     }
+    
+    
     return self;
 }
+
 
 - (void)viewDidLoad
 {

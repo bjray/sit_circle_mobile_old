@@ -6,10 +6,11 @@
 //  Copyright (c) 2014 109Software. All rights reserved.
 //
 
+@import CoreLocation;
 #import "SCLoginViewController.h"
 #import "SCTermsConditionsController.h"
 #import "SCAppDelegate.h"
-#import <CoreLocation/CoreLocation.h>
+
 
 @interface SCLoginViewController () <FBLoginViewDelegate>
 
@@ -17,14 +18,16 @@
 
 @implementation SCLoginViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    if(self = [super initWithCoder:aDecoder]) {
+        NSLog(@"Init method fired...");
+        
     }
+    
+    
     return self;
 }
+
 
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -37,7 +40,14 @@
         [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
             if (!error) {
                 // Success! Include your code to handle the results here
-                NSLog(@"user info: %@", result);
+                SCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+                [appDelegate.user facebookUser:result withToken:FBSession.activeSession.accessTokenData.accessToken];
+                
+                
+//                NSLog(@"user info: %@", result);
+//                NSMutableDictionary<FBOpenGraphObject> *myObject = result;
+//
+//                NSLog(@"fb token: %@", FBSession.activeSession.accessTokenData);
                 [self performSegueWithIdentifier:@"TabBarSegue" sender:self];
             } else {
                 // An error occurred, we need to handle the error
@@ -77,15 +87,17 @@
 
 #pragma mark - Navigation
 
-//// In a storyboard-based application, you will often want to do a little preparation before navigation
-//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-//{
-//    // Get the new view controller using [segue destinationViewController].
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    UIViewController *destination = [segue destinationViewController];
+    NSLog(@"destination: %@", destination);
+    // Get the new view controller using [segue destinationViewController].
 //    UINavigationController *navVC = [segue destinationViewController];
 //    NSLog(@"navVC: %@", navVC);
 //    SCTermsConditionsController *tcVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"TermsConditionsController"];
-//    
-//}
+    
+}
 
 
 

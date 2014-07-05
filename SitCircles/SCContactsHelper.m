@@ -6,9 +6,8 @@
 //  Copyright (c) 2014 109Software. All rights reserved.
 //
 
-@import AddressBook;
+
 #import "SCContactsHelper.h"
-#import "SCContact.h"
 
 
 @implementation SCContactsHelper
@@ -43,6 +42,13 @@
     }
     
     _contacts = [NSArray array];
+}
+
+// Not sure if this needs to be private...
+- (BOOL)isContact:(SCContact *) contact equalTo:(ABRecordRef) person {
+    BOOL result = NO;
+    #warning Incomplete method implementation.
+    return result;
 }
 
 
