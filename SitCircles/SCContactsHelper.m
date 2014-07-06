@@ -31,17 +31,24 @@
     return self;
 }
 
-- (void)requestContacts {
+- (RACSignal *)requestContacts {
     if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusNotDetermined) {
-        [self requestAddressBookAuth];
+        return [self requestAddressBookAuth];
     } else if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusAuthorized) {
-        [self loadContacts];
+        return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+            [subscriber sendNext:[self loadContacts]];
+            return nil;
+        }];
     } else {
+        //TODO: Determine how to notify user that access has been denied...
         NSLog(@"denied");
-        //TODO: message back that access has been denied...
+        return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+            [subscriber sendCompleted];
+            return [RACDisposable disposableWithBlock:^{
+                //terminate processes here...
+            }];
+        }];
     }
-    
-    _contacts = [NSArray array];
 }
 
 // Not sure if this needs to be private...
@@ -58,25 +65,34 @@
 
 #pragma mark - Private Methods
 
-- (void)requestAddressBookAuth {
+- (RACSignal *)requestAddressBookAuth {
     
-    ABAddressBookRequestAccessWithCompletion(ABAddressBookCreateWithOptions(NULL, nil), ^(bool granted, CFErrorRef error) {
-        if (!granted) {
-            NSLog(@"just denied!");
-            return;
-        }
-        NSLog(@"Authorized");
-        [self loadContacts];
-    });
+    return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+        
+        ABAddressBookRequestAccessWithCompletion(ABAddressBookCreateWithOptions(NULL, nil), ^(bool granted, CFErrorRef error) {
+            if (!granted) {
+                NSLog(@"just denied!");
+                [subscriber sendError:(__bridge NSError *)(error)];
+            } else {
+                NSLog(@"Authorized");
+                [subscriber sendNext:[self loadContacts]];
+            }
+        });
+        
+        return [RACDisposable disposableWithBlock:^{
+            //terminate any processes here...
+        }];
+    }];
 }
 
-- (void)loadContacts {
-//    ABAddressBookRef addressBook = ABAddressBookCreate();
+- (NSArray *)loadContacts {
+    
     CFErrorRef *error;
     ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, error);
     CFArrayRef allPeople = ABAddressBookCopyArrayOfAllPeople( addressBook );
     NSInteger peopleCount = ABAddressBookGetPersonCount(addressBook);
     SCContact *contact;
+    NSMutableArray *contactList;
     
     for (NSInteger i=0; i < peopleCount; i++) {
         contact = [[SCContact alloc] init];
@@ -88,8 +104,9 @@
         contact.lastName = [self stringForABRecordRef:person forSingleValue:kABPersonLastNameProperty];
         contact.numbers = [self dictionaryForABRecordRef:person forMultiValue:kABPersonPhoneProperty];
         NSLog(@"contact: %@", contact);
+        [contactList addObject:contact];
     }
-
+    return contactList;
 }
 
 - (NSMutableDictionary *)contactInfoDictionaryDefinition {

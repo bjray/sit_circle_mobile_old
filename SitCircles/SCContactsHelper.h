@@ -7,14 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
-@import AddressBook;
+#import <ReactiveCocoa/ReactiveCocoa/ReactiveCocoa.h>
 #import "SCContact.h"
+@import AddressBook;
 
 @interface SCContactsHelper : NSObject
 @property (nonatomic, retain, readonly) NSArray *contacts;
 
 +(instancetype)sharedManager;
 
-- (void)requestContacts;
+- (RACSignal *)requestContacts;
 - (BOOL)isContact:(SCContact *) contact equalTo:(ABRecordRef) person;
 @end

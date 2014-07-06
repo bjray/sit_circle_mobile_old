@@ -8,6 +8,7 @@
 
 #import "SCAddressesViewController.h"
 #import "SCContactTableViewCell.h"
+#import "SCContactsHelper.h"
 
 @interface SCAddressesViewController () <UISearchDisplayDelegate>
 @property (nonatomic, retain) NSArray *contacts;
@@ -23,7 +24,9 @@
 - (id)initWithCoder:(NSCoder *)aDecoder {
     if(self = [super initWithCoder:aDecoder]) {
         NSLog(@"Init method fired...");
-        
+        SCContactsHelper *contactsHelper = [SCContactsHelper sharedManager];
+        [contactsHelper requestContacts];
+        NSLog(@"done");
         
     }
     
@@ -40,6 +43,14 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    [[RACObserve([SCContactsHelper sharedManager], contacts)
+      deliverOn:RACScheduler.mainThreadScheduler]
+     subscribeNext:^(NSArray *newContacts) {
+         NSLog(@"new contact list");
+         [self.tableView reloadData];
+     }];
+    
 }
 
 - (void)didReceiveMemoryWarning

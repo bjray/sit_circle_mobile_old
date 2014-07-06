@@ -7,7 +7,6 @@
 //
 
 #import "SCCirclesViewController.h"
-#import "SCContactsHelper.h"
 #import "SCAppDelegate.h"
 #import "SCCircles.h"
 #import "SCCircleTableViewCell.h"
@@ -39,10 +38,6 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
-    SCContactsHelper *contactsHelper = [SCContactsHelper sharedManager];
-    [contactsHelper requestContacts];
-    NSLog(@"done");
 }
 
 - (void)didReceiveMemoryWarning
