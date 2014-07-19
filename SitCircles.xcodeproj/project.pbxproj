@@ -26,6 +26,8 @@
 		B616C90F194E5EE600FB5D68 /* SCTermsConditionsController.m in Sources */ = {isa = PBXBuildFile; fileRef = B616C90E194E5EE600FB5D68 /* SCTermsConditionsController.m */; };
 		B616C910194E5EE600FB5D68 /* SCTermsConditionsController.m in Sources */ = {isa = PBXBuildFile; fileRef = B616C90E194E5EE600FB5D68 /* SCTermsConditionsController.m */; };
 		B633C5551933EC7E00B0B8F5 /* SCLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B633C5541933EC7E00B0B8F5 /* SCLoginViewController.m */; };
+		B65A611C197AF1E60016667D /* SCSitter.m in Sources */ = {isa = PBXBuildFile; fileRef = B65A611B197AF1E60016667D /* SCSitter.m */; };
+		B65A611D197AF1E60016667D /* SCSitter.m in Sources */ = {isa = PBXBuildFile; fileRef = B65A611B197AF1E60016667D /* SCSitter.m */; };
 		B671287B1919E9A200E6AFC1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B671287A1919E9A200E6AFC1 /* Foundation.framework */; };
 		B671287D1919E9A200E6AFC1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B671287C1919E9A200E6AFC1 /* CoreGraphics.framework */; };
 		B671287F1919E9A200E6AFC1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B671287E1919E9A200E6AFC1 /* UIKit.framework */; };
@@ -88,6 +90,8 @@
 		B616C90E194E5EE600FB5D68 /* SCTermsConditionsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCTermsConditionsController.m; sourceTree = "<group>"; };
 		B633C5531933EC7E00B0B8F5 /* SCLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLoginViewController.h; sourceTree = "<group>"; };
 		B633C5541933EC7E00B0B8F5 /* SCLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCLoginViewController.m; sourceTree = "<group>"; };
+		B65A611A197AF1E60016667D /* SCSitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCSitter.h; sourceTree = "<group>"; };
+		B65A611B197AF1E60016667D /* SCSitter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCSitter.m; sourceTree = "<group>"; };
 		B67128771919E9A200E6AFC1 /* SitCircles.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SitCircles.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B671287A1919E9A200E6AFC1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B671287C1919E9A200E6AFC1 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -210,6 +214,8 @@
 				B6A53DF91967365F006D95B9 /* SCContact.m */,
 				B6A53E03196767DD006D95B9 /* SCCircle.h */,
 				B6A53E04196767DD006D95B9 /* SCCircle.m */,
+				B65A611A197AF1E60016667D /* SCSitter.h */,
+				B65A611B197AF1E60016667D /* SCSitter.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -441,6 +447,7 @@
 				B616C907194E477D00FB5D68 /* SCUser.m in Sources */,
 				B633C5551933EC7E00B0B8F5 /* SCLoginViewController.m in Sources */,
 				B6114ECD1957BEAE0076BB03 /* SCClient.m in Sources */,
+				B65A611C197AF1E60016667D /* SCSitter.m in Sources */,
 				B6A53DFA1967365F006D95B9 /* SCContact.m in Sources */,
 				B6114ED11957BEF30076BB03 /* SCManager.m in Sources */,
 				B6114EC11957B9D80076BB03 /* SCSitterViewController.m in Sources */,
@@ -463,6 +470,7 @@
 				B6114EBE1957B9B00076BB03 /* SCCircleViewController.m in Sources */,
 				B6FD32C8195F670000534CA4 /* SCContactTableViewCell.m in Sources */,
 				B6A53E0A1967A808006D95B9 /* SCTabBarController.m in Sources */,
+				B65A611D197AF1E60016667D /* SCSitter.m in Sources */,
 				B6114EC21957B9D80076BB03 /* SCSitterViewController.m in Sources */,
 				B6A53E06196767DD006D95B9 /* SCCircle.m in Sources */,
 				B6114EC61957BA110076BB03 /* SCAddressesViewController.m in Sources */,
