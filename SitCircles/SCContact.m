@@ -12,10 +12,12 @@
 @property (nonatomic, retain, readwrite) NSString *primaryNumberLabel;
 @property (nonatomic, retain, readwrite) NSString *primaryNumberValue;
 
+@property (nonatomic, retain, readwrite) NSString *primaryEmailLabel;
+@property (nonatomic, retain, readwrite) NSString *primaryEmailValue;
+
 @end
 
 @implementation SCContact
-
 
 #pragma mark - Custom Setters / Getters
 - (void)setNumbers:(NSDictionary *)dict {
@@ -30,6 +32,15 @@
 
 - (NSString *)fullName {
     return [NSString stringWithFormat:@"%@ %@", _firstName, _lastName];
+}
+
+- (void)setEmails:(NSDictionary *)emails {
+    _emails = emails;
+    NSString *key = [self keyOfPrimaryEmailInDictionary:emails];
+    if (key) {
+        self.primaryEmailLabel = key;
+        self.primaryEmailValue = (NSString *)[emails objectForKey:key];
+    }
 }
 
 #pragma mark - Private Methods
@@ -52,6 +63,16 @@
                 break;
             }
         }
+    }
+    
+    return theKey;
+}
+
+- (NSString *)keyOfPrimaryEmailInDictionary:(NSDictionary *)dict {
+    NSString *theKey = nil;
+    
+    if ([dict count] >= 1) {
+        theKey = [[dict allKeys] objectAtIndex:0];
     }
     
     return theKey;

@@ -95,6 +95,7 @@
         contact.firstName = [self stringForABRecordRef:person forSingleValue:kABPersonFirstNameProperty];
         contact.lastName = [self stringForABRecordRef:person forSingleValue:kABPersonLastNameProperty];
         contact.numbers = [self dictionaryForABRecordRef:person forMultiValue:kABPersonPhoneProperty];
+        contact.emails = [self dictionaryForABRecordRef:person forMultiValue:kABPersonEmailProperty];
         NSLog(@"contact: %@", contact);
         [contactList addObject:contact];
     }
