@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SCAddressesViewController : UITableViewController <UIPickerViewDataSource, UIPickerViewDelegate>
-
+@interface SCAddressesViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+- (IBAction)cancel:(id)sender;
+- (IBAction)save:(id)sender;
 @end

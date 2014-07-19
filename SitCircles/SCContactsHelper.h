@@ -16,6 +16,6 @@
 
 +(instancetype)sharedManager;
 
-- (RACSignal *)requestContacts;
+- (void)requestContacts;
 - (BOOL)isContact:(SCContact *) contact equalTo:(ABRecordRef) person;
 @end

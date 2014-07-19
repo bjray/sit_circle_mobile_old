@@ -11,9 +11,9 @@
 
 @interface SCContactTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *phoneTypeLabel;
-@property (weak, nonatomic) IBOutlet UILabel *phoneNumberLabel;
-@property (weak, nonatomic) IBOutlet UIPickerView *numberPicker;
 @property (weak, nonatomic) SCContact *contact;
+@property (weak, nonatomic) IBOutlet UILabel *primaryPhoneLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *contactImageView;
+
 
 @end
