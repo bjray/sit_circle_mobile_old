@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SCSitters.h"
 
-@interface SCSitter : NSObject
+@interface SCSitter : NSObject <SCSitters>
 
 @end

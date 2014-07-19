@@ -34,4 +34,10 @@
     
 }
 
+#pragma mark - Custom Setters / Getters
+
+- (id<SCCircles>)primaryCircle {
+    return [self.circles objectAtIndex:0];
+}
+
 @end
