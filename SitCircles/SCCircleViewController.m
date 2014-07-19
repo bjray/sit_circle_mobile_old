@@ -7,6 +7,10 @@
 //
 
 #import "SCCircleViewController.h"
+#import "SCAppDelegate.h"
+#import "SCUser.h"
+#import "SCCircle.h"
+#import "SCSitter.h"
 
 @interface SCCircleViewController ()
 
@@ -36,6 +40,11 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.tableView reloadData];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -46,28 +55,34 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    SCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    //TODO: Dont default to primary circle - user may select any circle...
+    return [appDelegate.user.primaryCircle.sitters count];
 }
 
-/*
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"sitterCell" forIndexPath:indexPath];
     
     // Configure the cell...
-    
+    SCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    //TODO: Dont default to primary circle - user may select any circle...
+    SCCircle *circle = appDelegate.user.primaryCircle;
+    SCSitter *sitter = [circle.sitters objectAtIndex:indexPath.row];
+    cell.textLabel.text = sitter.fullName;
+    cell.detailTextLabel.text = sitter.primaryNumberValue;
+    cell.imageView.image = sitter.image;
     return cell;
 }
-*/
+
 
 /*
 // Override to support conditional editing of the table view.

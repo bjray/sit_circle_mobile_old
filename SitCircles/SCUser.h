@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <FacebookSDK/FacebookSDK.h>
+#import "SCCircles.h"
 
 @interface SCUser : NSObject
 @property (nonatomic, copy) NSString *firstName;
@@ -17,6 +18,7 @@
 @property BOOL reviewTCs;
 @property BOOL newUser;
 @property (nonatomic, retain) NSMutableArray *circles;
+@property (nonatomic, retain, readonly) id<SCCircles> primaryCircle;
 
 
 - (void)facebookUser:(id)fbUser withToken: (NSString *)token;

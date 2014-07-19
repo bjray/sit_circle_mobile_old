@@ -9,6 +9,7 @@
 #import "SCCircle.h"
 #import "SCSitters.h"
 #import "SCAppDelegate.h"
+#import "SCSittersHelper.h"
 
 @implementation SCCircle
 @synthesize sitters = _sitters;
@@ -35,6 +36,11 @@
 
 - (void)addSitter:(__autoreleasing id<SCSitters> *)sitter {
     
+}
+
+- (void)addContactsAsSitters:(NSArray *)contacts {
+    SCSittersHelper *sitterHelper = [SCSittersHelper sharedManager];
+    self.sitters = [sitterHelper sittersFromContacts:contacts];
 }
 
 @end

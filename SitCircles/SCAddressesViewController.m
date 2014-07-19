@@ -9,6 +9,15 @@
 #import "SCAddressesViewController.h"
 #import "SCContactTableViewCell.h"
 #import "SCContactsHelper.h"
+#import "SCAppDelegate.h"
+#import "SCUser.h"
+#import "SCCircle.h"
+
+#import "MBProgressHUD.h"
+#import <TSMessages/TSMessage.h>
+#import <ReactiveCocoa/ReactiveCocoa/ReactiveCocoa.h>
+
+
 
 @interface SCAddressesViewController () <UISearchDisplayDelegate>
 @property (nonatomic, retain) NSMutableArray *sitters;    //TODO: replace with userclass property
@@ -163,6 +172,13 @@
 }
 
 - (IBAction)save:(id)sender {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.mode = MBProgressHUDModeIndeterminate;
+    hud.labelText = @"Saving...";
+    SCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    [appDelegate.user.primaryCircle addContactsAsSitters:self.selectedContacts];
+    
+    
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 @end

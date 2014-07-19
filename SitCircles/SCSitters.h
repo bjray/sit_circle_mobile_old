@@ -17,10 +17,10 @@
 @property (nonatomic, copy) NSDictionary *emails;
 @property (nonatomic, retain) UIImage *image;
 
-@property (nonatomic, retain, readonly) NSString *primaryNumberLabel;
-@property (nonatomic, retain, readonly) NSString *primaryNumberValue;
-@property (nonatomic, retain, readonly) NSString *primaryEmailLabel;
-@property (nonatomic, retain, readonly) NSString *primaryEmailValue;
+@property (nonatomic, retain) NSString *primaryNumberLabel;
+@property (nonatomic, retain) NSString *primaryNumberValue;
+@property (nonatomic, retain) NSString *primaryEmailLabel;
+@property (nonatomic, retain) NSString *primaryEmailValue;
 
 @property (nonatomic, retain, readonly) NSString *fullName;
 @end
