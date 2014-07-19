@@ -15,7 +15,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        NSLog(@"This was called!");
+        NSLog(@"SCContactTableViewCell was called!");
     }
     return self;
 }
@@ -30,6 +30,30 @@
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+- (void)setContact:(SCContact *)contact {
+    _contact = contact;
+    self.nameLabel.text = contact.fullName;
+    if (contact.primaryNumberValue) {
+        self.primaryPhoneLabel.text = [NSString stringWithFormat:@"%@: %@",contact.primaryNumberLabel, contact.primaryNumberValue ];
+        
+    } else {
+        self.primaryPhoneLabel.text = @"no number found...";
+    }
+    if (contact.image) {
+        self.contactImageView.image = contact.image;
+    }
+}
+
+- (void)setContactImageView:(UIImageView *)contactImageView {
+    _contactImageView = contactImageView;
+    _contactImageView.layer.borderWidth = 1.0f;
+    _contactImageView.layer.borderColor = [UIColor grayColor].CGColor;
+    _contactImageView.layer.masksToBounds = NO;
+    _contactImageView.clipsToBounds = YES;
+    _contactImageView.contentMode = UIViewContentModeScaleAspectFill;
+    _contactImageView.layer.cornerRadius = 30;
 }
 
 @end

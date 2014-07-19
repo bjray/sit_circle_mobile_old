@@ -13,7 +13,9 @@
 @property (nonatomic, copy) NSString *firstName;
 @property (nonatomic, copy) NSString *lastName;
 @property (nonatomic, copy) NSDictionary *numbers;
+@property (nonatomic, retain) UIImage *image;
 
 @property (nonatomic, retain, readonly) NSString *primaryNumberLabel;
 @property (nonatomic, retain, readonly) NSString *primaryNumberValue;
+@property (nonatomic, retain, readonly) NSString *fullName;
 @end

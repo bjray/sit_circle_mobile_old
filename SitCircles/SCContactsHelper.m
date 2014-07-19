@@ -9,6 +9,9 @@
 
 #import "SCContactsHelper.h"
 
+@interface SCContactsHelper()
+@property (nonatomic, retain, readwrite) NSArray *contacts;
+@end
 
 @implementation SCContactsHelper
 
@@ -31,23 +34,14 @@
     return self;
 }
 
-- (RACSignal *)requestContacts {
+- (void)requestContacts {
     if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusNotDetermined) {
-        return [self requestAddressBookAuth];
+        [self requestAddressBookAuth];
     } else if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusAuthorized) {
-        return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-            [subscriber sendNext:[self loadContacts]];
-            return nil;
-        }];
+        self.contacts = [NSArray arrayWithArray:[self fetchContacts]];
     } else {
         //TODO: Determine how to notify user that access has been denied...
         NSLog(@"denied");
-        return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-            [subscriber sendCompleted];
-            return [RACDisposable disposableWithBlock:^{
-                //terminate processes here...
-            }];
-        }];
     }
 }
 
@@ -65,39 +59,37 @@
 
 #pragma mark - Private Methods
 
-- (RACSignal *)requestAddressBookAuth {
-    
-    return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-        
-        ABAddressBookRequestAccessWithCompletion(ABAddressBookCreateWithOptions(NULL, nil), ^(bool granted, CFErrorRef error) {
-            if (!granted) {
-                NSLog(@"just denied!");
-                [subscriber sendError:(__bridge NSError *)(error)];
-            } else {
-                NSLog(@"Authorized");
-                [subscriber sendNext:[self loadContacts]];
-            }
-        });
-        
-        return [RACDisposable disposableWithBlock:^{
-            //terminate any processes here...
-        }];
-    }];
+- (void)requestAddressBookAuth {
+    ABAddressBookRequestAccessWithCompletion(ABAddressBookCreateWithOptions(NULL, nil), ^(bool granted, CFErrorRef error) {
+        if (!granted) {
+            NSLog(@"just denied!");
+            return;
+        }
+        NSLog(@"Authorized");
+        self.contacts = [NSArray arrayWithArray:[self fetchContacts]];
+    });
 }
 
-- (NSArray *)loadContacts {
+- (NSArray *)fetchContacts {
     
     CFErrorRef *error;
     ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, error);
     CFArrayRef allPeople = ABAddressBookCopyArrayOfAllPeople( addressBook );
     NSInteger peopleCount = ABAddressBookGetPersonCount(addressBook);
     SCContact *contact;
-    NSMutableArray *contactList;
+    NSMutableArray *contactList = [NSMutableArray array];
+
     
     for (NSInteger i=0; i < peopleCount; i++) {
         contact = [[SCContact alloc] init];
         ABRecordRef person = CFArrayGetValueAtIndex(allPeople, i);
         //Should we check for record type?
+        
+        if (ABPersonHasImageData(person)) {
+            CFDataRef dataRef = ABPersonCopyImageData(person);
+            NSData *data = (__bridge_transfer NSData *)dataRef;
+            contact.image = [UIImage imageWithData:data];
+        }
         
         contact.uniqueId = ABRecordGetRecordID(person);
         contact.firstName = [self stringForABRecordRef:person forSingleValue:kABPersonFirstNameProperty];

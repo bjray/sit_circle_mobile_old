@@ -11,8 +11,8 @@
 #import "SCContactsHelper.h"
 
 @interface SCAddressesViewController () <UISearchDisplayDelegate>
-@property (nonatomic, retain) NSArray *contacts;
 @property (nonatomic, retain) NSMutableArray *sitters;    //TODO: replace with userclass property
+@property (nonatomic, retain) NSMutableArray *selectedContacts;
 
 @end
 
@@ -23,11 +23,8 @@
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     if(self = [super initWithCoder:aDecoder]) {
-        NSLog(@"Init method fired...");
-        SCContactsHelper *contactsHelper = [SCContactsHelper sharedManager];
-        [contactsHelper requestContacts];
-        NSLog(@"done");
-        
+        //TODO: Replace with actual selected contacts...
+        self.selectedContacts = [NSMutableArray array];
     }
     
     return self;
@@ -44,10 +41,13 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
+    SCContactsHelper *contactsHelper = [SCContactsHelper sharedManager];
+    [contactsHelper requestContacts];
+    
     [[RACObserve([SCContactsHelper sharedManager], contacts)
       deliverOn:RACScheduler.mainThreadScheduler]
      subscribeNext:^(NSArray *newContacts) {
-         NSLog(@"new contact list");
+         NSLog(@"new contact list observed!");
          [self.tableView reloadData];
      }];
     
@@ -70,7 +70,8 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return [self.contacts count];
+    NSInteger count = [[SCContactsHelper sharedManager].contacts count];
+    return count;
 }
 
 
@@ -92,19 +93,25 @@
         static NSString *CellIdentifier = @"contactCell";
         SCContactTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
         
-        //TODO: Add logic to display contact cell and whether they are selected or not...
+        cell.contact = [[SCContactsHelper sharedManager].contacts objectAtIndex:indexPath.row];
+        
+        //TODO: Eventually add logic to checkmark cells that have already been added as sitters...
+        cell.accessoryType = UITableViewCellAccessoryNone;
         
         return cell;
     }
-    
-    
-    
-
-    
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *aCell = [tableView cellForRowAtIndexPath:indexPath];
     
+    if (aCell.accessoryType == UITableViewCellAccessoryNone) {
+        aCell.accessoryType = UITableViewCellAccessoryCheckmark;
+        [self.selectedContacts addObject:[[SCContactsHelper sharedManager].contacts objectAtIndex:indexPath.row]];
+    } else {
+        aCell.accessoryType = UITableViewCellAccessoryNone;
+        [self.selectedContacts removeObject:[[SCContactsHelper sharedManager].contacts objectAtIndex:indexPath.row]];
+    }
 }
 
 
@@ -136,11 +143,26 @@
 - (NSArray *)filterContacts:(NSString *)searchText {
     //TODO: determine what the predicate needs to be...
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.firstName contains[c] %@", searchText];
-    return [self.contacts filteredArrayUsingPredicate:predicate];
+    return [[SCContactsHelper sharedManager].contacts filteredArrayUsingPredicate:predicate];
 }
 
 #pragma mark - Picker DataSource Methods
+-(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    return 0;
+}
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    return 0;
+}
 
 #pragma mark - Picker Delegate Methods
 
+#pragma mark - User Actions
+
+- (IBAction)cancel:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (IBAction)save:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 @end

@@ -28,6 +28,10 @@
     }
 }
 
+- (NSString *)fullName {
+    return [NSString stringWithFormat:@"%@ %@", _firstName, _lastName];
+}
+
 #pragma mark - Private Methods
 
 - (NSString *)keyOfPrimaryPhoneNumberInDictionary:(NSDictionary *)dict {
@@ -55,6 +59,7 @@
 
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"%@ %@, %@: %@", self.firstName, self.lastName, self.primaryNumberLabel, self.primaryNumberValue];
+//    return [NSString stringWithFormat:@"%@ %@, %@: %@", self.firstName, self.lastName, self.primaryNumberLabel, self.primaryNumberValue];
+    return [NSString stringWithFormat:@"%@ %@", self.firstName, self.lastName];
 }
 @end
