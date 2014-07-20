@@ -74,6 +74,7 @@
     
     // Configure the cell...
     SCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    
     //TODO: Dont default to primary circle - user may select any circle...
     SCCircle *circle = appDelegate.user.primaryCircle;
     SCSitter *sitter = [circle.sitters objectAtIndex:indexPath.row];
@@ -122,15 +123,23 @@
 }
 */
 
-/*
+
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    UIViewController *destination = [segue destinationViewController];
+    if ([destination respondsToSelector:@selector(setSitter:)]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+        SCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+        
+        SCCircle *circle = appDelegate.user.primaryCircle;
+        SCSitter *aSitter = [circle.sitters objectAtIndex:indexPath.row];
+        [destination setValue:aSitter forKeyPath:@"sitter"];
+    } else {
+        NSLog(@"didn't find selector!");
+    }
 }
-*/
+
 
 @end
