@@ -15,5 +15,6 @@
 @property (nonatomic, retain) NSString *ownerId;
 
 - (void)addSitter:(id<SCSitters>*)sitter;
-- (void)addContactsAsSitters:(NSArray *)contacts;
+- (void)addContactsToSitterList:(NSArray *)contacts;
+- (BOOL)containsContact:(id)contact;
 @end

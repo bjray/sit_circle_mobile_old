@@ -44,12 +44,6 @@
 {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
     SCContactsHelper *contactsHelper = [SCContactsHelper sharedManager];
     [contactsHelper requestContacts];
     
@@ -57,10 +51,22 @@
       deliverOn:RACScheduler.mainThreadScheduler]
      subscribeNext:^(NSArray *newContacts) {
          NSLog(@"new contact list observed!");
+         [self updateSelectedContacts:newContacts];
          [self.tableView reloadData];
      }];
-    
 }
+
+- (void)updateSelectedContacts:(NSArray *)contacts {
+    
+    SCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    
+    for (SCContact *contact in contacts) {
+        if ([appDelegate.user.primaryCircle containsContact:contact]) {
+            [self.selectedContacts addObject:contact];
+        }
+    }
+}
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -105,7 +111,12 @@
         cell.contact = [[SCContactsHelper sharedManager].contacts objectAtIndex:indexPath.row];
         
         //TODO: Eventually add logic to checkmark cells that have already been added as sitters...
-        cell.accessoryType = UITableViewCellAccessoryNone;
+        if ([self.selectedContacts containsObject:[[SCContactsHelper sharedManager].contacts objectAtIndex:indexPath.row]]) {
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        } else {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }
+        
         
         return cell;
     }
@@ -176,7 +187,7 @@
     hud.mode = MBProgressHUDModeIndeterminate;
     hud.labelText = @"Saving...";
     SCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    [appDelegate.user.primaryCircle addContactsAsSitters:self.selectedContacts];
+    [appDelegate.user.primaryCircle addContactsToSitterList:self.selectedContacts];
     
     
     [self dismissViewControllerAnimated:YES completion:nil];

@@ -226,6 +226,13 @@
 			name = Models;
 			sourceTree = "<group>";
 		};
+		B65A6122197B50070016667D /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
 		B671286E1919E9A200E6AFC1 = {
 			isa = PBXGroup;
 			children = (
@@ -261,6 +268,7 @@
 		B67128801919E9A200E6AFC1 /* SitCircles */ = {
 			isa = PBXGroup;
 			children = (
+				B65A6122197B50070016667D /* Categories */,
 				B6A53E0119675EAE006D95B9 /* Protocols */,
 				B6114EAE19579DF70076BB03 /* Views */,
 				B6114EAD19579DD80076BB03 /* Controllers */,
