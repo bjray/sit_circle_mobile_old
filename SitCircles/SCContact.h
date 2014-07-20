@@ -22,5 +22,6 @@
 @property (nonatomic, retain, readonly) NSString *primaryEmailLabel;
 @property (nonatomic, retain, readonly) NSString *primaryEmailValue;
 @property (nonatomic, retain, readonly) NSString *fullName;
+@property BOOL isLocked;
 
 @end

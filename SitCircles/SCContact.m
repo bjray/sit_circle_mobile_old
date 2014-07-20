@@ -19,6 +19,14 @@
 
 @implementation SCContact
 
+- (id)init {
+    if (self = [super init]) {
+        self.isLocked = NO;
+    }
+    
+    return self;
+}
+
 #pragma mark - Custom Setters / Getters
 - (void)setNumbers:(NSDictionary *)dict {
     _numbers = dict;
