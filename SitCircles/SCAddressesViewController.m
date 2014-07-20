@@ -33,17 +33,18 @@
 - (id)initWithCoder:(NSCoder *)aDecoder {
     if(self = [super initWithCoder:aDecoder]) {
         //TODO: Replace with actual selected contacts...
-        self.selectedContacts = [NSMutableArray array];
+        
     }
     
     return self;
 }
 
 
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    self.selectedContacts = [NSMutableArray array];
     SCContactsHelper *contactsHelper = [SCContactsHelper sharedManager];
     [contactsHelper requestContacts];
     
@@ -57,11 +58,10 @@
 }
 
 - (void)updateSelectedContacts:(NSArray *)contacts {
-    
     SCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    
     for (SCContact *contact in contacts) {
         if ([appDelegate.user.primaryCircle containsContact:contact]) {
+            contact.isLocked = YES;
             [self.selectedContacts addObject:contact];
         }
     }
@@ -113,6 +113,7 @@
         //TODO: Eventually add logic to checkmark cells that have already been added as sitters...
         if ([self.selectedContacts containsObject:[[SCContactsHelper sharedManager].contacts objectAtIndex:indexPath.row]]) {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            
         } else {
             cell.accessoryType = UITableViewCellAccessoryNone;
         }
