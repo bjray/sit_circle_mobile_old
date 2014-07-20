@@ -51,10 +51,39 @@
     sitter.primaryEmailValue = contact.primaryEmailValue;
     sitter.primaryNumberLabel = contact.primaryNumberLabel;
     sitter.primaryNumberValue = contact.primaryNumberValue;
-    
-    
-    
+
     return sitter;
+}
+
+- (BOOL)sitters:(NSArray *)sitters containsContact:(id)contact {
+    BOOL result = NO;
+    if ([contact isKindOfClass:[SCContact class]]) {
+        
+        for (SCSitter *sitter in sitters) {
+            result = [self compareSitter:sitter toContact:contact];
+            if (result) {
+                break;
+            }
+        }
+    }
+    
+    if (result) {
+        NSLog(@"contact exists in sitters list!!!");
+    } else {
+        NSLog(@"contact not found in sitters list");
+    }
+    
+    return result;
+}
+
+- (BOOL)compareSitter:(SCSitter *)sitter toContact:(SCContact *)contact {
+    BOOL result = NO;
+    
+    if (sitter.addressBookId == contact.uniqueId) {
+        result = YES;
+    }
+    
+    return result;
 }
 
 @end

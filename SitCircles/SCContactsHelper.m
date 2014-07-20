@@ -72,6 +72,9 @@
 
 - (NSArray *)fetchContacts {
     
+    if ([self.contacts count] > 0) {
+        return self.contacts;
+    }
     CFErrorRef *error;
     ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, error);
     CFArrayRef allPeople = ABAddressBookCopyArrayOfAllPeople( addressBook );
@@ -89,6 +92,7 @@
             CFDataRef dataRef = ABPersonCopyImageData(person);
             NSData *data = (__bridge_transfer NSData *)dataRef;
             contact.image = [UIImage imageWithData:data];
+            CFRelease(dataRef);
         }
         
         contact.uniqueId = ABRecordGetRecordID(person);
@@ -98,7 +102,14 @@
         contact.emails = [self dictionaryForABRecordRef:person forMultiValue:kABPersonEmailProperty];
         NSLog(@"contact: %@", contact);
         [contactList addObject:contact];
+        
+        CFRelease(person);
     }
+    
+//    CFRelease(allPeople);
+//    CFRelease(addressBook);
+    
+    
     return contactList;
 }
 
