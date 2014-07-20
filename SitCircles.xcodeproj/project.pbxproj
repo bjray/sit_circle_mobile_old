@@ -30,6 +30,8 @@
 		B65A611D197AF1E60016667D /* SCSitter.m in Sources */ = {isa = PBXBuildFile; fileRef = B65A611B197AF1E60016667D /* SCSitter.m */; };
 		B65A6120197AF94E0016667D /* SCSittersHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B65A611F197AF94E0016667D /* SCSittersHelper.m */; };
 		B65A6121197AF94E0016667D /* SCSittersHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B65A611F197AF94E0016667D /* SCSittersHelper.m */; };
+		B6665502197C6D9800DBA4D6 /* SCSitterTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B6665501197C6D9800DBA4D6 /* SCSitterTableViewCell.m */; };
+		B6665503197C6D9800DBA4D6 /* SCSitterTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B6665501197C6D9800DBA4D6 /* SCSitterTableViewCell.m */; };
 		B671287B1919E9A200E6AFC1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B671287A1919E9A200E6AFC1 /* Foundation.framework */; };
 		B671287D1919E9A200E6AFC1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B671287C1919E9A200E6AFC1 /* CoreGraphics.framework */; };
 		B671287F1919E9A200E6AFC1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B671287E1919E9A200E6AFC1 /* UIKit.framework */; };
@@ -96,6 +98,8 @@
 		B65A611B197AF1E60016667D /* SCSitter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCSitter.m; sourceTree = "<group>"; };
 		B65A611E197AF94E0016667D /* SCSittersHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCSittersHelper.h; sourceTree = "<group>"; };
 		B65A611F197AF94E0016667D /* SCSittersHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCSittersHelper.m; sourceTree = "<group>"; };
+		B6665500197C6D9800DBA4D6 /* SCSitterTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCSitterTableViewCell.h; sourceTree = "<group>"; };
+		B6665501197C6D9800DBA4D6 /* SCSitterTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCSitterTableViewCell.m; sourceTree = "<group>"; };
 		B67128771919E9A200E6AFC1 /* SitCircles.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SitCircles.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B671287A1919E9A200E6AFC1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B671287C1919E9A200E6AFC1 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -188,6 +192,8 @@
 				B6FD32C6195F670000534CA4 /* SCContactTableViewCell.m */,
 				B69BDA231967B4F40025C61B /* SCCircleTableViewCell.h */,
 				B69BDA241967B4F40025C61B /* SCCircleTableViewCell.m */,
+				B6665500197C6D9800DBA4D6 /* SCSitterTableViewCell.h */,
+				B6665501197C6D9800DBA4D6 /* SCSitterTableViewCell.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -457,6 +463,7 @@
 				B616C90F194E5EE600FB5D68 /* SCTermsConditionsController.m in Sources */,
 				B6A53E05196767DD006D95B9 /* SCCircle.m in Sources */,
 				B693374E1943B90B0073E2A0 /* SCLoginHelper.m in Sources */,
+				B6665502197C6D9800DBA4D6 /* SCSitterTableViewCell.m in Sources */,
 				B616C90B194E5E7500FB5D68 /* SCHomeTableViewController.m in Sources */,
 				B616C907194E477D00FB5D68 /* SCUser.m in Sources */,
 				B633C5551933EC7E00B0B8F5 /* SCLoginViewController.m in Sources */,
@@ -489,6 +496,7 @@
 				B65A611D197AF1E60016667D /* SCSitter.m in Sources */,
 				B6114EC21957B9D80076BB03 /* SCSitterViewController.m in Sources */,
 				B6A53E06196767DD006D95B9 /* SCCircle.m in Sources */,
+				B6665503197C6D9800DBA4D6 /* SCSitterTableViewCell.m in Sources */,
 				B6114EC61957BA110076BB03 /* SCAddressesViewController.m in Sources */,
 				B67128A91919E9A200E6AFC1 /* SitCirclesTests.m in Sources */,
 				B6114ED21957BEF30076BB03 /* SCManager.m in Sources */,

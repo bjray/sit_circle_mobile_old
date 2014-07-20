@@ -8,6 +8,7 @@
 
 #import "SCCircleViewController.h"
 #import "SCAppDelegate.h"
+#import "SCSitterTableViewCell.h"
 #import "SCUser.h"
 #import "SCCircle.h"
 #import "SCSitter.h"
@@ -70,7 +71,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"sitterCell" forIndexPath:indexPath];
+    SCSitterTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"sitterCell" forIndexPath:indexPath];
     
     // Configure the cell...
     SCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
@@ -78,9 +79,9 @@
     //TODO: Dont default to primary circle - user may select any circle...
     SCCircle *circle = appDelegate.user.primaryCircle;
     SCSitter *sitter = [circle.sitters objectAtIndex:indexPath.row];
-    cell.textLabel.text = sitter.fullName;
-    cell.detailTextLabel.text = sitter.primaryNumberValue;
-    cell.imageView.image = sitter.image;
+    cell.nameLabel.text = sitter.fullName;
+    cell.primaryPhoneLabel.text = sitter.primaryNumberValue;
+    cell.sitterImageView.image = sitter.image;
     return cell;
 }
 
