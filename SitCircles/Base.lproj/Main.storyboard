@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="RqQ-K3-QsT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="4fR-2Y-8D2">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -7,7 +7,7 @@
         <!--Home Table View Controller - Going Out?-->
         <scene sceneID="PCP-Lc-afr">
             <objects>
-                <tableViewController id="jmS-hY-uPz" customClass="SCHomeTableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="homeViewController" id="jmS-hY-uPz" customClass="SCHomeTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="I2A-2K-NtZ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -174,7 +174,13 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                             <outlet property="delegate" destination="jmS-hY-uPz" id="OHR-jJ-b34"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Going Out?" id="Gnr-Ne-TG6"/>
+                    <navigationItem key="navigationItem" title="Going Out?" id="Gnr-Ne-TG6">
+                        <barButtonItem key="leftBarButtonItem" title="Menu" id="baM-9f-5IS">
+                            <connections>
+                                <action selector="presentLeftMenuViewController:" destination="jmS-hY-uPz" id="QZO-fw-e8F"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="appointmentDateLabel" destination="mFg-EP-fgK" id="WKe-1A-y3i"/>
                         <outlet property="appointmentDatePicker" destination="ClR-zE-zRb" id="8Re-Js-EWI"/>
@@ -184,7 +190,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W6L-kz-WVa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1242" y="-1060"/>
+            <point key="canvasLocation" x="1310" y="-1682"/>
         </scene>
         <!--Table View Controller - Appointments-->
         <scene sceneID="ekK-hy-05c">
@@ -213,7 +219,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="s5x-gD-Cdz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1793" y="-568"/>
+            <point key="canvasLocation" x="1861" y="-1190"/>
         </scene>
         <!--Table View Controller-->
         <scene sceneID="eDn-nH-FT0">
@@ -242,7 +248,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pqM-UQ-F2Y" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1793" y="-1289"/>
+            <point key="canvasLocation" x="1861" y="-1911"/>
         </scene>
         <!--Terms Conditions Controller-->
         <scene sceneID="Dlv-cz-BZx">
@@ -286,44 +292,30 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hb9-X8-f4t" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="80" y="-1060"/>
+            <point key="canvasLocation" x="556" y="1080"/>
         </scene>
         <!--Navigation Controller - Appointment-->
         <scene sceneID="eHy-6J-ObC">
             <objects>
-                <navigationController definesPresentationContext="YES" id="bXP-nD-XIC" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="contentViewController" definesPresentationContext="YES" id="bXP-nD-XIC" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Appointment" image="apptTab" id="b3t-W6-Y2Q"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="aPl-PO-66z">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
                         <segue destination="jmS-hY-uPz" kind="relationship" relationship="rootViewController" id="0oX-cF-pEp"/>
+                        <segue destination="lCt-d2-e0L" kind="push" id="nfF-U0-mUn"/>
+                        <segue destination="rsy-U1-4Jd" kind="push" id="qwr-Ry-qb5"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M7U-b7-j3e" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="668" y="-1060"/>
         </scene>
-        <!--Navigation Controller - Circle-->
-        <scene sceneID="lTD-gC-irq">
-            <objects>
-                <navigationController definesPresentationContext="YES" id="QkQ-8J-hqp" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Circle" image="circleTab" id="oT1-r9-ve5"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="bOt-Jp-XJy">
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="lCt-d2-e0L" kind="relationship" relationship="rootViewController" id="mQ5-5c-9iL"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="OrJ-N7-Ama" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="668" y="180"/>
-        </scene>
-        <!--View Controller - Settings-->
+        <!--Settings View Controller-->
         <scene sceneID="J81-RN-pW7">
             <objects>
-                <viewController id="rsy-U1-4Jd" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="settingsViewController" id="rsy-U1-4Jd" customClass="SCSettingsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="QdQ-9O-j5h"/>
                         <viewControllerLayoutGuide type="bottom" id="SXt-hi-ku5"/>
@@ -341,16 +333,22 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Settings" image="settingsTab" id="HQh-KB-dpO"/>
+                    <navigationItem key="navigationItem" id="V5h-po-KLJ">
+                        <barButtonItem key="leftBarButtonItem" title="Menu" id="GgS-3j-98D">
+                            <connections>
+                                <action selector="presentLeftMenuViewController:" destination="rsy-U1-4Jd" id="4pE-af-CAo"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hRo-yc-gPg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="668" y="921"/>
+            <point key="canvasLocation" x="1310" y="415"/>
         </scene>
         <!--Circles View Controller - Sitting Circles-->
         <scene sceneID="lbJ-zA-MEf">
             <objects>
-                <tableViewController id="lCt-d2-e0L" customClass="SCCirclesViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="circlesViewController" id="lCt-d2-e0L" customClass="SCCirclesViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" id="hNv-QK-DVT">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -390,11 +388,17 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                             <outlet property="delegate" destination="lCt-d2-e0L" id="Cpz-X6-SgT"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Sitting Circles" id="MpR-uv-7jO"/>
+                    <navigationItem key="navigationItem" title="Sitting Circles" id="MpR-uv-7jO">
+                        <barButtonItem key="leftBarButtonItem" title="Menu" id="JlO-A3-X26">
+                            <connections>
+                                <action selector="presentLeftMenuViewController:" destination="lCt-d2-e0L" id="Nat-oY-L64"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sma-i5-L8D" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1254" y="180"/>
+            <point key="canvasLocation" x="1320" y="-312"/>
         </scene>
         <!--Circle View Controller - My Sitting Circle-->
         <scene sceneID="7Gd-Qd-bYI">
@@ -458,7 +462,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="doH-Lm-Lzj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1793" y="180"/>
+            <point key="canvasLocation" x="1859" y="-312"/>
         </scene>
         <!--Sitter View Controller - A Sitter-->
         <scene sceneID="Lvm-7j-4Rj">
@@ -534,7 +538,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jQ3-bw-Lmm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2337" y="174"/>
+            <point key="canvasLocation" x="2403" y="-318"/>
         </scene>
         <!--Addresses View Controller - Title-->
         <scene sceneID="hI2-ce-Dql">
@@ -619,7 +623,43 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MBU-bL-E7y" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2337" y="907"/>
+            <point key="canvasLocation" x="2403" y="415"/>
+        </scene>
+        <!--Root View Controller-->
+        <scene sceneID="6Jo-Rn-N5l">
+            <objects>
+                <viewController id="4fR-2Y-8D2" customClass="SCRootViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="XU9-Zy-wn8"/>
+                        <viewControllerLayoutGuide type="bottom" id="nHG-nq-pkH"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="5DU-vD-lRf">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="34a-XI-aBH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="121" y="-1034"/>
+        </scene>
+        <!--Left Menu View Controller-->
+        <scene sceneID="xN2-fH-ER7">
+            <objects>
+                <viewController restorationIdentifier="leftMenuViewController" storyboardIdentifier="leftMenuViewController" id="J9w-1q-9lf" customClass="SCLeftMenuViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="GrV-a1-Tbt"/>
+                        <viewControllerLayoutGuide type="bottom" id="RhW-kO-X1q"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="uVN-vM-ltO">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="izk-C2-HP1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="668" y="-312"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="wmZ-No-aD3">
@@ -634,43 +674,16 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <connections>
-                        <segue destination="8YX-ce-x5E" kind="modal" identifier="TabBarSegue" id="2Og-pr-1mk"/>
-                        <segue destination="V2o-YU-grp" kind="modal" identifier="showTCs" id="eU4-el-LXT"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AlV-Fn-Fko" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-720" y="180"/>
-        </scene>
-        <!--Tab Bar Controller-->
-        <scene sceneID="Vex-rW-GRa">
-            <objects>
-                <tabBarController id="8YX-ce-x5E" customClass="SCTabBarController" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="Qpg-Tg-cTe"/>
-                    <nil key="simulatedBottomBarMetrics"/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" id="JQR-rB-NYL">
-                        <rect key="frame" x="0.0" y="431" width="320" height="49"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    </tabBar>
-                    <connections>
-                        <segue destination="bXP-nD-XIC" kind="relationship" relationship="viewControllers" id="OBQ-mN-GeO"/>
-                        <segue destination="QkQ-8J-hqp" kind="relationship" relationship="viewControllers" id="QSO-6k-XWE"/>
-                        <segue destination="rsy-U1-4Jd" kind="relationship" relationship="viewControllers" id="eOF-lV-Tdx"/>
-                    </connections>
-                </tabBarController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="FNP-y4-bzi" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="80" y="180"/>
+            <point key="canvasLocation" x="668" y="415"/>
         </scene>
     </scenes>
     <resources>
         <image name="apptTab" width="50" height="50"/>
         <image name="calendar" width="40" height="40"/>
-        <image name="circleTab" width="50" height="50"/>
         <image name="seperator" width="260" height="10"/>
-        <image name="settingsTab" width="50" height="50"/>
         <image name="sittingCircleTmp" width="320" height="200"/>
         <image name="timer" width="40" height="40"/>
     </resources>
