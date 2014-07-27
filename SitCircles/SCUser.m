@@ -14,33 +14,52 @@
 
 - (id)init {
     return [self initWithFacebookUser:nil withToken:nil];
-//    self = [super init];
-//    if (self) {
-//        SCCircle *aCircle = [[SCCircle alloc] init];
-//        self.circles = [NSMutableArray arrayWithObject:aCircle];
-//    }
-//    
-//    return self;
 }
 
 - (id)initWithFacebookUser:(id<FBGraphUser>) fbUser withToken: (NSString *)token {
+    NSString *firstName = @"Jane";
+    NSString *lastName = @"Doe";
+    NSString *fbId = nil;
+    
+    if (fbUser) {
+        firstName = fbUser.first_name;
+        lastName = fbUser.last_name;
+        fbId = fbUser.id;
+    }
+    
+    return [self initWithFirstName:firstName lastName:lastName fbId:fbId accessToken:token];
+}
+
+// Designated Initializer...
+- (id)initWithFirstName:(NSString *)firstName lastName:(NSString *)lastName fbId:(NSString *)fbId accessToken:(NSString *)accessToken {
+    
     self = [super init];
     if (self) {
-        SCCircle *aCircle = [[SCCircle alloc] init];
-        self.circles = [NSMutableArray arrayWithObject:aCircle];
-        
-        if (fbUser) {
-            self.firstName = fbUser.first_name;
-            self.lastName = fbUser.last_name;
-            self.fbId = fbUser.id;
-        }
-        
-        if (token) {
-            self.accessToken = token;
-        }
+        self.firstName = firstName;
+        self.lastName = lastName;
+        self.fbId = fbId;
+        self.accessToken = accessToken;
+        self.circles = [NSMutableArray array];
     }
     
     return self;
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    
+    NSString *firstName = [aDecoder decodeObjectForKey:@"firstName"];
+    NSString *lastName = [aDecoder decodeObjectForKey:@"lastName"];
+    NSString *fbId = [aDecoder decodeObjectForKey:@"fbId"];
+    NSString *accessToken = [aDecoder decodeObjectForKey:@"accessToken"];
+    
+    return [self initWithFirstName:firstName lastName:lastName fbId:fbId accessToken:accessToken];
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [aCoder encodeObject:self.firstName forKey:@"firstName"];
+    [aCoder encodeObject:self.lastName forKey:@"lastName"];
+    [aCoder encodeObject:self.fbId forKey:@"fbId"];
+    [aCoder encodeObject:self.accessToken forKey:@"accessToken"];
 }
 
 

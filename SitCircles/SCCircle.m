@@ -8,7 +8,7 @@
 
 #import "SCCircle.h"
 #import "SCSitters.h"
-#import "SCAppDelegate.h"
+//#import "SCAppDelegate.h"
 #import "SCSittersHelper.h"
 
 @implementation SCCircle
@@ -17,10 +17,10 @@
 @synthesize name = _name;
 
 - (id)init {
-    SCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    NSString *ownerId =  appDelegate.user.fbId;
+//    SCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+//    NSString *ownerId =  appDelegate.user.fbId;
     
-    return [self initCircleWithName:@"My Circle" sitters:nil ownerId:ownerId];
+    return [self initCircleWithName:@"My Circle" sitters:nil ownerId:nil];
 }
 
 - (id)initCircleWithName:(NSString *)name sitters:(NSArray *)sitterArray ownerId:(NSString *)ownerId {

@@ -13,6 +13,7 @@ NSString *const kEXPIRED = @"EXPIRED";
 
 @interface SCSessionManager ()
 @property (nonatomic, retain, readwrite) SCUser *user;
+@property (nonatomic, retain) NSString *docPath;
 @end
 
 @implementation SCSessionManager

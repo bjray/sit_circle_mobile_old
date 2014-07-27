@@ -10,5 +10,5 @@
 #import "SCCircles.h"
 
 @interface SCCircle : NSObject <SCCircles>
-
+- (id)initCircleWithName:(NSString *)name sitters:(NSArray *)sitterArray ownerId:(NSString *)ownerId;
 @end

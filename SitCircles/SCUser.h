@@ -10,13 +10,11 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import "SCCircles.h"
 
-@interface SCUser : NSObject
+@interface SCUser : NSObject <NSCoding>
 @property (nonatomic, copy) NSString *firstName;
 @property (nonatomic, copy) NSString *lastName;
 @property (nonatomic, copy) NSString *fbId;
 @property (nonatomic, copy) NSString *accessToken;
-@property BOOL reviewTCs;
-@property BOOL newUser;
 @property (nonatomic, retain) NSMutableArray *circles;
 @property (nonatomic, retain, readonly) id<SCCircles> primaryCircle;
 @property BOOL authenticated;
