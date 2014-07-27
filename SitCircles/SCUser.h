@@ -19,9 +19,11 @@
 @property BOOL newUser;
 @property (nonatomic, retain) NSMutableArray *circles;
 @property (nonatomic, retain, readonly) id<SCCircles> primaryCircle;
+@property BOOL authenticated;
 
 
-- (void)facebookUser:(id)fbUser withToken: (NSString *)token;
+- (void)facebookUser:(id<FBOpenGraphObject>)fbUser withToken: (NSString *)token __attribute__((deprecated));
+- (id)initWithFacebookUser:(id<FBGraphUser>) fbUser withToken: (NSString *)token;
 
 /*
  Note: We can also get the following properties from the FB user:

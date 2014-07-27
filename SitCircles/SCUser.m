@@ -13,22 +13,43 @@
 @implementation SCUser
 
 - (id)init {
+    return [self initWithFacebookUser:nil withToken:nil];
+//    self = [super init];
+//    if (self) {
+//        SCCircle *aCircle = [[SCCircle alloc] init];
+//        self.circles = [NSMutableArray arrayWithObject:aCircle];
+//    }
+//    
+//    return self;
+}
+
+- (id)initWithFacebookUser:(id<FBGraphUser>) fbUser withToken: (NSString *)token {
     self = [super init];
     if (self) {
         SCCircle *aCircle = [[SCCircle alloc] init];
         self.circles = [NSMutableArray arrayWithObject:aCircle];
+        
+        if (fbUser) {
+            self.firstName = fbUser.first_name;
+            self.lastName = fbUser.last_name;
+            self.fbId = fbUser.id;
+        }
+        
+        if (token) {
+            self.accessToken = token;
+        }
     }
     
     return self;
 }
 
 
-- (void)facebookUser:(id)fbUser withToken: (NSString *)token {
-    NSMutableDictionary<FBOpenGraphObject> *dict = fbUser;
-    self.firstName = [dict objectForKey:@"first_name"];
-    self.lastName = [dict objectForKey:@"last_name"];
+- (void)facebookUser:(id<FBOpenGraphObject>)fbUser withToken: (NSString *)token {
+//    NSMutableDictionary<FBOpenGraphObject> *dict = fbUser;
+    self.firstName = [fbUser objectForKey:@"first_name"];
+    self.lastName = [fbUser objectForKey:@"last_name"];
     self.accessToken = token;
-    self.fbId = [dict objectForKey:@"id"];
+    self.fbId = [fbUser objectForKey:@"id"];
     
     NSLog(@"woohoo!");
     

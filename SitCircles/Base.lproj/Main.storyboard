@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="4fR-2Y-8D2">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="zkM-Xb-6sr">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -625,10 +625,22 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
             </objects>
             <point key="canvasLocation" x="2403" y="415"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="dpS-uI-glJ">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="zkM-Xb-6sr" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="TcP-cx-hjq">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0ED-0e-I5P" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-595" y="-1034"/>
+        </scene>
         <!--Root View Controller-->
         <scene sceneID="6Jo-Rn-N5l">
             <objects>
-                <viewController id="4fR-2Y-8D2" customClass="SCRootViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="rootViewController" id="4fR-2Y-8D2" customClass="SCRootViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="XU9-Zy-wn8"/>
                         <viewControllerLayoutGuide type="bottom" id="nHG-nq-pkH"/>
@@ -664,7 +676,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <!--Login View Controller-->
         <scene sceneID="wmZ-No-aD3">
             <objects>
-                <viewController id="RqQ-K3-QsT" customClass="SCLoginViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="loginController" id="RqQ-K3-QsT" customClass="SCLoginViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Ynd-jm-Uek"/>
                         <viewControllerLayoutGuide type="bottom" id="y3j-KR-kdZ"/>
@@ -677,7 +689,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AlV-Fn-Fko" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="668" y="415"/>
+            <point key="canvasLocation" x="121" y="-1721"/>
         </scene>
     </scenes>
     <resources>

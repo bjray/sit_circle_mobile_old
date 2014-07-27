@@ -22,9 +22,9 @@
     self.contentViewShadowOpacity = 0.6;
     self.contentViewShadowRadius = 12;
     self.contentViewShadowEnabled = YES;
-    
     self.contentViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"contentViewController"];
     self.leftMenuViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"leftMenuViewController"];
+    
     self.backgroundImage = [UIImage imageNamed:@"Balloons"];
     self.delegate = self;
 }

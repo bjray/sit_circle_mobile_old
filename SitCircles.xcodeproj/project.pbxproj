@@ -17,8 +17,6 @@
 		B6114EC61957BA110076BB03 /* SCAddressesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6114EC41957BA110076BB03 /* SCAddressesViewController.m */; };
 		B6114ECD1957BEAE0076BB03 /* SCClient.m in Sources */ = {isa = PBXBuildFile; fileRef = B6114ECC1957BEAE0076BB03 /* SCClient.m */; };
 		B6114ECE1957BEAE0076BB03 /* SCClient.m in Sources */ = {isa = PBXBuildFile; fileRef = B6114ECC1957BEAE0076BB03 /* SCClient.m */; };
-		B6114ED11957BEF30076BB03 /* SCManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B6114ED01957BEF30076BB03 /* SCManager.m */; };
-		B6114ED21957BEF30076BB03 /* SCManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B6114ED01957BEF30076BB03 /* SCManager.m */; };
 		B616C907194E477D00FB5D68 /* SCUser.m in Sources */ = {isa = PBXBuildFile; fileRef = B616C906194E477D00FB5D68 /* SCUser.m */; };
 		B616C908194E477D00FB5D68 /* SCUser.m in Sources */ = {isa = PBXBuildFile; fileRef = B616C906194E477D00FB5D68 /* SCUser.m */; };
 		B616C90B194E5E7500FB5D68 /* SCHomeTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B616C90A194E5E7500FB5D68 /* SCHomeTableViewController.m */; };
@@ -31,6 +29,10 @@
 		B617BECE198400AB0092ECAB /* SCLeftMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B617BECC198400AB0092ECAB /* SCLeftMenuViewController.m */; };
 		B617BED1198403770092ECAB /* SCSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B617BED0198403770092ECAB /* SCSettingsViewController.m */; };
 		B617BED2198403770092ECAB /* SCSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B617BED0198403770092ECAB /* SCSettingsViewController.m */; };
+		B617BED51985435F0092ECAB /* SCSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B617BED41985435F0092ECAB /* SCSessionManager.m */; };
+		B617BED61985435F0092ECAB /* SCSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B617BED41985435F0092ECAB /* SCSessionManager.m */; };
+		B617BED8198548820092ECAB /* SCSessionManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B617BED7198548820092ECAB /* SCSessionManagerTests.m */; };
+		B617BEDA19854B160092ECAB /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B617BED919854B160092ECAB /* libPods.a */; };
 		B633C5551933EC7E00B0B8F5 /* SCLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B633C5541933EC7E00B0B8F5 /* SCLoginViewController.m */; };
 		B65A611C197AF1E60016667D /* SCSitter.m in Sources */ = {isa = PBXBuildFile; fileRef = B65A611B197AF1E60016667D /* SCSitter.m */; };
 		B65A611D197AF1E60016667D /* SCSitter.m in Sources */ = {isa = PBXBuildFile; fileRef = B65A611B197AF1E60016667D /* SCSitter.m */; };
@@ -90,8 +92,6 @@
 		B6114EC41957BA110076BB03 /* SCAddressesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCAddressesViewController.m; sourceTree = "<group>"; };
 		B6114ECB1957BEAE0076BB03 /* SCClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCClient.h; sourceTree = "<group>"; };
 		B6114ECC1957BEAE0076BB03 /* SCClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCClient.m; sourceTree = "<group>"; };
-		B6114ECF1957BEF30076BB03 /* SCManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCManager.h; sourceTree = "<group>"; };
-		B6114ED01957BEF30076BB03 /* SCManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCManager.m; sourceTree = "<group>"; };
 		B616C905194E477D00FB5D68 /* SCUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCUser.h; sourceTree = "<group>"; };
 		B616C906194E477D00FB5D68 /* SCUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCUser.m; sourceTree = "<group>"; };
 		B616C909194E5E7500FB5D68 /* SCHomeTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCHomeTableViewController.h; sourceTree = "<group>"; };
@@ -104,6 +104,10 @@
 		B617BECC198400AB0092ECAB /* SCLeftMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCLeftMenuViewController.m; sourceTree = "<group>"; };
 		B617BECF198403770092ECAB /* SCSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCSettingsViewController.h; sourceTree = "<group>"; };
 		B617BED0198403770092ECAB /* SCSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCSettingsViewController.m; sourceTree = "<group>"; };
+		B617BED31985435F0092ECAB /* SCSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCSessionManager.h; sourceTree = "<group>"; };
+		B617BED41985435F0092ECAB /* SCSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCSessionManager.m; sourceTree = "<group>"; };
+		B617BED7198548820092ECAB /* SCSessionManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCSessionManagerTests.m; sourceTree = "<group>"; };
+		B617BED919854B160092ECAB /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
 		B633C5531933EC7E00B0B8F5 /* SCLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLoginViewController.h; sourceTree = "<group>"; };
 		B633C5541933EC7E00B0B8F5 /* SCLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCLoginViewController.m; sourceTree = "<group>"; };
 		B65A611A197AF1E60016667D /* SCSitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCSitter.h; sourceTree = "<group>"; };
@@ -164,6 +168,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B617BEDA19854B160092ECAB /* libPods.a in Frameworks */,
 				B671289D1919E9A200E6AFC1 /* XCTest.framework in Frameworks */,
 				B671289F1919E9A200E6AFC1 /* UIKit.framework in Frameworks */,
 				B671289E1919E9A200E6AFC1 /* Foundation.framework in Frameworks */,
@@ -238,14 +243,14 @@
 			children = (
 				B616C905194E477D00FB5D68 /* SCUser.h */,
 				B616C906194E477D00FB5D68 /* SCUser.m */,
-				B6114ECF1957BEF30076BB03 /* SCManager.h */,
-				B6114ED01957BEF30076BB03 /* SCManager.m */,
 				B6A53DF81967365F006D95B9 /* SCContact.h */,
 				B6A53DF91967365F006D95B9 /* SCContact.m */,
 				B6A53E03196767DD006D95B9 /* SCCircle.h */,
 				B6A53E04196767DD006D95B9 /* SCCircle.m */,
 				B65A611A197AF1E60016667D /* SCSitter.h */,
 				B65A611B197AF1E60016667D /* SCSitter.m */,
+				B617BED31985435F0092ECAB /* SCSessionManager.h */,
+				B617BED41985435F0092ECAB /* SCSessionManager.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -280,6 +285,7 @@
 		B67128791919E9A200E6AFC1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B617BED919854B160092ECAB /* libPods.a */,
 				B671287A1919E9A200E6AFC1 /* Foundation.framework */,
 				B671287C1919E9A200E6AFC1 /* CoreGraphics.framework */,
 				B671287E1919E9A200E6AFC1 /* UIKit.framework */,
@@ -319,6 +325,7 @@
 			isa = PBXGroup;
 			children = (
 				B67128A81919E9A200E6AFC1 /* SitCirclesTests.m */,
+				B617BED7198548820092ECAB /* SCSessionManagerTests.m */,
 				B67128A31919E9A200E6AFC1 /* Supporting Files */,
 			);
 			path = SitCirclesTests;
@@ -490,7 +497,7 @@
 				B6114ECD1957BEAE0076BB03 /* SCClient.m in Sources */,
 				B65A611C197AF1E60016667D /* SCSitter.m in Sources */,
 				B6A53DFA1967365F006D95B9 /* SCContact.m in Sources */,
-				B6114ED11957BEF30076BB03 /* SCManager.m in Sources */,
+				B617BED51985435F0092ECAB /* SCSessionManager.m in Sources */,
 				B65A6120197AF94E0016667D /* SCSittersHelper.m in Sources */,
 				B6114EC11957B9D80076BB03 /* SCSitterViewController.m in Sources */,
 				B69BDA251967B4F40025C61B /* SCCircleTableViewCell.m in Sources */,
@@ -509,6 +516,7 @@
 			files = (
 				B6A53DFB1967365F006D95B9 /* SCContact.m in Sources */,
 				B616C90C194E5E7500FB5D68 /* SCHomeTableViewController.m in Sources */,
+				B617BED61985435F0092ECAB /* SCSessionManager.m in Sources */,
 				B616C910194E5EE600FB5D68 /* SCTermsConditionsController.m in Sources */,
 				B6114EBE1957B9B00076BB03 /* SCCircleViewController.m in Sources */,
 				B6FD32C8195F670000534CA4 /* SCContactTableViewCell.m in Sources */,
@@ -522,9 +530,9 @@
 				B617BED2198403770092ECAB /* SCSettingsViewController.m in Sources */,
 				B617BECE198400AB0092ECAB /* SCLeftMenuViewController.m in Sources */,
 				B67128A91919E9A200E6AFC1 /* SitCirclesTests.m in Sources */,
-				B6114ED21957BEF30076BB03 /* SCManager.m in Sources */,
 				B6FD32CC19607D2800534CA4 /* SCContactsHelper.m in Sources */,
 				B69BDA261967B4F40025C61B /* SCCircleTableViewCell.m in Sources */,
+				B617BED8198548820092ECAB /* SCSessionManagerTests.m in Sources */,
 				B616C908194E477D00FB5D68 /* SCUser.m in Sources */,
 				B6114EBA1957B9470076BB03 /* SCCirclesViewController.m in Sources */,
 				B6114ECE1957BEAE0076BB03 /* SCClient.m in Sources */,
@@ -687,6 +695,10 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "SitCirclesTests/SitCirclesTests-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/build/Debug-iphoneos",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -705,6 +717,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SitCircles/SitCircles-Prefix.pch";
 				INFOPLIST_FILE = "SitCirclesTests/SitCirclesTests-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/build/Debug-iphoneos",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;

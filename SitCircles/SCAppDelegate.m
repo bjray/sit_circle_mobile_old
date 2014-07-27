@@ -8,6 +8,7 @@
 
 #import "SCAppDelegate.h"
 #import <FacebookSDK/FacebookSDK.h>
+#import "SCSessionManager.h"
 
 @implementation SCAppDelegate
 
@@ -22,13 +23,17 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-    if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded) {
-        NSLog(@"token is loaded");
-    }
+    SCSessionManager *session = [SCSessionManager sharedManager];
+    NSArray *fbPermissions = @[@"public_profile",@"email", @"user_friends", @"publish_actions", @"read_friendlists"];
     
-    if (FBSession.activeSession.state == FBSessionStateOpen) {
-        NSLog(@"session is open!");
-        // Push the next view controller without animation
+    if (session.facebookTokenAvailable) {
+        NSLog(@"token is loaded");
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        UIViewController *initViewController = [storyboard instantiateViewControllerWithIdentifier:@"rootViewController"];
+        [self.window setRootViewController:initViewController];
+        [session authenticateUsingFacebookWithPermissions:fbPermissions];
+    } else {
+        // force login screen...
     }
     
     // TODO: Temp logic - replace with real User object...
@@ -64,5 +69,6 @@
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
+
 
 @end
