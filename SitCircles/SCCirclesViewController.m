@@ -7,7 +7,7 @@
 //
 
 #import "SCCirclesViewController.h"
-#import "SCAppDelegate.h"
+#import "SCSessionManager.h"
 #import "SCCircles.h"
 #import "SCCircleTableViewCell.h"
 
@@ -56,10 +56,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    SCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-
-    
-    return [appDelegate.user.circles count];
+    SCSessionManager *manager = [SCSessionManager sharedManager];
+    return [manager.user.circles count];
 }
 
 
@@ -68,9 +66,9 @@
     static NSString *CellIdentifier = @"CircleCell";
     SCCircleTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    SCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    SCSessionManager *manager = [SCSessionManager sharedManager];
+    id<SCCircles>circle = [manager.user.circles objectAtIndex:indexPath.row];
     
-    id<SCCircles>circle = [appDelegate.user.circles objectAtIndex:indexPath.row];
     cell.circleNameLbl.text = circle.name;
 
     if (circle.sitters) {

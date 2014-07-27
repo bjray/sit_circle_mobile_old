@@ -8,6 +8,7 @@
 
 #import "SCSessionManager.h"
 #import <FacebookSDK/FacebookSDK.h>
+#import "SCUserCache.h"
 
 NSString *const kEXPIRED = @"EXPIRED";
 
@@ -56,12 +57,14 @@ NSString *const kEXPIRED = @"EXPIRED";
 //}
 
 - (void)fetchUserFromCache {
+    NSLog(@"fetching user from cache");
     //TODO: pull back user info from cache...
     
     //TODO: hydrate user...
 }
 
 - (void)fetchUserFromNetworkByFBID:(NSString *)fbId fbToken:(NSString *)token {
+    NSLog(@"fetching user from network");
     //TODO: Implement logic to pull user from network and assign to user object...
     
     //TODO: update user in cache --> [self saveUserToCache:user];
@@ -94,18 +97,22 @@ NSString *const kEXPIRED = @"EXPIRED";
 - (void)sessionStateChanged:(FBSession *)session state:(FBSessionState) status error:(NSError *)error {
     NSLog(@"%@", session.accessTokenData);
     
-    //TODO: Take action based on session state...
-    NSString *fbId = [self fetchFacebookIdFromCache];
-    
-    if (fbId == nil) {
-        NSLog(@"no fbID - go get it");
-        [self fetchFacebookUserWithToken: (NSString *)session.accessTokenData];
-    } else if (fbId == kEXPIRED) {
-        NSLog(@"fbID expired - go fetch user from network");
-        [self fetchUserFromNetworkByFBID:fbId fbToken:(NSString *)session.accessTokenData];
-    } else {
-        [self fetchUserFromCache];
+    if (status == FBSessionStateOpen) {
+        //TODO: Take action based on session state...
+        NSString *fbId = [self fetchFacebookIdFromCache];
+        
+        if (fbId == nil) {
+            NSLog(@"no fbID - go get it");
+            [self fetchFacebookUserWithToken: (NSString *)session.accessTokenData];
+        } else if (fbId == kEXPIRED) {
+            NSLog(@"fbID expired - go fetch user from network");
+            [self fetchUserFromNetworkByFBID:fbId fbToken:(NSString *)session.accessTokenData];
+        } else {
+            [self fetchUserFromCache];
+        }
     }
+    
+    
 }
 
 - (void)fetchFacebookUserWithToken:(NSString *)token {
@@ -118,6 +125,8 @@ NSString *const kEXPIRED = @"EXPIRED";
             
 #warning -- This line is only for testing before implementing network call --
             self.user = [[SCUser alloc] initWithFacebookUser:fbUser withToken:token];
+            [self.user createDefaultCircle];
+            
 
             [self fetchUserFromNetworkByFBID:fbId fbToken:token];
         } else {
@@ -148,6 +157,7 @@ NSString *const kEXPIRED = @"EXPIRED";
 
 - (NSString *)fetchFacebookIdFromCache {
     NSString *fbId = nil;
+    
     
     return fbId;
 }

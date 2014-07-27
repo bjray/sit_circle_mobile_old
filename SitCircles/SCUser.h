@@ -23,6 +23,8 @@
 - (void)facebookUser:(id<FBOpenGraphObject>)fbUser withToken: (NSString *)token __attribute__((deprecated));
 - (id)initWithFacebookUser:(id<FBGraphUser>) fbUser withToken: (NSString *)token;
 
+- (void)createDefaultCircle;
+
 /*
  Note: We can also get the following properties from the FB user:
  - email

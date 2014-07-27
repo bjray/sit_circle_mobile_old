@@ -62,6 +62,13 @@
     [aCoder encodeObject:self.accessToken forKey:@"accessToken"];
 }
 
+- (void)createDefaultCircle {
+    SCCircle *aCircle = [[SCCircle alloc] init];
+    aCircle.name = @"My Circle";
+    aCircle.ownerId = self.fbId;
+    aCircle.sitters = [NSMutableArray array];
+    [self.circles addObject:aCircle];
+}
 
 - (void)facebookUser:(id<FBOpenGraphObject>)fbUser withToken: (NSString *)token {
 //    NSMutableDictionary<FBOpenGraphObject> *dict = fbUser;

@@ -7,7 +7,7 @@
 //
 
 #import "SCCircleViewController.h"
-#import "SCAppDelegate.h"
+#import "SCSessionManager.h"
 #import "SCSitterTableViewCell.h"
 #import "SCUser.h"
 #import "SCCircle.h"
@@ -63,9 +63,12 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    SCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+
+    SCSessionManager *manager = [SCSessionManager sharedManager];
+    
     //TODO: Dont default to primary circle - user may select any circle...
-    return [appDelegate.user.primaryCircle.sitters count];
+    return [manager.user.primaryCircle.sitters count];
+    
 }
 
 
@@ -74,10 +77,11 @@
     SCSitterTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"sitterCell" forIndexPath:indexPath];
     
     // Configure the cell...
-    SCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    SCSessionManager *manager = [SCSessionManager sharedManager];
     
     //TODO: Dont default to primary circle - user may select any circle...
-    SCCircle *circle = appDelegate.user.primaryCircle;
+    SCCircle *circle = manager.user.primaryCircle;
+    
     SCSitter *sitter = [circle.sitters objectAtIndex:indexPath.row];
     cell.nameLabel.text = sitter.fullName;
     cell.primaryPhoneLabel.text = sitter.primaryNumberValue;
@@ -132,9 +136,9 @@
     UIViewController *destination = [segue destinationViewController];
     if ([destination respondsToSelector:@selector(setSitter:)]) {
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-        SCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+        SCSessionManager *manager = [SCSessionManager sharedManager];
+        SCCircle *circle = manager.user.primaryCircle;
         
-        SCCircle *circle = appDelegate.user.primaryCircle;
         SCSitter *aSitter = [circle.sitters objectAtIndex:indexPath.row];
         [destination setValue:aSitter forKeyPath:@"sitter"];
     } else {

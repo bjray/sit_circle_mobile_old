@@ -9,7 +9,8 @@
 #import "SCAddressesViewController.h"
 #import "SCContactTableViewCell.h"
 #import "SCContactsHelper.h"
-#import "SCAppDelegate.h"
+//#import "SCAppDelegate.h"
+#import "SCSessionManager.h"
 #import "SCUser.h"
 #import "SCCircle.h"
 
@@ -58,9 +59,10 @@
 }
 
 - (void)updateSelectedContacts:(NSArray *)contacts {
-    SCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    SCSessionManager *manager = [SCSessionManager sharedManager];
+    
     for (SCContact *contact in contacts) {
-        if ([appDelegate.user.primaryCircle containsContact:contact]) {
+        if ([manager.user.primaryCircle containsContact:contact]) {
             contact.isLocked = YES;
             [self.selectedContacts addObject:contact];
         }
@@ -187,8 +189,10 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.mode = MBProgressHUDModeIndeterminate;
     hud.labelText = @"Saving...";
-    SCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    [appDelegate.user.primaryCircle addContactsToSitterList:self.selectedContacts];
+    
+    SCSessionManager *manager = [SCSessionManager sharedManager];
+//    SCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    [manager.user.primaryCircle addContactsToSitterList:self.selectedContacts];
     
     
     [self dismissViewControllerAnimated:YES completion:nil];
