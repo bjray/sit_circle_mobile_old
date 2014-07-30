@@ -7,8 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+@class SCUser;
 
 @interface SCUserCache : NSObject
-+ (NSString *)userDocPath;
+@property (nonatomic, copy) NSString *docPath;
+@property (nonatomic, retain) SCUser *userData;
 
+- (id)initWithDocPath:(NSString *)docPath;
+- (id)initWithUser:(SCUser *)user;
+- (BOOL)saveData;
 @end

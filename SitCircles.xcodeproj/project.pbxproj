@@ -35,6 +35,8 @@
 		B617BEDA19854B160092ECAB /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B617BED919854B160092ECAB /* libPods.a */; };
 		B617BEE51985AAC30092ECAB /* SCUserCache.m in Sources */ = {isa = PBXBuildFile; fileRef = B617BEE41985AAC30092ECAB /* SCUserCache.m */; };
 		B617BEE61985AAC30092ECAB /* SCUserCache.m in Sources */ = {isa = PBXBuildFile; fileRef = B617BEE41985AAC30092ECAB /* SCUserCache.m */; };
+		B617BEE91986B89E0092ECAB /* SCCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B617BEE81986B89E0092ECAB /* SCCacheManager.m */; };
+		B617BEEA1986B89E0092ECAB /* SCCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B617BEE81986B89E0092ECAB /* SCCacheManager.m */; };
 		B633C5551933EC7E00B0B8F5 /* SCLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B633C5541933EC7E00B0B8F5 /* SCLoginViewController.m */; };
 		B65A611C197AF1E60016667D /* SCSitter.m in Sources */ = {isa = PBXBuildFile; fileRef = B65A611B197AF1E60016667D /* SCSitter.m */; };
 		B65A611D197AF1E60016667D /* SCSitter.m in Sources */ = {isa = PBXBuildFile; fileRef = B65A611B197AF1E60016667D /* SCSitter.m */; };
@@ -112,6 +114,8 @@
 		B617BED919854B160092ECAB /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
 		B617BEE31985AAC30092ECAB /* SCUserCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCUserCache.h; sourceTree = "<group>"; };
 		B617BEE41985AAC30092ECAB /* SCUserCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCUserCache.m; sourceTree = "<group>"; };
+		B617BEE71986B89E0092ECAB /* SCCacheManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCCacheManager.h; sourceTree = "<group>"; };
+		B617BEE81986B89E0092ECAB /* SCCacheManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCCacheManager.m; sourceTree = "<group>"; };
 		B633C5531933EC7E00B0B8F5 /* SCLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLoginViewController.h; sourceTree = "<group>"; };
 		B633C5541933EC7E00B0B8F5 /* SCLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCLoginViewController.m; sourceTree = "<group>"; };
 		B65A611A197AF1E60016667D /* SCSitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCSitter.h; sourceTree = "<group>"; };
@@ -257,6 +261,8 @@
 				B617BED41985435F0092ECAB /* SCSessionManager.m */,
 				B617BEE31985AAC30092ECAB /* SCUserCache.h */,
 				B617BEE41985AAC30092ECAB /* SCUserCache.m */,
+				B617BEE71986B89E0092ECAB /* SCCacheManager.h */,
+				B617BEE81986B89E0092ECAB /* SCCacheManager.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -496,6 +502,7 @@
 				B616C90F194E5EE600FB5D68 /* SCTermsConditionsController.m in Sources */,
 				B617BED1198403770092ECAB /* SCSettingsViewController.m in Sources */,
 				B6A53E05196767DD006D95B9 /* SCCircle.m in Sources */,
+				B617BEE91986B89E0092ECAB /* SCCacheManager.m in Sources */,
 				B693374E1943B90B0073E2A0 /* SCLoginHelper.m in Sources */,
 				B6665502197C6D9800DBA4D6 /* SCSitterTableViewCell.m in Sources */,
 				B616C90B194E5E7500FB5D68 /* SCHomeTableViewController.m in Sources */,
@@ -537,6 +544,7 @@
 				B6114EC61957BA110076BB03 /* SCAddressesViewController.m in Sources */,
 				B617BED2198403770092ECAB /* SCSettingsViewController.m in Sources */,
 				B617BECE198400AB0092ECAB /* SCLeftMenuViewController.m in Sources */,
+				B617BEEA1986B89E0092ECAB /* SCCacheManager.m in Sources */,
 				B67128A91919E9A200E6AFC1 /* SitCirclesTests.m in Sources */,
 				B6FD32CC19607D2800534CA4 /* SCContactsHelper.m in Sources */,
 				B69BDA261967B4F40025C61B /* SCCircleTableViewCell.m in Sources */,

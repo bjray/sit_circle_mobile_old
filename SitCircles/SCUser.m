@@ -40,6 +40,7 @@
         self.fbId = fbId;
         self.accessToken = accessToken;
         self.circles = [NSMutableArray array];
+        self.expired = NO;
     }
     
     return self;
@@ -51,6 +52,7 @@
     NSString *lastName = [aDecoder decodeObjectForKey:@"lastName"];
     NSString *fbId = [aDecoder decodeObjectForKey:@"fbId"];
     NSString *accessToken = [aDecoder decodeObjectForKey:@"accessToken"];
+//    NSString *accessToken = nil;
     
     return [self initWithFirstName:firstName lastName:lastName fbId:fbId accessToken:accessToken];
 }

@@ -18,6 +18,7 @@
 @property (nonatomic, retain) NSMutableArray *circles;
 @property (nonatomic, retain, readonly) id<SCCircles> primaryCircle;
 @property BOOL authenticated;
+@property BOOL expired;
 
 
 - (void)facebookUser:(id<FBOpenGraphObject>)fbUser withToken: (NSString *)token __attribute__((deprecated));

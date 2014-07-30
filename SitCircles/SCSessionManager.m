@@ -9,6 +9,7 @@
 #import "SCSessionManager.h"
 #import <FacebookSDK/FacebookSDK.h>
 #import "SCUserCache.h"
+#import "SCCacheManager.h"
 
 NSString *const kEXPIRED = @"EXPIRED";
 
@@ -56,11 +57,20 @@ NSString *const kEXPIRED = @"EXPIRED";
 //    return user;
 //}
 
-- (void)fetchUserFromCache {
+- (SCUser *)fetchUserFromCache {
     NSLog(@"fetching user from cache");
-    //TODO: pull back user info from cache...
+    SCUser *user = nil;
+    SCUserCache *cache = [SCCacheManager loadUserCache];
+    if (cache) {
+        NSLog(@"There is a user cache!");
+        user = cache.userData;
+        NSLog(@"user from cache: %@", user);
+    } else {
+        NSLog(@"No user cache");
+    }
     
-    //TODO: hydrate user...
+    
+    return user;
 }
 
 - (void)fetchUserFromNetworkByFBID:(NSString *)fbId fbToken:(NSString *)token {
@@ -68,6 +78,49 @@ NSString *const kEXPIRED = @"EXPIRED";
     //TODO: Implement logic to pull user from network and assign to user object...
     
     //TODO: update user in cache --> [self saveUserToCache:user];
+    
+}
+
+//- (NSString *)fetchFacebookIdFromCache {
+//    NSString *fbId = nil;
+//    SCUserCache *cache = [SCCacheManager loadUserCache];
+//    if (cache) {
+//        NSLog(@"There is a user cache!");
+//        SCUser *user = cache.userData;
+//        NSLog(@"user from cache: %@", user);
+//    } else {
+//        NSLog(@"No user cache");
+//    }
+//    
+//    return fbId;
+//}
+
+- (BOOL)saveUser:(SCUser *)user {
+    BOOL result = NO;
+    
+    [self saveUserToCache:user];
+    
+    
+    return result;
+}
+
+- (BOOL)saveUserToCache:(SCUser *) user {
+    //use NSCoding and FileManager
+    BOOL result = NO;
+    
+    SCUserCache *cache = [SCCacheManager loadUserCache];
+    if (!cache) {
+        cache = [[SCUserCache alloc] initWithUser:user];
+        result = [cache saveData];
+    } else {
+        cache.userData = user;
+        result = [cache saveData];
+    }
+    
+    return result;
+}
+
+- (void)saveUserToServer:(SCUser *)user {
     
 }
 
@@ -95,24 +148,24 @@ NSString *const kEXPIRED = @"EXPIRED";
 
 
 - (void)sessionStateChanged:(FBSession *)session state:(FBSessionState) status error:(NSError *)error {
-    NSLog(@"%@", session.accessTokenData);
+//    NSLog(@"%@", session.accessTokenData);
     
     if (status == FBSessionStateOpen) {
         //TODO: Take action based on session state...
-        NSString *fbId = [self fetchFacebookIdFromCache];
+        self.user = [self fetchUserFromCache];
         
-        if (fbId == nil) {
+        if (self.user == nil) {
             NSLog(@"no fbID - go get it");
-            [self fetchFacebookUserWithToken: (NSString *)session.accessTokenData];
-        } else if (fbId == kEXPIRED) {
-            NSLog(@"fbID expired - go fetch user from network");
-            [self fetchUserFromNetworkByFBID:fbId fbToken:(NSString *)session.accessTokenData];
-        } else {
-            [self fetchUserFromCache];
+            //TODO: can we pass in the function to fetchUserFromNetworkByFBID into this method?
+            //  because when this is done, we need to get the user from network.
+            //  Right now it the call to the network is buried inside it.
+            
+            [self fetchFacebookUserWithToken: session.accessTokenData.accessToken];
+            
+        } else if (self.user.expired) {
+            [self fetchUserFromNetworkByFBID:self.user.fbId fbToken:self.user.accessToken];
         }
     }
-    
-    
 }
 
 - (void)fetchFacebookUserWithToken:(NSString *)token {
@@ -126,7 +179,7 @@ NSString *const kEXPIRED = @"EXPIRED";
 #warning -- This line is only for testing before implementing network call --
             self.user = [[SCUser alloc] initWithFacebookUser:fbUser withToken:token];
             [self.user createDefaultCircle];
-            
+            [self saveUserToCache:self.user];
 
             [self fetchUserFromNetworkByFBID:fbId fbToken:token];
         } else {
@@ -136,31 +189,6 @@ NSString *const kEXPIRED = @"EXPIRED";
 }
 
 
-#pragma mark - File Manager methods
-
-- (BOOL)saveUser:(SCUser *)user {
-    BOOL result = NO;
-    
-    [self saveUserToCache:user];
-    
-    
-    return result;
-}
-
-- (void)saveUserToCache:(SCUser *) user {
-    //use NSCoding and FileManager
-}
-
-- (void)saveUserToServer:(SCUser *)user {
-    
-}
-
-- (NSString *)fetchFacebookIdFromCache {
-    NSString *fbId = nil;
-    
-    
-    return fbId;
-}
 
 
 @end
