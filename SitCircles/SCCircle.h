@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "SCCircles.h"
 
-@interface SCCircle : NSObject <SCCircles>
+@interface SCCircle : NSObject <SCCircles, NSCoding>
 - (id)initCircleWithName:(NSString *)name sitters:(NSArray *)sitterArray ownerId:(NSString *)ownerId;
 @end

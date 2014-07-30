@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "SCSitters.h"
 
-@interface SCSitter : NSObject <SCSitters>
+@interface SCSitter : NSObject <SCSitters, NSCoding>
 
 @end

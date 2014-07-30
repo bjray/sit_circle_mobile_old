@@ -51,4 +51,22 @@
     return result;
 }
 
+#pragma mark - Archiving logic
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    
+    NSString *name = [aDecoder decodeObjectForKey:@"name"];
+    NSString *ownerId = [aDecoder decodeObjectForKey:@"ownerId"];
+    NSArray *sitters = [aDecoder decodeObjectForKey:@"sitters"];    //should work as long as a sitter can be decoded
+    
+    return [self initCircleWithName:name sitters:sitters ownerId:ownerId];
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [aCoder encodeObject:self.name forKey:@"name"];
+    [aCoder encodeObject:self.ownerId forKey:@"ownerId"];
+    [aCoder encodeObject:self.sitters forKey:@"sitters"];           //should work as long as a sitter can be encoded
+
+}
+
 @end
