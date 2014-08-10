@@ -10,12 +10,15 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import "SCUserCache.h"
 #import "SCCacheManager.h"
+#import "SCClient.h"
+#import "SCConstants.h"
 
 NSString *const kEXPIRED = @"EXPIRED";
 
 @interface SCSessionManager ()
 @property (nonatomic, retain, readwrite) SCUser *user;
 @property (nonatomic, retain) NSString *docPath;
+@property (nonatomic, retain) SCClient *client;
 @end
 
 @implementation SCSessionManager
@@ -34,6 +37,8 @@ NSString *const kEXPIRED = @"EXPIRED";
 - (id)init {
     if (self = [super init]) {
         self.user = nil;
+        
+        _client = [[SCClient alloc] init];
     }
     
     return self;
@@ -81,25 +86,11 @@ NSString *const kEXPIRED = @"EXPIRED";
     
 }
 
-//- (NSString *)fetchFacebookIdFromCache {
-//    NSString *fbId = nil;
-//    SCUserCache *cache = [SCCacheManager loadUserCache];
-//    if (cache) {
-//        NSLog(@"There is a user cache!");
-//        SCUser *user = cache.userData;
-//        NSLog(@"user from cache: %@", user);
-//    } else {
-//        NSLog(@"No user cache");
-//    }
-//    
-//    return fbId;
-//}
-
 - (BOOL)saveUser:(SCUser *)user {
     BOOL result = NO;
     
     [self saveUserToCache:user];
-    
+    [self saveUserToServer:user];
     
     return result;
 }
@@ -120,8 +111,37 @@ NSString *const kEXPIRED = @"EXPIRED";
     return result;
 }
 
-- (void)saveUserToServer:(SCUser *)user {
+- (void)createUserOnServer:(SCUser *)user {
+    NSString *routesPlist = [[NSBundle mainBundle] pathForResource:@"routes" ofType:@"plist"];
+    NSDictionary *routes = [[NSDictionary alloc] initWithContentsOfFile:routesPlist];
+    NSError *error = nil;
+    NSData *data = [NSJSONSerialization dataWithJSONObject:user.userAsDictionary options:kNilOptions error:&error];
+    if (!error) {
+        [self.client postJSONData:data toRelativeURLString:routes[kURL_KEY_CREATE_USER]];
+    }
     
+}
+
+- (void)saveUserToServer:(SCUser *)user {
+    NSString *routesPlist = [[NSBundle mainBundle] pathForResource:@"routes" ofType:@"plist"];
+    NSDictionary *routes = [[NSDictionary alloc] initWithContentsOfFile:routesPlist];
+    
+    NSError *error = nil;
+    NSData *data = [NSJSONSerialization dataWithJSONObject:user.userAsDictionary options:kNilOptions error:&error];
+    if (!error) {
+        [self.client postJSONData2:data toRelativeURLString:routes[kURL_KEY_SAVE_USER]];
+    }
+}
+
+- (void)signInForUser:(SCUser *)user {
+    NSString *routesPlist = [[NSBundle mainBundle] pathForResource:@"routes" ofType:@"plist"];
+    NSDictionary *routes = [[NSDictionary alloc] initWithContentsOfFile:routesPlist];
+    
+    NSError *error = nil;
+    NSData *data = [NSJSONSerialization dataWithJSONObject:user.userAsDictionary options:kNilOptions error:&error];
+    if (!error) {
+        [self.client postJSONData:data toRelativeURLString:routes[kURL_KEY_SIGN_IN]];
+    }
 }
 
 
@@ -179,7 +199,9 @@ NSString *const kEXPIRED = @"EXPIRED";
 #warning -- This line is only for testing before implementing network call --
             self.user = [[SCUser alloc] initWithFacebookUser:fbUser withToken:token];
             [self.user createDefaultCircle];
-            [self saveUserToCache:self.user];
+            
+            [self saveUser:self.user];
+//            [self saveUserToCache:self.user];
 
             [self fetchUserFromNetworkByFBID:fbId fbToken:token];
         } else {

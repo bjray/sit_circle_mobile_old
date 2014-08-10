@@ -10,7 +10,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <ReactiveCocoa/ReactiveCocoa/ReactiveCocoa.h>
 
 @interface SCClient : NSObject
+
+- (instancetype)initWithBaseURL:(NSString *)url;
+
+- (RACSignal *)postJSONData:(NSData *)data toRelativeURLString:(NSString *) urlString;
+- (void) postJSONData2:(NSData *)data toRelativeURLString:(NSString *) urlString;
 
 @end

@@ -25,6 +25,7 @@
 - (id)initWithFacebookUser:(id<FBGraphUser>) fbUser withToken: (NSString *)token;
 
 - (void)createDefaultCircle;
+- (NSDictionary *)userAsDictionary;
 
 /*
  Note: We can also get the following properties from the FB user:

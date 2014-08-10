@@ -89,4 +89,11 @@
     return [self.circles objectAtIndex:0];
 }
 
+- (NSDictionary *)userAsDictionary {
+//    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    NSDictionary *dict = @{@"first_name":self.firstName, @"last_name": self.lastName, @"facebook_id":self.fbId, @"access_token":self.accessToken};
+    
+    return dict;
+}
+
 @end

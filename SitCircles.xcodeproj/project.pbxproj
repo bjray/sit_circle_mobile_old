@@ -57,6 +57,8 @@
 		B671289F1919E9A200E6AFC1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B671287E1919E9A200E6AFC1 /* UIKit.framework */; };
 		B67128A71919E9A200E6AFC1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B67128A51919E9A200E6AFC1 /* InfoPlist.strings */; };
 		B67128A91919E9A200E6AFC1 /* SitCirclesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B67128A81919E9A200E6AFC1 /* SitCirclesTests.m */; };
+		B67402E51996E5A100B135C4 /* routes.plist in Resources */ = {isa = PBXBuildFile; fileRef = B67402E41996E5A100B135C4 /* routes.plist */; };
+		B67402E61996E5A100B135C4 /* routes.plist in Resources */ = {isa = PBXBuildFile; fileRef = B67402E41996E5A100B135C4 /* routes.plist */; };
 		B693374E1943B90B0073E2A0 /* SCLoginHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B693374D1943B90B0073E2A0 /* SCLoginHelper.m */; };
 		B693374F1943B90B0073E2A0 /* SCLoginHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B693374D1943B90B0073E2A0 /* SCLoginHelper.m */; };
 		B69BDA251967B4F40025C61B /* SCCircleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B69BDA241967B4F40025C61B /* SCCircleTableViewCell.m */; };
@@ -141,6 +143,8 @@
 		B67128A41919E9A200E6AFC1 /* SitCirclesTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SitCirclesTests-Info.plist"; sourceTree = "<group>"; };
 		B67128A61919E9A200E6AFC1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B67128A81919E9A200E6AFC1 /* SitCirclesTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SitCirclesTests.m; sourceTree = "<group>"; };
+		B67402E41996E5A100B135C4 /* routes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = routes.plist; sourceTree = "<group>"; };
+		B67402E71997160F00B135C4 /* SCConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCConstants.h; sourceTree = "<group>"; };
 		B693374C1943B90B0073E2A0 /* SCLoginHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLoginHelper.h; sourceTree = "<group>"; };
 		B693374D1943B90B0073E2A0 /* SCLoginHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCLoginHelper.m; sourceTree = "<group>"; };
 		B69BDA231967B4F40025C61B /* SCCircleTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCCircleTableViewCell.h; sourceTree = "<group>"; };
@@ -242,6 +246,7 @@
 				B671288A1919E9A200E6AFC1 /* SCAppDelegate.m */,
 				B6114ECB1957BEAE0076BB03 /* SCClient.h */,
 				B6114ECC1957BEAE0076BB03 /* SCClient.m */,
+				B67402E71997160F00B135C4 /* SCConstants.h */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -329,6 +334,7 @@
 				B67128831919E9A200E6AFC1 /* InfoPlist.strings */,
 				B67128861919E9A200E6AFC1 /* main.m */,
 				B67128881919E9A200E6AFC1 /* SitCircles-Prefix.pch */,
+				B67402E41996E5A100B135C4 /* routes.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -440,6 +446,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B67402E51996E5A100B135C4 /* routes.plist in Resources */,
 				B67128961919E9A200E6AFC1 /* Images.xcassets in Resources */,
 				B67128851919E9A200E6AFC1 /* InfoPlist.strings in Resources */,
 				B671288E1919E9A200E6AFC1 /* Main.storyboard in Resources */,
@@ -450,6 +457,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B67402E61996E5A100B135C4 /* routes.plist in Resources */,
 				B67128A71919E9A200E6AFC1 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
