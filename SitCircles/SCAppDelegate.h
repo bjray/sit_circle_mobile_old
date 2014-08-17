@@ -14,4 +14,5 @@
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) SCUser *user;
 
+- (void)loadRoot;
 @end

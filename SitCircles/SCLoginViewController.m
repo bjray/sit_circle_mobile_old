@@ -6,11 +6,12 @@
 //  Copyright (c) 2014 109Software. All rights reserved.
 //
 
-@import CoreLocation;
+
 #import "SCLoginViewController.h"
 #import "SCTermsConditionsController.h"
 #import "SCAppDelegate.h"
-
+#import "SCSessionManager.h"
+#import <TSMessages/TSMessage.h>
 
 @interface SCLoginViewController () <FBLoginViewDelegate>
 
@@ -33,30 +34,52 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
+    SCSessionManager *session = [SCSessionManager sharedManager];
+    NSArray *fbPermissions = @[@"public_profile",@"email", @"user_friends", @"publish_actions", @"read_friendlists"];
     
-    if (FBSession.activeSession.state == FBSessionStateOpen) {
-        NSLog(@"we have a cached user!");
-        
-        [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-            if (!error) {
-                // Success! Include your code to handle the results here
-                SCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-                [appDelegate.user facebookUser:result withToken:FBSession.activeSession.accessTokenData.accessToken];
-                
-                
-//                NSLog(@"user info: %@", result);
-//                NSMutableDictionary<FBOpenGraphObject> *myObject = result;
-//
-//                NSLog(@"fb token: %@", FBSession.activeSession.accessTokenData);
-                [self performSegueWithIdentifier:@"TabBarSegue" sender:self];
-            } else {
-                // An error occurred, we need to handle the error
-                // See: https://developers.facebook.com/docs/ios/errors
-            }
+    if (session.facebookTokenAvailable) {
+        NSLog(@"token is loaded");
+        [[session authenticateUsingFacebookWithPermissions:fbPermissions] subscribeError:^(NSError *error) {
+            NSLog(@"DAMN IT!!!");
+        } completed:^{
+            NSLog(@"ALL GOOD!!!!");
+            
+            
+            SCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+            [appDelegate loadRoot];
+            
+            NSLog(@"did it present?");
         }];
-        
-
+    } else {
+        // force login screen...
     }
+    
+    
+    
+    
+//    if (FBSession.activeSession.state == FBSessionStateOpen) {
+//        NSLog(@"we have a cached user!");
+//        
+//        [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+//            if (!error) {
+//                // Success! Include your code to handle the results here
+//                SCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+//                [appDelegate.user facebookUser:result withToken:FBSession.activeSession.accessTokenData.accessToken];
+//                
+//                
+////                NSLog(@"user info: %@", result);
+////                NSMutableDictionary<FBOpenGraphObject> *myObject = result;
+////
+////                NSLog(@"fb token: %@", FBSession.activeSession.accessTokenData);
+//                [self performSegueWithIdentifier:@"TabBarSegue" sender:self];
+//            } else {
+//                // An error occurred, we need to handle the error
+//                // See: https://developers.facebook.com/docs/ios/errors
+//            }
+//        }];
+//        
+//
+//    }
 }
 
 - (void)viewDidLoad
