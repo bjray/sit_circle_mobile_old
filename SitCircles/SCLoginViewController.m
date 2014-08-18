@@ -34,29 +34,6 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    SCSessionManager *session = [SCSessionManager sharedManager];
-    NSArray *fbPermissions = @[@"public_profile",@"email", @"user_friends", @"publish_actions", @"read_friendlists"];
-    
-    if (session.facebookTokenAvailable) {
-        NSLog(@"token is loaded");
-        [[session authenticateUsingFacebookWithPermissions:fbPermissions] subscribeError:^(NSError *error) {
-            NSLog(@"DAMN IT!!!");
-        } completed:^{
-            NSLog(@"ALL GOOD!!!!");
-            
-            
-            SCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-            [appDelegate loadRoot];
-            
-            NSLog(@"did it present?");
-        }];
-    } else {
-        // force login screen...
-    }
-    
-    
-    
-    
 //    if (FBSession.activeSession.state == FBSessionStateOpen) {
 //        NSLog(@"we have a cached user!");
 //        
@@ -85,20 +62,30 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    // Create Login View so that the app will be granted "status_update" permission.
-    FBLoginView *loginView = [[FBLoginView alloc] initWithReadPermissions:@[@"public_profile",@"email", @"user_friends", @"publish_actions", @"read_friendlists"]];
     
-    loginView.frame = CGRectOffset(loginView.frame, (self.view.center.x - (loginView.frame.size.width /2)), (self.view.center.y - (loginView.frame.size.height /2)));
-    loginView.delegate = self;
+    SCSessionManager *session = [SCSessionManager sharedManager];
+    NSArray *fbPermissions = @[@"public_profile",@"email", @"user_friends", @"publish_actions", @"read_friendlists"];
     
-    [self.view addSubview:loginView];
-    [loginView sizeToFit];
-    
-    if (FBSession.activeSession.state == FBSessionStateOpen) {
-        loginView.hidden = YES;
+    if (session.facebookTokenAvailable) {
+        NSLog(@"token is loaded");
+        } else {
+        self.backgroundImageView.hidden = YES;
+        [self.activityIndicator stopAnimating];
+        self.welcomeLabel.hidden = YES;
+        
+        // Create Login View so that the app will be granted "status_update" permission.
+        FBLoginView *loginView = [[FBLoginView alloc] initWithReadPermissions:@[@"public_profile",@"email", @"user_friends", @"publish_actions", @"read_friendlists"]];
+        
+        loginView.frame = CGRectOffset(loginView.frame, (self.view.center.x - (loginView.frame.size.width /2)), (self.view.center.y - (loginView.frame.size.height /2)));
+        loginView.delegate = self;
+        
+        [self.view addSubview:loginView];
+        [loginView sizeToFit];
+        
+        if (FBSession.activeSession.state == FBSessionStateOpen) {
+            loginView.hidden = YES;
+        }
     }
-    
 }
 
 - (void)didReceiveMemoryWarning

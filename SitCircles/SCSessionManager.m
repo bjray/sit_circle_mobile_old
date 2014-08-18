@@ -148,14 +148,30 @@ NSString *const kEXPIRED = @"EXPIRED";
 
 
 #pragma mark - Facebook Connection requests...
-- (void)authenticateUsingFacebookWithPermissions:(NSArray *)permissions {
+- (RACSignal *)authenticateUsingFacebookWithPermissions:(NSArray *)permissions {
     
-    [FBSession openActiveSessionWithReadPermissions: permissions
-                                       allowLoginUI: NO
-                                  completionHandler: ^(FBSession *session, FBSessionState status, NSError *error) {
-                                      [self sessionStateChanged:session state:status error:error];
-                                  }];
-
+    return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+        [FBSession openActiveSessionWithReadPermissions: permissions
+                                           allowLoginUI: NO
+                                      completionHandler: ^(FBSession *session, FBSessionState status, NSError *error) {
+                                          
+                                          if (!error) {
+                                              if (status == FBSessionStateOpen) {
+                                                  [subscriber sendCompleted];
+                                              } else {
+                                                  NSError *sessionError = [NSError errorWithDomain:@"fbSessionNotOpen" code:1 userInfo:nil];
+                                                  [subscriber sendError:sessionError];
+                                              }
+                                          } else {
+                                              [subscriber sendError:error];
+                                          }
+                                          
+                                          
+                                      }];
+        return [RACDisposable disposableWithBlock:^{
+            //terminate any processes here...
+        }];
+    }];
 }
 
 - (BOOL)facebookTokenAvailable {
@@ -167,26 +183,26 @@ NSString *const kEXPIRED = @"EXPIRED";
 }
 
 
-- (void)sessionStateChanged:(FBSession *)session state:(FBSessionState) status error:(NSError *)error {
-//    NSLog(@"%@", session.accessTokenData);
-    
-    if (status == FBSessionStateOpen) {
-        //TODO: Take action based on session state...
-        self.user = [self fetchUserFromCache];
-        
-        if (self.user == nil) {
-            NSLog(@"no fbID - go get it");
-            //TODO: can we pass in the function to fetchUserFromNetworkByFBID into this method?
-            //  because when this is done, we need to get the user from network.
-            //  Right now it the call to the network is buried inside it.
-            
-            [self fetchFacebookUserWithToken: session.accessTokenData.accessToken];
-            
-        } else if (self.user.expired) {
-            [self fetchUserFromNetworkByFBID:self.user.fbId fbToken:self.user.accessToken];
-        }
-    }
-}
+//- (void)sessionStateChanged:(FBSession *)session state:(FBSessionState) status error:(NSError *)error {
+////    NSLog(@"%@", session.accessTokenData);
+//    
+//    if (status == FBSessionStateOpen) {
+//        //TODO: Take action based on session state...
+//        self.user = [self fetchUserFromCache];
+//        
+//        if (self.user == nil) {
+//            NSLog(@"no fbID - go get it");
+//            //TODO: can we pass in the function to fetchUserFromNetworkByFBID into this method?
+//            //  because when this is done, we need to get the user from network.
+//            //  Right now it the call to the network is buried inside it.
+//            
+//            [self fetchFacebookUserWithToken: session.accessTokenData.accessToken];
+//            
+//        } else if (self.user.expired) {
+//            [self fetchUserFromNetworkByFBID:self.user.fbId fbToken:self.user.accessToken];
+//        }
+//    }
+//}
 
 - (void)fetchFacebookUserWithToken:(NSString *)token {
     NSLog(@"BEGIN: fetching user from FB");

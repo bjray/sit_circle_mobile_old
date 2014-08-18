@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "SCUser.h"
+#import <ReactiveCocoa/ReactiveCocoa/ReactiveCocoa.h>
 
 @interface SCSessionManager : NSObject
 
@@ -16,7 +17,7 @@
 +(instancetype)sharedManager;
 - (void)logout;
 - (BOOL)facebookTokenAvailable;
-- (void)authenticateUsingFacebookWithPermissions:(NSArray *)permissions;
+- (RACSignal *)authenticateUsingFacebookWithPermissions:(NSArray *)permissions;
 //- (SCUser *)fetchUserFromCacheOrNetwork;
 //- (SCUser *)fetchUserFromNetworkOnlyByFBID:(NSString *)fbId fbToken:(NSString *)token;
 - (BOOL)saveUser:(SCUser *)user;
