@@ -68,7 +68,34 @@
     
     if (session.facebookTokenAvailable) {
         NSLog(@"token is loaded");
-        } else {
+        
+        [[session authenticateUsingFacebookWithPermissions:fbPermissions] subscribeNext:^(NSString *token) {
+            NSLog(@"sendNext");
+            NSLog(@"token: %@", token);
+            [self displayHomePage];
+        } error:^(NSError *error) {
+            NSLog(@"sendError");
+            NSLog(@"DAMN IT!!!");
+        } completed:^{
+            NSLog(@"sendComplete");
+            NSLog(@"ALL GOOD!!!!");
+            
+            
+            [self displayHomePage];
+        }];
+        
+//        [[session authenticateUsingFacebookWithPermissions:fbPermissions] subscribeError:^(NSError *error) {
+//            NSLog(@"DAMN IT!!!");
+//        } completed:^{
+//            NSLog(@"ALL GOOD!!!!");
+//            
+//            
+//            SCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+//            [appDelegate loadRoot];
+//            
+//            NSLog(@"did it present?");
+//        }];
+    } else {
         self.backgroundImageView.hidden = YES;
         [self.activityIndicator stopAnimating];
         self.welcomeLabel.hidden = YES;
@@ -96,6 +123,12 @@
 
 
 #pragma mark - Navigation
+
+- (void)displayHomePage {
+    SCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    [appDelegate loadRoot];
+    NSLog(@"did it present?");
+}
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

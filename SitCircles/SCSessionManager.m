@@ -157,7 +157,13 @@ NSString *const kEXPIRED = @"EXPIRED";
                                           
                                           if (!error) {
                                               if (status == FBSessionStateOpen) {
-                                                  [subscriber sendCompleted];
+                                                  self.user = [self fetchUserFromCache];
+                                                  if (self.user == nil) {
+                                                      [subscriber sendNext:session.accessTokenData.accessToken];
+                                                  } else {
+                                                      [subscriber sendCompleted];
+                                                  }
+                                                  
                                               } else {
                                                   NSError *sessionError = [NSError errorWithDomain:@"fbSessionNotOpen" code:1 userInfo:nil];
                                                   [subscriber sendError:sessionError];
