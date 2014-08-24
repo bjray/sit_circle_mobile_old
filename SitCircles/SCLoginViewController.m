@@ -69,11 +69,7 @@
     if (session.facebookTokenAvailable) {
         NSLog(@"token is loaded");
         
-        [[session authenticateUsingFacebookWithPermissions:fbPermissions] subscribeNext:^(NSString *token) {
-            NSLog(@"sendNext");
-            NSLog(@"token: %@", token);
-            [self displayHomePage];
-        } error:^(NSError *error) {
+        [[session authenticateUsingFacebookWithPermissions:fbPermissions] subscribeError:^(NSError *error) {
             NSLog(@"sendError");
             NSLog(@"DAMN IT!!!");
         } completed:^{
@@ -82,19 +78,7 @@
             
             
             [self displayHomePage];
-        }];
-        
-//        [[session authenticateUsingFacebookWithPermissions:fbPermissions] subscribeError:^(NSError *error) {
-//            NSLog(@"DAMN IT!!!");
-//        } completed:^{
-//            NSLog(@"ALL GOOD!!!!");
-//            
-//            
-//            SCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-//            [appDelegate loadRoot];
-//            
-//            NSLog(@"did it present?");
-//        }];
+        }];        
     } else {
         self.backgroundImageView.hidden = YES;
         [self.activityIndicator stopAnimating];
@@ -135,10 +119,6 @@
 {
     UIViewController *destination = [segue destinationViewController];
     NSLog(@"destination: %@", destination);
-    // Get the new view controller using [segue destinationViewController].
-//    UINavigationController *navVC = [segue destinationViewController];
-//    NSLog(@"navVC: %@", navVC);
-//    SCTermsConditionsController *tcVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"TermsConditionsController"];
     
 }
 
@@ -160,6 +140,10 @@
 - (void)loginView:(FBLoginView *)loginView handleError:(NSError *)error {
     //TODO
     NSLog(@"handle this someday");
+}
+
+- (void)loadUser {
+    
 }
 
 @end

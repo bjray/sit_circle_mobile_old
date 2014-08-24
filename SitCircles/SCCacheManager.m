@@ -39,12 +39,12 @@
         NSLog(@"Error reading contents of documents directory: %@", [error localizedDescription]);
         return nil;
     }
-    
-    if ([files count] == 1) {
-        NSString *file = [files objectAtIndex:0];
+
+    for (NSString *file in files) {
         if ([file isEqualToString:@"user"]) {
             NSString *fullPath = [documentsDirectory stringByAppendingPathComponent:file];
             cache = [[SCUserCache alloc] initWithDocPath:fullPath];
+            break;
         }
     }
     

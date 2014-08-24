@@ -10,6 +10,7 @@
 #import "SCCircles.h"
 #import "SCCircle.h"
 
+
 @implementation SCUser
 
 - (id)init {
@@ -27,11 +28,11 @@
         fbId = fbUser.id;
     }
     
-    return [self initWithFirstName:firstName lastName:lastName fbId:fbId accessToken:token];
+    return [self initWithFirstName:firstName lastName:lastName fbId:fbId accessToken:token lastNetworkLoad:nil];
 }
 
 // Designated Initializer...
-- (id)initWithFirstName:(NSString *)firstName lastName:(NSString *)lastName fbId:(NSString *)fbId accessToken:(NSString *)accessToken {
+- (id)initWithFirstName:(NSString *)firstName lastName:(NSString *)lastName fbId:(NSString *)fbId accessToken:(NSString *)accessToken lastNetworkLoad: (NSDate*)lastLoad  {
     
     self = [super init];
     if (self) {
@@ -40,7 +41,8 @@
         self.fbId = fbId;
         self.accessToken = accessToken;
         self.circles = [NSMutableArray array];
-        self.expired = NO;
+        self.expired = YES;
+        self.lastNetworkLoad = lastLoad;
     }
     
     return self;
@@ -52,9 +54,10 @@
     NSString *lastName = [aDecoder decodeObjectForKey:@"lastName"];
     NSString *fbId = [aDecoder decodeObjectForKey:@"fbId"];
     NSString *accessToken = [aDecoder decodeObjectForKey:@"accessToken"];
+    NSDate *lastLoad = [aDecoder decodeObjectForKey:@"lastNetworkLoad"];
 //    NSString *accessToken = nil;
     
-    return [self initWithFirstName:firstName lastName:lastName fbId:fbId accessToken:accessToken];
+    return [self initWithFirstName:firstName lastName:lastName fbId:fbId accessToken:accessToken lastNetworkLoad:lastLoad];
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
@@ -62,6 +65,7 @@
     [aCoder encodeObject:self.lastName forKey:@"lastName"];
     [aCoder encodeObject:self.fbId forKey:@"fbId"];
     [aCoder encodeObject:self.accessToken forKey:@"accessToken"];
+    [aCoder encodeObject:self.lastNetworkLoad forKey:@"lastNetworkLoad"];
 }
 
 - (void)createDefaultCircle {

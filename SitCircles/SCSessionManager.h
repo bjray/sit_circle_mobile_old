@@ -19,6 +19,7 @@
 - (BOOL)facebookTokenAvailable;
 - (RACSignal *)authenticateUsingFacebookWithPermissions:(NSArray *)permissions;
 //- (SCUser *)fetchUserFromCacheOrNetwork;
+- (void)refreshUserFromCacheOrNetwork;
 //- (SCUser *)fetchUserFromNetworkOnlyByFBID:(NSString *)fbId fbToken:(NSString *)token;
 - (BOOL)saveUser:(SCUser *)user;
 @end

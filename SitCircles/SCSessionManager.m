@@ -14,6 +14,8 @@
 #import "SCConstants.h"
 
 NSString *const kEXPIRED = @"EXPIRED";
+NSInteger const kHOURS_TIL_EXPIRE = 24;
+
 
 @interface SCSessionManager ()
 @property (nonatomic, retain, readwrite) SCUser *user;
@@ -55,12 +57,32 @@ NSString *const kEXPIRED = @"EXPIRED";
 #pragma mark - User Helpers
 
 //- (SCUser *)fetchUserFromCacheOrNetworkByFBID:(NSString *)fbId fbToken:(NSString *)token {
+//
+//    //try to fetch from cache...
+//    // if no, 
+//    
 //    SCUser *user = [self fetchUserFromCache];
 //    
 //    
 //    
 //    return user;
 //}
+
+- (void)refreshUserFromCacheOrNetwork {
+    //check if local user has expired...
+    self.user = [self fetchUserFromCache];
+    
+    if ([self isCachedUserExpired]) {
+        //fetch from network...
+#warning -- This method only FAKES network call --
+        self.user.lastNetworkLoad = [NSDate date];
+//        [self fetchUserFromNetworkByFBID:<#(NSString *)#> fbToken:<#(NSString *)#>]
+        
+        
+        //save user locally now that we have refreshed from network...
+        [self saveUserToCache:self.user];
+    }
+}
 
 - (SCUser *)fetchUserFromCache {
     NSLog(@"fetching user from cache");
@@ -157,13 +179,8 @@ NSString *const kEXPIRED = @"EXPIRED";
                                           
                                           if (!error) {
                                               if (status == FBSessionStateOpen) {
-                                                  self.user = [self fetchUserFromCache];
-                                                  if (self.user == nil) {
-                                                      [subscriber sendNext:session.accessTokenData.accessToken];
-                                                  } else {
-                                                      [subscriber sendCompleted];
-                                                  }
-                                                  
+                                                  [self refreshUserFromCacheOrNetwork];
+                                                  [subscriber sendCompleted];
                                               } else {
                                                   NSError *sessionError = [NSError errorWithDomain:@"fbSessionNotOpen" code:1 userInfo:nil];
                                                   [subscriber sendError:sessionError];
@@ -232,6 +249,25 @@ NSString *const kEXPIRED = @"EXPIRED";
     }];
 }
 
+- (BOOL)isCachedUserExpired {
+    BOOL result = NO;
+    
+    if ((self.user == nil) || (self.user.lastNetworkLoad == nil)) {
+        //no cached user or no lastNetworkLoad, so force expire...
+        result = YES;
+    } else {
+        NSTimeInterval diffBetweenDates = [self.user.lastNetworkLoad timeIntervalSinceNow];
+        double secondsInAnHour = 3600;
+        NSInteger differenceInHours = diffBetweenDates / secondsInAnHour;
+        
+        if (differenceInHours > kHOURS_TIL_EXPIRE) {
+            result = YES;
+            NSLog(@"Expired!!!");
+        }
+    }
+    
+    return result;
+}
 
 
 

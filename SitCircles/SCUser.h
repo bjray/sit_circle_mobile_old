@@ -16,6 +16,7 @@
 @property (nonatomic, copy) NSString *fbId;
 @property (nonatomic, copy) NSString *accessToken;
 @property (nonatomic, retain) NSMutableArray *circles;
+@property (nonatomic, retain) NSDate *lastNetworkLoad;
 @property (nonatomic, retain, readonly) id<SCCircles> primaryCircle;
 @property BOOL authenticated;
 @property BOOL expired;
