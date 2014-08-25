@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13E28" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="SCCircle" syncable="YES">
+        <attribute name="circleId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="sitters" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SCSitter" inverseName="circle" inverseEntity="SCSitter" syncable="YES"/>
+        <relationship name="user" maxCount="1" deletionRule="Nullify" destinationEntity="SCUser" inverseName="circles" inverseEntity="SCUser" syncable="YES"/>
+    </entity>
+    <entity name="SCEmailAddress" syncable="YES">
+        <attribute name="isPrimary" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="label" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="value" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="sitter" maxCount="1" deletionRule="Nullify" destinationEntity="SCSitter" inverseName="emailAddresses" inverseEntity="SCSitter" syncable="YES"/>
+    </entity>
+    <entity name="SCPhoneNumber" syncable="YES">
+        <attribute name="isPrimary" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="label" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="value" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="sitter" maxCount="1" deletionRule="Nullify" destinationEntity="SCSitter" inverseName="phoneNumbers" inverseEntity="SCSitter" syncable="YES"/>
+    </entity>
+    <entity name="SCSitter" syncable="YES">
+        <attribute name="addressBookId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="firstName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="image" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sitterId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <relationship name="circle" maxCount="1" deletionRule="Nullify" destinationEntity="SCCircle" inverseName="sitters" inverseEntity="SCCircle" syncable="YES"/>
+        <relationship name="emailAddresses" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SCEmailAddress" inverseName="sitter" inverseEntity="SCEmailAddress" syncable="YES"/>
+        <relationship name="phoneNumbers" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SCPhoneNumber" inverseName="sitter" inverseEntity="SCPhoneNumber" syncable="YES"/>
+    </entity>
+    <entity name="SCUser" syncable="YES">
+        <attribute name="fbAccessToken" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="fbID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="firstName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastNetworkLoad" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <relationship name="circles" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SCCircle" inverseName="user" inverseEntity="SCCircle" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="SCUser" positionX="-63" positionY="-18" width="128" height="148"/>
+        <element name="SCCircle" positionX="-279" positionY="75" width="128" height="103"/>
+        <element name="SCSitter" positionX="-182" positionY="-205" width="128" height="163"/>
+        <element name="SCEmailAddress" positionX="-342" positionY="-252" width="128" height="103"/>
+        <element name="SCPhoneNumber" positionX="-2" positionY="-243" width="128" height="103"/>
+    </elements>
+</model>

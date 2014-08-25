@@ -38,6 +38,11 @@
 		B617BEE91986B89E0092ECAB /* SCCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B617BEE81986B89E0092ECAB /* SCCacheManager.m */; };
 		B617BEEA1986B89E0092ECAB /* SCCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B617BEE81986B89E0092ECAB /* SCCacheManager.m */; };
 		B633C5551933EC7E00B0B8F5 /* SCLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B633C5541933EC7E00B0B8F5 /* SCLoginViewController.m */; };
+		B647F62719AB7876008D395F /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B647F62519AB7876008D395F /* Model.xcdatamodeld */; };
+		B647F62819AB7876008D395F /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B647F62519AB7876008D395F /* Model.xcdatamodeld */; };
+		B647F62B19AB7BDA008D395F /* SCDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B647F62A19AB7BDA008D395F /* SCDataManager.m */; };
+		B647F62C19AB7BDA008D395F /* SCDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B647F62A19AB7BDA008D395F /* SCDataManager.m */; };
+		B647F62E19AB7C9F008D395F /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B647F62D19AB7C9F008D395F /* CoreData.framework */; };
 		B65A611C197AF1E60016667D /* SCSitter.m in Sources */ = {isa = PBXBuildFile; fileRef = B65A611B197AF1E60016667D /* SCSitter.m */; };
 		B65A611D197AF1E60016667D /* SCSitter.m in Sources */ = {isa = PBXBuildFile; fileRef = B65A611B197AF1E60016667D /* SCSitter.m */; };
 		B65A6120197AF94E0016667D /* SCSittersHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B65A611F197AF94E0016667D /* SCSittersHelper.m */; };
@@ -120,6 +125,10 @@
 		B617BEE81986B89E0092ECAB /* SCCacheManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCCacheManager.m; sourceTree = "<group>"; };
 		B633C5531933EC7E00B0B8F5 /* SCLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLoginViewController.h; sourceTree = "<group>"; };
 		B633C5541933EC7E00B0B8F5 /* SCLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCLoginViewController.m; sourceTree = "<group>"; };
+		B647F62619AB7876008D395F /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		B647F62919AB7BDA008D395F /* SCDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCDataManager.h; sourceTree = "<group>"; };
+		B647F62A19AB7BDA008D395F /* SCDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCDataManager.m; sourceTree = "<group>"; };
+		B647F62D19AB7C9F008D395F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		B65A611A197AF1E60016667D /* SCSitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCSitter.h; sourceTree = "<group>"; };
 		B65A611B197AF1E60016667D /* SCSitter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCSitter.m; sourceTree = "<group>"; };
 		B65A611E197AF94E0016667D /* SCSittersHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCSittersHelper.h; sourceTree = "<group>"; };
@@ -169,6 +178,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B647F62E19AB7C9F008D395F /* CoreData.framework in Frameworks */,
 				B671287D1919E9A200E6AFC1 /* CoreGraphics.framework in Frameworks */,
 				B671287F1919E9A200E6AFC1 /* UIKit.framework in Frameworks */,
 				B671287B1919E9A200E6AFC1 /* Foundation.framework in Frameworks */,
@@ -268,6 +278,9 @@
 				B617BEE41985AAC30092ECAB /* SCUserCache.m */,
 				B617BEE71986B89E0092ECAB /* SCCacheManager.h */,
 				B617BEE81986B89E0092ECAB /* SCCacheManager.m */,
+				B647F62519AB7876008D395F /* Model.xcdatamodeld */,
+				B647F62919AB7BDA008D395F /* SCDataManager.h */,
+				B647F62A19AB7BDA008D395F /* SCDataManager.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -302,6 +315,7 @@
 		B67128791919E9A200E6AFC1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B647F62D19AB7C9F008D395F /* CoreData.framework */,
 				B617BED919854B160092ECAB /* libPods.a */,
 				B671287A1919E9A200E6AFC1 /* Foundation.framework */,
 				B671287C1919E9A200E6AFC1 /* CoreGraphics.framework */,
@@ -505,6 +519,7 @@
 				B617BEC91983FA7A0092ECAB /* SCRootViewController.m in Sources */,
 				B617BEE51985AAC30092ECAB /* SCUserCache.m in Sources */,
 				B6114EBD1957B9B00076BB03 /* SCCircleViewController.m in Sources */,
+				B647F62719AB7876008D395F /* Model.xcdatamodeld in Sources */,
 				B6A53E091967A808006D95B9 /* SCTabBarController.m in Sources */,
 				B671288B1919E9A200E6AFC1 /* SCAppDelegate.m in Sources */,
 				B616C90F194E5EE600FB5D68 /* SCTermsConditionsController.m in Sources */,
@@ -526,6 +541,7 @@
 				B617BECD198400AB0092ECAB /* SCLeftMenuViewController.m in Sources */,
 				B6FD32C7195F670000534CA4 /* SCContactTableViewCell.m in Sources */,
 				B6FD32CB19607D2800534CA4 /* SCContactsHelper.m in Sources */,
+				B647F62B19AB7BDA008D395F /* SCDataManager.m in Sources */,
 				B6114EC51957BA110076BB03 /* SCAddressesViewController.m in Sources */,
 				B6114EB91957B9470076BB03 /* SCCirclesViewController.m in Sources */,
 				B67128871919E9A200E6AFC1 /* main.m in Sources */,
@@ -537,10 +553,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				B6A53DFB1967365F006D95B9 /* SCContact.m in Sources */,
+				B647F62C19AB7BDA008D395F /* SCDataManager.m in Sources */,
 				B616C90C194E5E7500FB5D68 /* SCHomeTableViewController.m in Sources */,
 				B617BED61985435F0092ECAB /* SCSessionManager.m in Sources */,
 				B617BEE61985AAC30092ECAB /* SCUserCache.m in Sources */,
 				B616C910194E5EE600FB5D68 /* SCTermsConditionsController.m in Sources */,
+				B647F62819AB7876008D395F /* Model.xcdatamodeld in Sources */,
 				B6114EBE1957B9B00076BB03 /* SCCircleViewController.m in Sources */,
 				B6FD32C8195F670000534CA4 /* SCContactTableViewCell.m in Sources */,
 				B6A53E0A1967A808006D95B9 /* SCTabBarController.m in Sources */,
@@ -783,6 +801,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		B647F62519AB7876008D395F /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				B647F62619AB7876008D395F /* Model.xcdatamodel */,
+			);
+			currentVersion = B647F62619AB7876008D395F /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = B671286F1919E9A200E6AFC1 /* Project object */;
 }
