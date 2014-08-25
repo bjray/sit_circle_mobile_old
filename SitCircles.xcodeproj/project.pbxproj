@@ -705,6 +705,7 @@
 		};
 		B67128B01919E9A200E6AFC1 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F94BD0290E004F8B91393934 /* Pods.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SitCircles.app/SitCircles";
 				FRAMEWORK_SEARCH_PATHS = (
