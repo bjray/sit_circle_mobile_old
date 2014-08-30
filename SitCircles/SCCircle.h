@@ -2,13 +2,29 @@
 //  SCCircle.h
 //  SitCircles
 //
-//  Created by B.J. Ray on 7/4/14.
+//  Created by B.J. Ray on 8/25/14.
 //  Copyright (c) 2014 109Software. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import "SCCircles.h"
+#import <CoreData/CoreData.h>
 
-@interface SCCircle : NSObject <SCCircles, NSCoding>
-- (id)initCircleWithName:(NSString *)name sitters:(NSArray *)sitterArray ownerId:(NSString *)ownerId;
+@class SCSitter, SCUser;
+
+@interface SCCircle : NSManagedObject
+
+@property (nonatomic, retain) NSString * name;
+@property (nonatomic) int32_t circleId;
+@property (nonatomic) BOOL isPrimary;
+@property (nonatomic, retain) SCUser *user;
+@property (nonatomic, retain) NSSet *sitters;
+@end
+
+@interface SCCircle (CoreDataGeneratedAccessors)
+
+- (void)addSittersObject:(SCSitter *)value;
+- (void)removeSittersObject:(SCSitter *)value;
+- (void)addSitters:(NSSet *)values;
+- (void)removeSitters:(NSSet *)values;
+
 @end

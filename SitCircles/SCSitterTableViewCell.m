@@ -7,6 +7,7 @@
 //
 
 #import "SCSitterTableViewCell.h"
+#import "SCPhoneNumber.h"
 
 @interface SCSitterTableViewCell()
 @property (nonatomic, retain) UIImageView *cellSeperator;
@@ -41,8 +42,10 @@
 - (void)setSitter:(SCSitter *)sitter {
     _sitter = sitter;
     self.nameLabel.text = sitter.fullName;
-    if (sitter.primaryNumberValue) {
-        self.primaryPhoneLabel.text = sitter.primaryNumberValue;
+    
+    SCPhoneNumber *primary = sitter.primaryPhone;
+    if (primary) {
+        self.primaryPhoneLabel.text = primary.value;
     }
     if (sitter.image) {
         self.sitterImageView.image = sitter.image;

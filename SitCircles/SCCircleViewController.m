@@ -12,12 +12,15 @@
 #import "SCUser.h"
 #import "SCCircle.h"
 #import "SCSitter.h"
+#import "SCPhoneNumber.h"
+#import "SCEmailAddress.h"
 
 @interface SCCircleViewController ()
-
+@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 @end
 
 @implementation SCCircleViewController
+@synthesize fetchedResultsController = _fetchedResultsController;
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     if(self = [super initWithCoder:aDecoder]) {
@@ -62,12 +65,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-
-    SCSessionManager *manager = [SCSessionManager sharedManager];
     
-    //TODO: Dont default to primary circle - user may select any circle...
-    return [manager.user.primaryCircle.sitters count];
+    return [self.circle.sitters count];
     
 }
 
@@ -77,15 +76,13 @@
     SCSitterTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"sitterCell" forIndexPath:indexPath];
     
     // Configure the cell...
-    SCSessionManager *manager = [SCSessionManager sharedManager];
     
-    //TODO: Dont default to primary circle - user may select any circle...
-    SCCircle *circle = manager.user.primaryCircle;
-    
-    SCSitter *sitter = [circle.sitters objectAtIndex:indexPath.row];
+    SCSitter *sitter = (SCSitter *)[self.fetchedResultsController objectAtIndexPath:indexPath];
     cell.nameLabel.text = sitter.fullName;
-    cell.primaryPhoneLabel.text = sitter.primaryNumberValue;
+    cell.primaryPhoneLabel.text = sitter.primaryPhone.value;
     cell.sitterImageView.image = sitter.image;
+//    cell.primaryPhoneLabel.text = sitter.primaryNumberValue;
+//    cell.sitterImageView.image = sitter.image;
     return cell;
 }
 
@@ -134,17 +131,55 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     UIViewController *destination = [segue destinationViewController];
-    if ([destination respondsToSelector:@selector(setSitter:)]) {
+    if ([segue.identifier isEqualToString:@"contactsSegue"]) {
+        NSLog(@"contacts");
+        [destination setValue:self.circle forKey:@"circle"];
+    } else if ([segue.identifier isEqualToString:@"SitterSegue"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-        SCSessionManager *manager = [SCSessionManager sharedManager];
-        SCCircle *circle = manager.user.primaryCircle;
         
-        SCSitter *aSitter = [circle.sitters objectAtIndex:indexPath.row];
+        SCSitter *aSitter = (SCSitter *)[self.fetchedResultsController objectAtIndexPath:indexPath];
         [destination setValue:aSitter forKeyPath:@"sitter"];
-    } else {
-        NSLog(@"didn't find selector!");
     }
 }
 
+#pragma mark - Result controller
+- (NSFetchedResultsController *)fetchedResultsController
+{
+    if (_fetchedResultsController != nil) {
+        return _fetchedResultsController;
+    }
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    
+    NSEntityDescription *entity = [NSEntityDescription
+                                   entityForName:@"SCSitter"
+                                   inManagedObjectContext:self.circle.managedObjectContext];
+    [fetchRequest setEntity:entity];
+    
+    NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc]
+                                         initWithKey:@"lastName"
+                                         ascending:NO];
+    NSSortDescriptor *sortDescriptor2 = [[NSSortDescriptor alloc]
+                                         initWithKey:@"firstName"
+                                         ascending:NO];
+    
+    [fetchRequest setSortDescriptors:@[sortDescriptor1, sortDescriptor2]];
+    NSFetchedResultsController *fetchedResults;
+    fetchedResults = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+                                                         managedObjectContext:self.circle.managedObjectContext
+                                                           sectionNameKeyPath:nil
+                                                                    cacheName:nil];
+    
+    
+    
+    self.fetchedResultsController = fetchedResults;
+    
+	NSError *error = nil;
+    if (![self.fetchedResultsController performFetch:&error]) {
+	    NSLog(@"Core data error %@, %@", error, [error userInfo]);
+	    abort();
+	}
+    
+    return _fetchedResultsController;
+}
 
 @end

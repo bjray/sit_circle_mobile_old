@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+@class SCCircle;
 
 @interface SCCircleViewController : UITableViewController
-
+@property (nonatomic,retain) SCCircle *circle;
 @end

@@ -8,6 +8,8 @@
 
 #import "SCSitterViewController.h"
 #import <LBBlurredImage/UIImageView+LBBlurredImage.h>
+#import "SCPhoneNumber.h"
+#import "SCEmailAddress.h"
 
 @interface SCSitterViewController ()
 
@@ -48,8 +50,11 @@
     self.sitterImageView.layer.cornerRadius = 65;
 
     self.nameLabel.text = self.sitter.fullName;
-    self.primaryPhoneLabel.text = self.sitter.primaryNumberValue ? self.sitter.primaryNumberValue : @"No phone";
-    self.primaryEmailLabel.text = self.sitter.primaryEmailValue ? self.sitter.primaryEmailValue : @"No email";
+    SCPhoneNumber *primaryPhone = self.sitter.primaryPhone;
+    SCEmailAddress *primaryEmail = self.sitter.primaryEmail;
+    
+    self.primaryPhoneLabel.text = primaryPhone ? primaryPhone.value : @"No phone";
+    self.primaryEmailLabel.text = primaryEmail ? primaryEmail.value : @"No email";
     self.phoneCountLabel.text = [self phoneCountLabelForSitter:self.sitter];
     self.emailCountLabel.text = [self emailCountLabelForSitter:self.sitter];
     self.navigationItem.title = self.sitter.fullName;
@@ -57,16 +62,16 @@
 
 - (NSString *)phoneCountLabelForSitter:(SCSitter *)aSitter {
     NSString *result = @"";
-    if (aSitter.numbers.count > 1) {
-        result = [NSString stringWithFormat:@"(%lu more)", aSitter.numbers.count - 1];
+    if (aSitter.phoneNumbers.count > 1) {
+        result = [NSString stringWithFormat:@"(%lu more)", aSitter.phoneNumbers.count - 1];
     }
     return result;
 }
 
 - (NSString *)emailCountLabelForSitter:(SCSitter *)aSitter {
     NSString *result = @"";
-    if (aSitter.emails.count > 1) {
-        result = [NSString stringWithFormat:@"(%lu more)", aSitter.emails.count - 1];
+    if (aSitter.emailAddresses.count > 1) {
+        result = [NSString stringWithFormat:@"(%lu more)", aSitter.emailAddresses.count - 1];
     }
     return result;
 }

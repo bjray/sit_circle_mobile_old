@@ -12,7 +12,7 @@
 @interface SCAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-@property (strong, nonatomic) SCUser *user;
+//@property (strong, nonatomic) SCUser *user;
 
 - (void)loadRoot;
 @end

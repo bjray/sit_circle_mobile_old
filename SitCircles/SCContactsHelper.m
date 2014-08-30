@@ -90,8 +90,9 @@
         
         if (ABPersonHasImageData(person)) {
             CFDataRef dataRef = ABPersonCopyImageData(person);
-            NSData *data = (__bridge_transfer NSData *)dataRef;
-            contact.image = [UIImage imageWithData:data];
+            contact.imageData = (__bridge_transfer NSData *)dataRef;
+            
+//            contact.image = [UIImage imageWithData:data];
             CFRelease(dataRef);
         }
         

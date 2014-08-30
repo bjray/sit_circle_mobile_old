@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+@class SCCircle;
 
-@interface SCAddressesViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
+@interface SCAddressesViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic, retain) SCCircle *circle;
 - (IBAction)cancel:(id)sender;
 - (IBAction)save:(id)sender;
 @end

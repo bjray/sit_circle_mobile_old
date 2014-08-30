@@ -29,36 +29,6 @@
     return self;
 }
 
-
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
-//    if (FBSession.activeSession.state == FBSessionStateOpen) {
-//        NSLog(@"we have a cached user!");
-//        
-//        [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-//            if (!error) {
-//                // Success! Include your code to handle the results here
-//                SCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-//                [appDelegate.user facebookUser:result withToken:FBSession.activeSession.accessTokenData.accessToken];
-//                
-//                
-////                NSLog(@"user info: %@", result);
-////                NSMutableDictionary<FBOpenGraphObject> *myObject = result;
-////
-////                NSLog(@"fb token: %@", FBSession.activeSession.accessTokenData);
-//                [self performSegueWithIdentifier:@"TabBarSegue" sender:self];
-//            } else {
-//                // An error occurred, we need to handle the error
-//                // See: https://developers.facebook.com/docs/ios/errors
-//            }
-//        }];
-//        
-//
-//    }
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -75,19 +45,22 @@
         } completed:^{
             NSLog(@"sendComplete");
             NSLog(@"ALL GOOD!!!!");
+            [session loadUserFromCacheOrNetwork];
             
             
             [self displayHomePage];
         }];        
     } else {
-        self.backgroundImageView.hidden = YES;
+        self.backgroundImageView.hidden = NO;
         [self.activityIndicator stopAnimating];
         self.welcomeLabel.hidden = YES;
         
         // Create Login View so that the app will be granted "status_update" permission.
-        FBLoginView *loginView = [[FBLoginView alloc] initWithReadPermissions:@[@"public_profile",@"email", @"user_friends", @"publish_actions", @"read_friendlists"]];
+        FBLoginView *loginView = [[FBLoginView alloc] initWithReadPermissions:fbPermissions];
         
-        loginView.frame = CGRectOffset(loginView.frame, (self.view.center.x - (loginView.frame.size.width /2)), (self.view.center.y - (loginView.frame.size.height /2)));
+        loginView.frame = CGRectOffset(loginView.frame, (self.view.center.x - (loginView.frame.size.width /2)), (self.view.frame.size.height - (loginView.frame.size.height * 3)));
+        //self.view.frame.size.height - (loginView.frame.size.height *2)
+        //self.view.center.y - (loginView.frame.size.height /2)
         loginView.delegate = self;
         
         [self.view addSubview:loginView];
@@ -125,17 +98,29 @@
 
 
 #pragma mark - FBLoginViewDelegate
-//for some reason, this method is called twice...
-//- (void)loginViewFetchedUserInfo:(FBLoginView *)loginView
-//                            user:(id<FBGraphUser>)user {
-//    NSLog(@"user: %@", user);
-//    NSLog(@"fb token: %@", FBSession.activeSession.accessTokenData);
-////    [self performSegueWithIdentifier:@"showTCs" sender:self];
-//}
+- (void)loginViewFetchedUserInfo:(FBLoginView *)loginView
+                            user:(id<FBGraphUser>)user {
+    NSLog(@"user: %@", user);
+    NSLog(@"fb token: %@", FBSession.activeSession.accessTokenData);
+    
+    SCSessionManager *session = [SCSessionManager sharedManager];
+    [session loadUserFromCacheOrNetworkByFBUser:user fbToken:FBSession.activeSession.accessTokenData.accessToken];
+    
+    [self displayHomePage];
+    
+    //using the fbuser, check to see if we have a matching user on the device
+    // If YES
+    //      - follow normal process of login...
+    // If NO
+    //      - Create user on server (async)
+    //      - Create user's default circle on server (async)
+    //      - create user locally
 
-//- (void)loginViewShowingLoggedInUser:(FBLoginView *)loginView {
-//    NSLog(@"FBLoginView: %@", loginView);
-//}
+}
+
+- (void)loginViewShowingLoggedInUser:(FBLoginView *)loginView {
+    NSLog(@"FBLoginView: %@", loginView);
+}
 
 - (void)loginView:(FBLoginView *)loginView handleError:(NSError *)error {
     //TODO
@@ -143,7 +128,7 @@
 }
 
 - (void)loadUser {
-    
+    NSLog(@"what about this?");
 }
 
 @end

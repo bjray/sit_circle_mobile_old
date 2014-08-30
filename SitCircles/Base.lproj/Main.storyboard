@@ -455,7 +455,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                     <navigationItem key="navigationItem" title="My Sitting Circle" id="2WB-yc-Ug9">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="r2N-yT-7Ba">
                             <connections>
-                                <segue destination="i20-dV-m8k" kind="modal" id="Jrs-Jx-I8f"/>
+                                <segue destination="i20-dV-m8k" kind="modal" identifier="contactsSegue" id="Jrs-Jx-I8f"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

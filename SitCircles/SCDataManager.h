@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <FacebookSDK/FacebookSDK.h>
 
 @interface SCDataManager : NSObject
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
@@ -17,4 +18,5 @@
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
 
+//- (id)initWithFacebookUser:(id<FBGraphUser>) fbUser withToken: (NSString *)token;
 @end

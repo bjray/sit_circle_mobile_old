@@ -33,50 +33,50 @@
     return self;
 }
 
-- (void) postJSONData2:(NSData *)data toRelativeURLString:(NSString *) urlString {
-    NSString *fullURL = [NSString stringWithFormat:@"%@%@", self.baseURL, urlString];
-    NSURL *url = [NSURL URLWithString:fullURL];
-    
-    NSLog(@"posting to: %@", url.absoluteString);
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
-    request.HTTPMethod = @"POST";
-    
-    //post data...
-    NSURLSessionUploadTask *uploadTask = [self.session uploadTaskWithRequest:request
-                                                                    fromData:data completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                                                                        if (!error) {
-                                                                            //check status code...
-                                                                            NSInteger status = [(NSHTTPURLResponse *) response statusCode];
-                                                                            NSLog(@"status code: %ld", (long)status);
-                                                                            if (status >= 200 && status < 300) {
-                                                                                //looks good
-                                                                                NSError *jsonError = nil;
-                                                                                id json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&jsonError];
-                                                                                
-                                                                                if (!jsonError) {
-                                                                                    //send subscriper serialized json as array or dictionary
-                                                                                    NSLog(@"json: %@", json);
-                                                                                } else {
-                                                                                    //notify subscriber of error
-                                                                                    NSLog(@"json error: %@", jsonError.localizedDescription);
-                                                                                }
-                                                                            } else {
-                                                                                //generate error from response...
-                                                                                NSError *httpError =[self errorFromResponse:(NSHTTPURLResponse *) response];
-                                                                                
-                                                                                NSLog(@"error: %@", httpError.localizedDescription);
-                                                                            }
-                                                                        } else {
-                                                                            NSLog(@"connection error: %@", error.localizedDescription);
-                                                                        }
-                                                                    }];
-    
-    [uploadTask resume];
-    
-}
+//- (void) postJSONData2:(NSData *)data toRelativeURLString:(NSString *) urlString {
+//    NSString *fullURL = [NSString stringWithFormat:@"%@%@", self.baseURL, urlString];
+//    NSURL *url = [NSURL URLWithString:fullURL];
+//    
+//    NSLog(@"posting to: %@", url.absoluteString);
+//    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+//    request.HTTPMethod = @"POST";
+//    
+//    //post data...
+//    NSURLSessionUploadTask *uploadTask = [self.session uploadTaskWithRequest:request
+//                                                                    fromData:data completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+//                                                                        if (!error) {
+//                                                                            //check status code...
+//                                                                            NSInteger status = [(NSHTTPURLResponse *) response statusCode];
+//                                                                            NSLog(@"status code: %ld", (long)status);
+//                                                                            if (status >= 200 && status < 300) {
+//                                                                                //looks good
+//                                                                                NSError *jsonError = nil;
+//                                                                                id json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&jsonError];
+//                                                                                
+//                                                                                if (!jsonError) {
+//                                                                                    //send subscriper serialized json as array or dictionary
+//                                                                                    NSLog(@"json: %@", json);
+//                                                                                } else {
+//                                                                                    //notify subscriber of error
+//                                                                                    NSLog(@"json error: %@", jsonError.localizedDescription);
+//                                                                                }
+//                                                                            } else {
+//                                                                                //generate error from response...
+//                                                                                NSError *httpError =[self errorFromResponse:(NSHTTPURLResponse *) response];
+//                                                                                
+//                                                                                NSLog(@"error: %@", httpError.localizedDescription);
+//                                                                            }
+//                                                                        } else {
+//                                                                            NSLog(@"connection error: %@", error.localizedDescription);
+//                                                                        }
+//                                                                    }];
+//    
+//    [uploadTask resume];
+//    
+//}
 
 
-- (RACSignal *)postJSONData:(NSData *)data toRelativeURLString:(NSString *) urlString {
+- (RACSignal *)postJSONData:(NSDictionary *)dict toRelativeURLString:(NSString *) urlString {
     NSString *fullURL = [NSString stringWithFormat:@"%@%@", self.baseURL, urlString];
     NSURL *url = [NSURL URLWithString:fullURL];
     
@@ -87,41 +87,53 @@
         
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
         request.HTTPMethod = @"POST";
+        [request setValue:@"application/json" forKey:@"Content-Type"];
         
-        //post data...
-        NSURLSessionUploadTask *uploadTask = [self.session uploadTaskWithRequest:request
-                        fromData:data completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                            if (!error) {
-                                //check status code...
-                                NSInteger status = [(NSHTTPURLResponse *) response statusCode];
-                                NSLog(@"status code: %ld", (long)status);
-                                if (status >= 200 && status < 300) {
-                                    //looks good
-                                    NSError *jsonError = nil;
-                                    id json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&jsonError];
-
-                                    if (!jsonError) {
-                                        //send subscriper serialized json as array or dictionary
-                                        [subscriber sendNext:json];
-                                    } else {
-                                        //notify subscriber of error
-                                        [subscriber sendError:jsonError];
-                                    }
-                                } else {
-                                    //generate error from response...
-                                    NSLog(@"error");
-                                    [subscriber sendNext:[self errorFromResponse:(NSHTTPURLResponse *) response]];
-                                }
+        NSError *serialError = nil;
+        NSData *data = [NSJSONSerialization dataWithJSONObject:dict options:kNilOptions error:&serialError];
+        if (!serialError) {
+            //post data...
+            NSURLSessionUploadTask *uploadTask = [self.session uploadTaskWithRequest:request
+                fromData:data completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                    if (!error) {
+                        //check status code...
+                        NSInteger status = [(NSHTTPURLResponse *) response statusCode];
+                        NSLog(@"status code: %ld", (long)status);
+                        if (status >= 200 && status < 300) {
+                            //looks good
+                            NSError *jsonError = nil;
+                            id json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&jsonError];
+                            
+                            if (!jsonError) {
+                                //send subscriper serialized json as array or dictionary
+                                [subscriber sendNext:json];
                             } else {
-                                [subscriber sendError:error];
+                                //notify subscriber of error
+                                NSLog(@"error serializing response JSON");
+                                [subscriber sendError:jsonError];
                             }
-        }];
-        
-        [uploadTask resume];
-        
-        return [RACDisposable disposableWithBlock:^{
-            [uploadTask cancel];
-        }];
+                        } else {
+                            //generate error from response...
+                            NSLog(@"error: did not get an http 200");
+                            [subscriber sendNext:[self errorFromResponse:(NSHTTPURLResponse *) response]];
+                        }
+                    } else {
+                        [subscriber sendError:error];
+                    }
+                }];
+            
+            [uploadTask resume];
+            
+            return [RACDisposable disposableWithBlock:^{
+                [uploadTask cancel];
+            }];
+        } else {
+            NSLog(@"Failed to serialize request JSON");
+            [subscriber sendError:serialError];
+            return [RACDisposable disposableWithBlock:^{
+                //nothing to kill...
+            }];
+        }
         
     }] doError:^(NSError *error) {
         NSLog(@"%@", error);

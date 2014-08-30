@@ -9,10 +9,10 @@
 #import "SCAddressesViewController.h"
 #import "SCContactTableViewCell.h"
 #import "SCContactsHelper.h"
-//#import "SCAppDelegate.h"
 #import "SCSessionManager.h"
 #import "SCUser.h"
 #import "SCCircle.h"
+#import "SCSittersHelper.h"
 
 #import "MBProgressHUD.h"
 #import <TSMessages/TSMessage.h>
@@ -21,15 +21,18 @@
 
 
 @interface SCAddressesViewController () <UISearchDisplayDelegate>
-@property (nonatomic, retain) NSMutableArray *sitters;    //TODO: replace with userclass property
+//@property (nonatomic, retain) NSMutableArray *sitters;    //TODO: replace with userclass property
 @property (nonatomic, retain) NSMutableArray *selectedContacts;
-
+@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 @end
 
 @implementation SCAddressesViewController
+
 {
     NSArray *_searchResults;
 }
+
+@synthesize fetchedResultsController = _fetchedResultsController;
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     if(self = [super initWithCoder:aDecoder]) {
@@ -59,10 +62,11 @@
 }
 
 - (void)updateSelectedContacts:(NSArray *)contacts {
-    SCSessionManager *manager = [SCSessionManager sharedManager];
+//    SCSessionManager *manager = [SCSessionManager sharedManager];
+    SCSittersHelper *helper = [SCSittersHelper sharedManager];
     
     for (SCContact *contact in contacts) {
-        if ([manager.user.primaryCircle containsContact:contact]) {
+        if ([helper sitters:self.circle.sitters containsContact:contact]) {
             contact.isLocked = YES;
             [self.selectedContacts addObject:contact];
         }
@@ -169,19 +173,10 @@
     return [[SCContactsHelper sharedManager].contacts filteredArrayUsingPredicate:predicate];
 }
 
-#pragma mark - Picker DataSource Methods
--(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
-    return 0;
-}
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-    return 0;
-}
-
-#pragma mark - Picker Delegate Methods
-
 #pragma mark - User Actions
 
 - (IBAction)cancel:(id)sender {
+    self.selectedContacts = nil;
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -189,12 +184,85 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.mode = MBProgressHUDModeIndeterminate;
     hud.labelText = @"Saving...";
+
+    SCSittersHelper *helper = [SCSittersHelper sharedManager];
+    [self.circle addSitters:[helper sittersFromContacts:self.selectedContacts]];
     
-    SCSessionManager *manager = [SCSessionManager sharedManager];
-//    SCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    [manager.user.primaryCircle addContactsToSitterList:self.selectedContacts];
+    NSError *error = nil;
+    if (![self.circle.managedObjectContext save:&error]) {
+        NSLog(@"error!");
+        [self displayError:error optionalMsg:@"Failed to save sitters!"];
+    } else {
+        [hud hide:YES];
+        [self dismissView];
+    }
+    //TODO: Save sitter to circle
+//    [manager.user.primaryCircle addContactsToSitterList:self.selectedContacts];
     
     
+}
+
+#pragma mark - Helper methods...
+- (void)displayError:(NSError *)error optionalMsg:(NSString *)optionalMsg{
+    NSString *msg = [NSString stringWithFormat:@"%@ %@", [error localizedDescription], optionalMsg];
+    
+    [TSMessage showNotificationWithTitle:@"Error" subtitle:msg type:TSMessageNotificationTypeError];
+    [TSMessage showNotificationInViewController:self
+                                          title:@"Error"
+                                       subtitle:msg
+                                          image:nil
+                                           type:TSMessageNotificationTypeError
+                                       duration:3.0
+                                       callback:^{
+                                           [self dismissView];
+                                       }
+                                    buttonTitle:nil
+                                 buttonCallback:nil
+                                     atPosition:TSMessageNotificationPositionTop
+                           canBeDismissedByUser:YES];
+}
+
+- (void)dismissView {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+
+#pragma mark - Result controller
+//- (NSFetchedResultsController *)fetchedResultsController
+//{
+//    if (_fetchedResultsController != nil) {
+//        return _fetchedResultsController;
+//    }
+//    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+//    
+//    NSEntityDescription *entity = [NSEntityDescription
+//                                   entityForName:@"SCSitter"
+//                                   inManagedObjectContext:self.circle.managedObjectContext];
+//    [fetchRequest setEntity:entity];
+//    
+//    NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc]
+//                                         initWithKey:@"isPrimary"
+//                                         ascending:NO];
+//    NSSortDescriptor *sortDescriptor2 = [[NSSortDescriptor alloc]
+//                                         initWithKey:@"name"
+//                                         ascending:NO];
+//    
+//    [fetchRequest setSortDescriptors:@[sortDescriptor1, sortDescriptor2]];
+//    NSFetchedResultsController *fetchedResults;
+//    fetchedResults = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+//                                                         managedObjectContext:manager.user.managedObjectContext
+//                                                           sectionNameKeyPath:nil
+//                                                                    cacheName:nil];
+//    
+//    
+//    
+//    self.fetchedResultsController = fetchedResults;
+//    
+//	NSError *error = nil;
+//    if (![self.fetchedResultsController performFetch:&error]) {
+//	    NSLog(@"Core data error %@, %@", error, [error userInfo]);
+//	    abort();
+//	}
+//    
+//    return _fetchedResultsController;
+//}
 @end

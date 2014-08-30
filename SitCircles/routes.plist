@@ -13,6 +13,6 @@
 	<key>signIn</key>
 	<string>/users/sign_in</string>
 	<key>createUser</key>
-	<string>/users</string>
+	<string>/facebook_users</string>
 </dict>
 </plist>

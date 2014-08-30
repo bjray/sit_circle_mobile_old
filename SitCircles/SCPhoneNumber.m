@@ -1,22 +1,20 @@
 //
-//  SCCircle.m
+//  SCPhoneNumber.m
 //  SitCircles
 //
 //  Created by B.J. Ray on 8/25/14.
 //  Copyright (c) 2014 109Software. All rights reserved.
 //
 
-#import "SCCircle.h"
+#import "SCPhoneNumber.h"
 #import "SCSitter.h"
-#import "SCUser.h"
 
 
-@implementation SCCircle
+@implementation SCPhoneNumber
 
-@dynamic name;
-@dynamic circleId;
 @dynamic isPrimary;
-@dynamic user;
-@dynamic sitters;
+@dynamic value;
+@dynamic label;
+@dynamic sitter;
 
 @end
