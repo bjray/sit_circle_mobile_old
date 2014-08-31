@@ -21,6 +21,7 @@ NSInteger const kHOURS_TIL_EXPIRE = 24;
 @property (nonatomic, retain) NSString *docPath;
 @property (nonatomic, retain) SCClient *client;
 @property (nonatomic, retain) NSString *fbToken;
+@property (nonatomic, retain) NSDateFormatter *formatter;
 @end
 
 @implementation SCSessionManager
@@ -39,8 +40,11 @@ NSInteger const kHOURS_TIL_EXPIRE = 24;
 - (id)init {
     if (self = [super init]) {
         self.user = nil;
+        self.formatter = [[NSDateFormatter alloc] init];
+        [self.formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.AAA'Z'"];
         
         _client = [[SCClient alloc] init];
+        
     }
     
     return self;
@@ -113,7 +117,7 @@ NSInteger const kHOURS_TIL_EXPIRE = 24;
         [userDict setObject:fbUser.id forKey:@"facebook_id"];
         
         [[self saveUserToServer:userDict] subscribeNext:^(id json) {
-            self.user = [self createNewUserFromUserDictionary:userDict];
+            self.user = [self createNewUserFromUserDictionary:json];
         } error:^(NSError *error) {
             NSLog(@"network error occurred...try to save user anyways...");
             self.user = [self createNewUserFromUserDictionary:userDict];
@@ -263,16 +267,34 @@ NSInteger const kHOURS_TIL_EXPIRE = 24;
     user.userId = [dict valueForKey:@"id"];
     user.fbAccessToken = self.fbToken;
     
+    NSDictionary *circleDict = [self circleDictFromUserJson:dict];
     
     SCCircle *circle = [NSEntityDescription insertNewObjectForEntityForName:@"SCCircle"
                                                      inManagedObjectContext:context];
-    circle.name = @"My Circle";
+    circle.name = [circleDict valueForKey:@"name"];
+
+    circle.circleId = [NSNumber numberWithInteger:[[circleDict valueForKey:@"id"] integerValue]];
+    circle.updatedAt = [_formatter dateFromString:[circleDict valueForKey:@"updated_at"]];;
+    circle.createdAt = [_formatter dateFromString:[circleDict valueForKey:@"created_at"]];
+
     [user addCirclesObject:circle];
     [dataManager saveContext];
     NSLog(@"created New User locally!");
     return user;
 }
 
+#pragma mark - Helper functions
+- (NSDictionary *)circleDictFromUserJson:(NSDictionary *)userDict {
+    NSDictionary *circleDict = nil;
+    NSArray *array = [userDict objectForKey:@"circles"];
+    if (array.count > 0) {
+        circleDict = array[0];
+    } else {
+        NSDate *date = [NSDate date];
+        circleDict = @{@"name": @"My sitters", @"updated_at":[self.formatter stringFromDate:date], @"created_at":[self.formatter stringFromDate:date]};
+    }
+    return circleDict;
+}
 
 
 #pragma mark - Facebook Connection requests...
@@ -354,5 +376,11 @@ NSInteger const kHOURS_TIL_EXPIRE = 24;
 //    }];
 //}
 
-
+#pragma mark - Sitter Network Helpers...
+- (RACSignal *)saveSitterAsDictionary:(NSDictionary *)dict {
+    NSString *routesPlist = [[NSBundle mainBundle] pathForResource:@"routes" ofType:@"plist"];
+    NSDictionary *routes = [[NSDictionary alloc] initWithContentsOfFile:routesPlist];
+    
+    return [[self.client postJSONData:dict toRelativeURLString:routes[kURL_KEY_BABYSITTERS]] deliverOn:RACScheduler.mainThreadScheduler];
+}
 @end

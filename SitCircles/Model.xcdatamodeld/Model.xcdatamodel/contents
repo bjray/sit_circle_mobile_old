@@ -2,8 +2,10 @@
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13E28" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="SCCircle" representedClassName="SCCircle" syncable="YES">
         <attribute name="circleId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="isPrimary" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
         <relationship name="sitters" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SCSitter" inverseName="circle" inverseEntity="SCSitter" syncable="YES"/>
         <relationship name="user" maxCount="1" deletionRule="Nullify" destinationEntity="SCUser" inverseName="circles" inverseEntity="SCUser" syncable="YES"/>
     </entity>
@@ -39,10 +41,10 @@
         <relationship name="circles" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SCCircle" inverseName="user" inverseEntity="SCCircle" syncable="YES"/>
     </entity>
     <elements>
-        <element name="SCUser" positionX="-351" positionY="-94" width="128" height="148"/>
-        <element name="SCCircle" positionX="-153" positionY="-54" width="128" height="118"/>
-        <element name="SCSitter" positionX="-101" positionY="117" width="128" height="163"/>
+        <element name="SCCircle" positionX="-153" positionY="-54" width="128" height="148"/>
         <element name="SCEmailAddress" positionX="-306" positionY="162" width="128" height="103"/>
         <element name="SCPhoneNumber" positionX="106" positionY="176" width="128" height="103"/>
+        <element name="SCSitter" positionX="-101" positionY="117" width="128" height="163"/>
+        <element name="SCUser" positionX="-351" positionY="-94" width="128" height="148"/>
     </elements>
 </model>

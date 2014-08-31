@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SCAddressBookDelegate.h"
 @class SCCircle;
 
-@interface SCCircleViewController : UITableViewController
+@interface SCCircleViewController : UITableViewController <SCAddressBookDelegate>
 @property (nonatomic,retain) SCCircle *circle;
 @end

@@ -107,24 +107,7 @@
     [session loadUserFromCacheOrNetworkByFBUser:user fbToken:FBSession.activeSession.accessTokenData.accessToken];
     
     [self displayHomePage];
-    
-    //using the fbuser, check to see if we have a matching user on the device
-    // If YES
-    //      - follow normal process of login...
-    // If NO
-    //      - Create user on server (async)
-    //      - Create user's default circle on server (async)
-    //      - create user locally
 
-}
-
-- (void)loginViewShowingLoggedInUser:(FBLoginView *)loginView {
-    NSLog(@"FBLoginView: %@", loginView);
-}
-
-- (void)loginView:(FBLoginView *)loginView handleError:(NSError *)error {
-    //TODO
-    NSLog(@"handle this someday");
 }
 
 - (void)loadUser {

@@ -14,6 +14,11 @@
 #import "SCSitter.h"
 #import "SCPhoneNumber.h"
 #import "SCEmailAddress.h"
+#import "SCSittersHelper.h"
+
+#import "MBProgressHUD.h"
+#import <TSMessages/TSMessage.h>
+#import <ReactiveCocoa/ReactiveCocoa/ReactiveCocoa.h>
 
 @interface SCCircleViewController ()
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
@@ -45,9 +50,11 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    self.fetchedResultsController = nil;
     [super viewWillAppear:animated];
     [self.tableView reloadData];
 }
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -109,21 +116,53 @@
 }
 */
 
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
+#pragma mark - Delegate Methods
+- (void)addContactsToSitterList:(NSArray *)contacts {
+    if (contacts.count > 0) {
+        
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.mode = MBProgressHUDModeIndeterminate;
+        hud.labelText = @"Saving...";
+        
+        //save locally...
+        SCSittersHelper *helper = [SCSittersHelper sharedManager];
+        NSSet *sitters = [helper sittersFromContacts:contacts];
+        [self.circle addSitters:sitters];
+        
+        NSError *error = nil;
+        if (![self.circle.managedObjectContext save:&error]) {
+            NSLog(@"error!");
+            [self displayError:error optionalMsg:@"Failed to save sitters!"];
+        }
+        
+        
+        //save remotely...
+        SCSessionManager *manager = [SCSessionManager sharedManager];
+        NSEnumerator *enumerator = [sitters objectEnumerator];
+        SCSitter *aSitter;
+        NSDictionary *sitterDict;
+        while ((aSitter = [enumerator nextObject])) {
+            sitterDict = [helper dictionaryFromSitter:aSitter];
+            NSLog(@"sitterDict: %@:", sitterDict);
+            //remote save...
+            [[[manager saveSitterAsDictionary:sitterDict] deliverOn:RACScheduler.mainThreadScheduler] subscribeNext:^(id json) {
+                NSLog(@"sitter %@ had this json response: %@", aSitter.firstName, json);
+            } error:^(NSError *error) {
+                NSLog(@"sitter %@ had the error: %@", aSitter.firstName, error.localizedDescription);
+            }];
+        }
+        
+        [self.tableView reloadData];
+        [hud hide:YES];
+    }
 }
-*/
 
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
+#pragma mark - Helper Methods
+- (void)displayError:(NSError *)error optionalMsg:(NSString *)optionalMsg{
+    NSString *msg = [NSString stringWithFormat:@"%@ %@", [error localizedDescription], optionalMsg];
+    
+    [TSMessage showNotificationWithTitle:@"Error" subtitle:msg type:TSMessageNotificationTypeError];
 }
-*/
 
 
 #pragma mark - Navigation
@@ -134,6 +173,7 @@
     if ([segue.identifier isEqualToString:@"contactsSegue"]) {
         NSLog(@"contacts");
         [destination setValue:self.circle forKey:@"circle"];
+        [destination setValue:self forKey:@"delegate"];
     } else if ([segue.identifier isEqualToString:@"SitterSegue"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
         

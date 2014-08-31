@@ -10,6 +10,7 @@
 #import "SCUser.h"
 #import <ReactiveCocoa/ReactiveCocoa/ReactiveCocoa.h>
 #import <FacebookSDK/FacebookSDK.h>
+@class SCSitter;
 
 @interface SCSessionManager : NSObject
 
@@ -19,9 +20,9 @@
 - (void)logout;
 - (BOOL)facebookTokenAvailable;
 - (RACSignal *)authenticateUsingFacebookWithPermissions:(NSArray *)permissions;
-//- (SCUser *)fetchUserFromCacheOrNetwork;
 - (void)loadUserFromCacheOrNetwork;
 - (void)loadUserFromCacheOrNetworkByFBUser:(id<FBGraphUser>)fbUser fbToken:(NSString *)token;
-//- (SCUser *)fetchUserFromNetworkOnlyByFBID:(NSString *)fbId fbToken:(NSString *)token;
+
 - (BOOL)saveUser:(SCUser *)user;
+- (RACSignal *)saveSitterAsDictionary:(NSDictionary *)dict;
 @end

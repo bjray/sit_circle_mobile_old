@@ -10,6 +10,7 @@
 #import "SCDataManager.h"
 #import "SCPhoneNumber.h"
 #import "SCEmailAddress.h"
+#import "SCCircle.h"
 
 @implementation SCSittersHelper
 +(instancetype)sharedManager {
@@ -72,6 +73,7 @@
         
         phoneNumber.label = theKey;
         phoneNumber.value = [contact.numbers valueForKey:theKey];
+        NSLog(@"phone for %@ is: %@", contact.firstName, phoneNumber.value);
         
         if ([theKey isEqualToString:@"iPhone"]) {
             phoneNumber.isPrimary = YES;
@@ -147,6 +149,16 @@
     }
     
     return result;
+}
+
+- (NSDictionary *)dictionaryFromSitter:(SCSitter *)sitter {
+    NSDictionary *dict = @{@"first_name":(sitter.firstName) ? sitter.firstName : @"",
+                           @"last_name": (sitter.lastName) ? sitter.lastName : @"",
+                           @"phone_number":(sitter.primaryPhone) ? sitter.primaryPhone.value : @"",
+                           @"email":(sitter.primaryEmail) ? sitter.primaryEmail.value : @"",
+                           @"circle_id": (sitter.circle.circleId) ? sitter.circle.circleId : @""};
+
+    return dict;
 }
 
 

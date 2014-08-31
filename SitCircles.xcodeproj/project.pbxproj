@@ -43,10 +43,9 @@
 		B647F63E19AB7F6E008D395F /* SCPhoneNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = B647F63C19AB7F6E008D395F /* SCPhoneNumber.m */; };
 		B647F64119AB7F6F008D395F /* SCUser.m in Sources */ = {isa = PBXBuildFile; fileRef = B647F64019AB7F6F008D395F /* SCUser.m */; };
 		B647F64219AB7F6F008D395F /* SCUser.m in Sources */ = {isa = PBXBuildFile; fileRef = B647F64019AB7F6F008D395F /* SCUser.m */; };
-		B647F64919ABB5D5008D395F /* SCCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = B647F64819ABB5D5008D395F /* SCCircle.m */; };
-		B647F64A19ABB5D5008D395F /* SCCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = B647F64819ABB5D5008D395F /* SCCircle.m */; };
 		B647F69D19ABE5F4008D395F /* SCSitter.m in Sources */ = {isa = PBXBuildFile; fileRef = B647F69C19ABE5F4008D395F /* SCSitter.m */; };
 		B647F69E19ABE5F4008D395F /* SCSitter.m in Sources */ = {isa = PBXBuildFile; fileRef = B647F69C19ABE5F4008D395F /* SCSitter.m */; };
+		B6567AD619B2818E00D6A5D7 /* SCCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = B6567AD519B2818E00D6A5D7 /* SCCircle.m */; };
 		B65A6120197AF94E0016667D /* SCSittersHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B65A611F197AF94E0016667D /* SCSittersHelper.m */; };
 		B65A6121197AF94E0016667D /* SCSittersHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B65A611F197AF94E0016667D /* SCSittersHelper.m */; };
 		B6665502197C6D9800DBA4D6 /* SCSitterTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B6665501197C6D9800DBA4D6 /* SCSitterTableViewCell.m */; };
@@ -129,10 +128,11 @@
 		B647F63C19AB7F6E008D395F /* SCPhoneNumber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCPhoneNumber.m; sourceTree = "<group>"; };
 		B647F63F19AB7F6F008D395F /* SCUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCUser.h; sourceTree = "<group>"; };
 		B647F64019AB7F6F008D395F /* SCUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCUser.m; sourceTree = "<group>"; };
-		B647F64719ABB5D5008D395F /* SCCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCCircle.h; sourceTree = "<group>"; };
-		B647F64819ABB5D5008D395F /* SCCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCCircle.m; sourceTree = "<group>"; };
 		B647F69B19ABE5F4008D395F /* SCSitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCSitter.h; sourceTree = "<group>"; };
 		B647F69C19ABE5F4008D395F /* SCSitter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCSitter.m; sourceTree = "<group>"; };
+		B6567AD419B2818E00D6A5D7 /* SCCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCCircle.h; sourceTree = "<group>"; };
+		B6567AD519B2818E00D6A5D7 /* SCCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCCircle.m; sourceTree = "<group>"; };
+		B6567AD819B2D9BA00D6A5D7 /* SCAddressBookDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCAddressBookDelegate.h; sourceTree = "<group>"; };
 		B65A611E197AF94E0016667D /* SCSittersHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCSittersHelper.h; sourceTree = "<group>"; };
 		B65A611F197AF94E0016667D /* SCSittersHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCSittersHelper.m; sourceTree = "<group>"; };
 		B6665500197C6D9800DBA4D6 /* SCSitterTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCSitterTableViewCell.h; sourceTree = "<group>"; };
@@ -266,9 +266,9 @@
 				B6A53DF91967365F006D95B9 /* SCContact.m */,
 				B617BED31985435F0092ECAB /* SCSessionManager.h */,
 				B617BED41985435F0092ECAB /* SCSessionManager.m */,
-				B647F64719ABB5D5008D395F /* SCCircle.h */,
-				B647F64819ABB5D5008D395F /* SCCircle.m */,
 				B647F62519AB7876008D395F /* Model.xcdatamodeld */,
+				B6567AD419B2818E00D6A5D7 /* SCCircle.h */,
+				B6567AD519B2818E00D6A5D7 /* SCCircle.m */,
 				B647F69B19ABE5F4008D395F /* SCSitter.h */,
 				B647F69C19ABE5F4008D395F /* SCSitter.m */,
 				B647F63F19AB7F6F008D395F /* SCUser.h */,
@@ -281,6 +281,14 @@
 				B647F62A19AB7BDA008D395F /* SCDataManager.m */,
 			);
 			name = Models;
+			sourceTree = "<group>";
+		};
+		B6567AD719B2D97B00D6A5D7 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				B6567AD819B2D9BA00D6A5D7 /* SCAddressBookDelegate.h */,
+			);
+			name = Protocols;
 			sourceTree = "<group>";
 		};
 		B671286E1919E9A200E6AFC1 = {
@@ -320,6 +328,7 @@
 		B67128801919E9A200E6AFC1 /* SitCircles */ = {
 			isa = PBXGroup;
 			children = (
+				B6567AD719B2D97B00D6A5D7 /* Protocols */,
 				B6114EAE19579DF70076BB03 /* Views */,
 				B6114EAD19579DD80076BB03 /* Controllers */,
 				B616C911194FE60400FB5D68 /* Helpers */,
@@ -516,8 +525,8 @@
 				B647F63D19AB7F6E008D395F /* SCPhoneNumber.m in Sources */,
 				B69BDA251967B4F40025C61B /* SCCircleTableViewCell.m in Sources */,
 				B617BECD198400AB0092ECAB /* SCLeftMenuViewController.m in Sources */,
-				B647F64919ABB5D5008D395F /* SCCircle.m in Sources */,
 				B6FD32C7195F670000534CA4 /* SCContactTableViewCell.m in Sources */,
+				B6567AD619B2818E00D6A5D7 /* SCCircle.m in Sources */,
 				B647F69D19ABE5F4008D395F /* SCSitter.m in Sources */,
 				B647F64119AB7F6F008D395F /* SCUser.m in Sources */,
 				B6FD32CB19607D2800534CA4 /* SCContactsHelper.m in Sources */,
@@ -557,7 +566,6 @@
 				B6114EBA1957B9470076BB03 /* SCCirclesViewController.m in Sources */,
 				B647F63A19AB7F6E008D395F /* SCEmailAddress.m in Sources */,
 				B6114ECE1957BEAE0076BB03 /* SCClient.m in Sources */,
-				B647F64A19ABB5D5008D395F /* SCCircle.m in Sources */,
 				B617BECA1983FA7A0092ECAB /* SCRootViewController.m in Sources */,
 				B693374F1943B90B0073E2A0 /* SCLoginHelper.m in Sources */,
 			);

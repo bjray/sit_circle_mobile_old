@@ -26,6 +26,7 @@
 - (instancetype)initWithBaseURL:(NSString *)url {
     if (self == [super init]) {
         NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+        [config setHTTPAdditionalHeaders:@{@"Content-Type": @"application/json"}];
         _session = [NSURLSession sessionWithConfiguration:config];
         self.baseURL = url;
     }
@@ -87,7 +88,6 @@
         
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
         request.HTTPMethod = @"POST";
-        [request setValue:@"application/json" forKey:@"Content-Type"];
         
         NSError *serialError = nil;
         NSData *data = [NSJSONSerialization dataWithJSONObject:dict options:kNilOptions error:&serialError];
@@ -115,7 +115,7 @@
                         } else {
                             //generate error from response...
                             NSLog(@"error: did not get an http 200");
-                            [subscriber sendNext:[self errorFromResponse:(NSHTTPURLResponse *) response]];
+                            [subscriber sendError:[self errorFromResponse:(NSHTTPURLResponse *) response]];
                         }
                     } else {
                         [subscriber sendError:error];

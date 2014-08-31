@@ -10,15 +10,9 @@
 #import "SCContactTableViewCell.h"
 #import "SCContactsHelper.h"
 #import "SCSessionManager.h"
-#import "SCUser.h"
 #import "SCCircle.h"
 #import "SCSittersHelper.h"
-
-#import "MBProgressHUD.h"
-#import <TSMessages/TSMessage.h>
 #import <ReactiveCocoa/ReactiveCocoa/ReactiveCocoa.h>
-
-
 
 @interface SCAddressesViewController () <UISearchDisplayDelegate>
 //@property (nonatomic, retain) NSMutableArray *sitters;    //TODO: replace with userclass property
@@ -62,13 +56,12 @@
 }
 
 - (void)updateSelectedContacts:(NSArray *)contacts {
-//    SCSessionManager *manager = [SCSessionManager sharedManager];
     SCSittersHelper *helper = [SCSittersHelper sharedManager];
     
     for (SCContact *contact in contacts) {
         if ([helper sitters:self.circle.sitters containsContact:contact]) {
             contact.isLocked = YES;
-            [self.selectedContacts addObject:contact];
+//            [self.selectedContacts addObject:contact];
         }
     }
 }
@@ -116,10 +109,8 @@
         
         cell.contact = [[SCContactsHelper sharedManager].contacts objectAtIndex:indexPath.row];
         
-        //TODO: Eventually add logic to checkmark cells that have already been added as sitters...
-        if ([self.selectedContacts containsObject:[[SCContactsHelper sharedManager].contacts objectAtIndex:indexPath.row]]) {
+        if (cell.contact.isLocked) {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
-            
         } else {
             cell.accessoryType = UITableViewCellAccessoryNone;
         }
@@ -181,88 +172,8 @@
 }
 
 - (IBAction)save:(id)sender {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.mode = MBProgressHUDModeIndeterminate;
-    hud.labelText = @"Saving...";
-
-    SCSittersHelper *helper = [SCSittersHelper sharedManager];
-    [self.circle addSitters:[helper sittersFromContacts:self.selectedContacts]];
-    
-    NSError *error = nil;
-    if (![self.circle.managedObjectContext save:&error]) {
-        NSLog(@"error!");
-        [self displayError:error optionalMsg:@"Failed to save sitters!"];
-    } else {
-        [hud hide:YES];
-        [self dismissView];
-    }
-    //TODO: Save sitter to circle
-//    [manager.user.primaryCircle addContactsToSitterList:self.selectedContacts];
-    
-    
-}
-
-#pragma mark - Helper methods...
-- (void)displayError:(NSError *)error optionalMsg:(NSString *)optionalMsg{
-    NSString *msg = [NSString stringWithFormat:@"%@ %@", [error localizedDescription], optionalMsg];
-    
-    [TSMessage showNotificationWithTitle:@"Error" subtitle:msg type:TSMessageNotificationTypeError];
-    [TSMessage showNotificationInViewController:self
-                                          title:@"Error"
-                                       subtitle:msg
-                                          image:nil
-                                           type:TSMessageNotificationTypeError
-                                       duration:3.0
-                                       callback:^{
-                                           [self dismissView];
-                                       }
-                                    buttonTitle:nil
-                                 buttonCallback:nil
-                                     atPosition:TSMessageNotificationPositionTop
-                           canBeDismissedByUser:YES];
-}
-
-- (void)dismissView {
     [self dismissViewControllerAnimated:YES completion:nil];
+    [self.delegate addContactsToSitterList:self.selectedContacts];
 }
 
-#pragma mark - Result controller
-//- (NSFetchedResultsController *)fetchedResultsController
-//{
-//    if (_fetchedResultsController != nil) {
-//        return _fetchedResultsController;
-//    }
-//    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-//    
-//    NSEntityDescription *entity = [NSEntityDescription
-//                                   entityForName:@"SCSitter"
-//                                   inManagedObjectContext:self.circle.managedObjectContext];
-//    [fetchRequest setEntity:entity];
-//    
-//    NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc]
-//                                         initWithKey:@"isPrimary"
-//                                         ascending:NO];
-//    NSSortDescriptor *sortDescriptor2 = [[NSSortDescriptor alloc]
-//                                         initWithKey:@"name"
-//                                         ascending:NO];
-//    
-//    [fetchRequest setSortDescriptors:@[sortDescriptor1, sortDescriptor2]];
-//    NSFetchedResultsController *fetchedResults;
-//    fetchedResults = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
-//                                                         managedObjectContext:manager.user.managedObjectContext
-//                                                           sectionNameKeyPath:nil
-//                                                                    cacheName:nil];
-//    
-//    
-//    
-//    self.fetchedResultsController = fetchedResults;
-//    
-//	NSError *error = nil;
-//    if (![self.fetchedResultsController performFetch:&error]) {
-//	    NSLog(@"Core data error %@, %@", error, [error userInfo]);
-//	    abort();
-//	}
-//    
-//    return _fetchedResultsController;
-//}
 @end
