@@ -25,4 +25,5 @@
 
 - (BOOL)saveUser:(SCUser *)user;
 - (RACSignal *)saveSitterAsDictionary:(NSDictionary *)dict;
+- (RACSignal *)fetchSittersByUser:(SCUser *)user;
 @end

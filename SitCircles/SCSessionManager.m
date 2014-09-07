@@ -383,4 +383,16 @@ NSInteger const kHOURS_TIL_EXPIRE = 24;
     
     return [[self.client postJSONData:dict toRelativeURLString:routes[kURL_KEY_BABYSITTERS]] deliverOn:RACScheduler.mainThreadScheduler];
 }
+
+- (RACSignal *)fetchSittersByUser:(SCUser *)user {
+    NSString *routesPlist = [[NSBundle mainBundle] pathForResource:@"routes" ofType:@"plist"];
+    NSDictionary *routes = [[NSDictionary alloc] initWithContentsOfFile:routesPlist];
+
+    //TODO: Fine now because user will only have 1 circle...
+    SCCircle *aCircle = [user.circles anyObject];
+    NSInteger circleId = [aCircle.circleId integerValue];
+    
+    NSString *urlString = [NSString stringWithFormat:@"%@/%ld", routes[kURL_KEY_BABYSITTERS], circleId];
+    return [[self.client fetchJSONFromRelativeURLString:urlString] deliverOn:RACScheduler.mainThreadScheduler];
+}
 @end

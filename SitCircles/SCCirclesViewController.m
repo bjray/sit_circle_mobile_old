@@ -10,6 +10,8 @@
 #import "SCSessionManager.h"
 #import "SCCircleTableViewCell.h"
 #import "SCCircle.h"
+#import "MBProgressHUD.h"
+#import <TSMessages/TSMessage.h>
 
 @interface SCCirclesViewController ()
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
@@ -32,7 +34,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.tableView reloadData];
+    [self fetchData];
 }
 
 - (void)viewDidUnload {
@@ -45,6 +47,23 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)fetchData {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.mode = MBProgressHUDModeIndeterminate;
+    hud.labelText = @"Loading...";
+    
+    SCSessionManager *manager = [SCSessionManager sharedManager];
+    [[manager fetchSittersByUser:manager.user] subscribeNext:^(id json) {
+        NSLog(@"json received: %@", json);
+        [hud hide:YES];
+        [self.tableView reloadData];
+    } error:^(NSError *error) {
+        NSLog(@"error!");
+        [self displayError:error optionalMsg:nil];
+        [hud hide:YES];
+    }];
 }
 
 #pragma mark - Table view data source
@@ -137,6 +156,14 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 }
+
+#pragma mark - Helper methods...
+- (void)displayError:(NSError *)error optionalMsg:(NSString *)optionalMsg{
+    NSString *msg = [NSString stringWithFormat:@"%@ %@", [error localizedDescription], optionalMsg];
+    
+    [TSMessage showNotificationWithTitle:@"Error" subtitle:msg type:TSMessageNotificationTypeError];
+}
+
 
 #pragma mark - Result controller
 - (NSFetchedResultsController *)fetchedResultsController

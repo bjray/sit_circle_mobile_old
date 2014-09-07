@@ -17,6 +17,6 @@
 - (instancetype)initWithBaseURL:(NSString *)url;
 
 - (RACSignal *)postJSONData:(NSDictionary *)dict toRelativeURLString:(NSString *) urlString;
-//- (void) postJSONData2:(NSData *)data toRelativeURLString:(NSString *) urlString;
+- (RACSignal *)fetchJSONFromRelativeURLString:(NSString *)urlString;
 
 @end

@@ -14,5 +14,6 @@
 @property (weak, nonatomic) SCSitter *sitter;
 @property (weak, nonatomic) IBOutlet UILabel *primaryPhoneLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *sitterImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *warningImageView;
 
 @end

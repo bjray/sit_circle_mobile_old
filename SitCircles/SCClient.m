@@ -34,47 +34,37 @@
     return self;
 }
 
-//- (void) postJSONData2:(NSData *)data toRelativeURLString:(NSString *) urlString {
-//    NSString *fullURL = [NSString stringWithFormat:@"%@%@", self.baseURL, urlString];
-//    NSURL *url = [NSURL URLWithString:fullURL];
-//    
-//    NSLog(@"posting to: %@", url.absoluteString);
-//    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
-//    request.HTTPMethod = @"POST";
-//    
-//    //post data...
-//    NSURLSessionUploadTask *uploadTask = [self.session uploadTaskWithRequest:request
-//                                                                    fromData:data completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-//                                                                        if (!error) {
-//                                                                            //check status code...
-//                                                                            NSInteger status = [(NSHTTPURLResponse *) response statusCode];
-//                                                                            NSLog(@"status code: %ld", (long)status);
-//                                                                            if (status >= 200 && status < 300) {
-//                                                                                //looks good
-//                                                                                NSError *jsonError = nil;
-//                                                                                id json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&jsonError];
-//                                                                                
-//                                                                                if (!jsonError) {
-//                                                                                    //send subscriper serialized json as array or dictionary
-//                                                                                    NSLog(@"json: %@", json);
-//                                                                                } else {
-//                                                                                    //notify subscriber of error
-//                                                                                    NSLog(@"json error: %@", jsonError.localizedDescription);
-//                                                                                }
-//                                                                            } else {
-//                                                                                //generate error from response...
-//                                                                                NSError *httpError =[self errorFromResponse:(NSHTTPURLResponse *) response];
-//                                                                                
-//                                                                                NSLog(@"error: %@", httpError.localizedDescription);
-//                                                                            }
-//                                                                        } else {
-//                                                                            NSLog(@"connection error: %@", error.localizedDescription);
-//                                                                        }
-//                                                                    }];
-//    
-//    [uploadTask resume];
-//    
-//}
+- (RACSignal *)fetchJSONFromRelativeURLString:(NSString *)urlString {
+    NSString *fullURL = [NSString stringWithFormat:@"%@%@", self.baseURL, urlString];
+    NSURL *url = [NSURL URLWithString:fullURL];
+    
+    NSLog(@"fetching from: %@", url.absoluteString);
+    return [[RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+        
+        NSURLSessionDataTask *dataTask = [self.session dataTaskWithURL:url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+            if (!error) {
+                NSError *jsonError = nil;
+                id json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&jsonError];
+                
+                if (!jsonError) {
+                    [subscriber sendNext:json];
+                } else {
+                    [subscriber sendError:jsonError];
+                }
+            } else {
+                [subscriber sendError:error];
+            }
+        }];
+        
+        [dataTask resume];
+        
+        return [RACDisposable disposableWithBlock:^{
+            [dataTask cancel];
+        }];
+    }] doError:^(NSError *error) {
+        NSLog(@"%@", error);
+    }];
+}
 
 
 - (RACSignal *)postJSONData:(NSDictionary *)dict toRelativeURLString:(NSString *) urlString {
@@ -91,6 +81,7 @@
         
         NSError *serialError = nil;
         NSData *data = [NSJSONSerialization dataWithJSONObject:dict options:kNilOptions error:&serialError];
+        NSLog(@"posting data: %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
         if (!serialError) {
             //post data...
             NSURLSessionUploadTask *uploadTask = [self.session uploadTaskWithRequest:request

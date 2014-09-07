@@ -50,6 +50,10 @@
     if (sitter.image) {
         self.sitterImageView.image = sitter.image;
     }
+    
+    if ([self hasWarning]) {
+        self.warningImageView.hidden = NO;
+    }
 }
 
 - (void)setSitterImageView:(UIImageView *)sitterImageView {
@@ -60,5 +64,19 @@
     _sitterImageView.clipsToBounds = YES;
     _sitterImageView.contentMode = UIViewContentModeScaleAspectFill;
     _sitterImageView.layer.cornerRadius = 35;
+}
+
+- (BOOL)hasWarning {
+    BOOL warn = NO;
+    
+    if (!_sitter.primaryPhone) {
+        warn = YES;
     }
+    
+    if ([_sitter.sitterId intValue] == 0) {
+        warn = YES;
+    }
+    
+    return warn;
+}
 @end

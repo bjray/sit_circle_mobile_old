@@ -85,11 +85,7 @@
     // Configure the cell...
     
     SCSitter *sitter = (SCSitter *)[self.fetchedResultsController objectAtIndexPath:indexPath];
-    cell.nameLabel.text = sitter.fullName;
-    cell.primaryPhoneLabel.text = sitter.primaryPhone.value;
-    cell.sitterImageView.image = sitter.image;
-//    cell.primaryPhoneLabel.text = sitter.primaryNumberValue;
-//    cell.sitterImageView.image = sitter.image;
+    cell.sitter = sitter;
     return cell;
 }
 
