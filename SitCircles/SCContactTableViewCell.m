@@ -41,8 +41,13 @@
     } else {
         self.primaryPhoneLabel.text = @"no number found...";
     }
-    if (contact.image) {
-        self.contactImageView.image = contact.image;
+    if (contact.imageData) {
+        self.contactImageView.image = [UIImage imageWithData:contact.imageData];
+    }
+    if (contact.isLocked) {
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.userInteractionEnabled = NO;
+        self.backgroundColor = [UIColor lightGrayColor];
     }
     if (contact.isLocked) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;

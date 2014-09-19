@@ -10,5 +10,8 @@
 #import <FacebookSDK/FacebookSDK.h>
 
 @interface SCLoginViewController : UIViewController
+@property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
+@property (weak, nonatomic) IBOutlet UILabel *welcomeLabel;
 @end

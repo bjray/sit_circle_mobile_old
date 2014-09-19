@@ -6,11 +6,12 @@
 //  Copyright (c) 2014 109Software. All rights reserved.
 //
 
-@import CoreLocation;
+
 #import "SCLoginViewController.h"
 #import "SCTermsConditionsController.h"
 #import "SCAppDelegate.h"
-
+#import "SCSessionManager.h"
+#import <TSMessages/TSMessage.h>
 
 @interface SCLoginViewController () <FBLoginViewDelegate>
 
@@ -28,54 +29,47 @@
     return self;
 }
 
-
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
-    
-    if (FBSession.activeSession.state == FBSessionStateOpen) {
-        NSLog(@"we have a cached user!");
-        
-        [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-            if (!error) {
-                // Success! Include your code to handle the results here
-                SCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-                [appDelegate.user facebookUser:result withToken:FBSession.activeSession.accessTokenData.accessToken];
-                
-                
-//                NSLog(@"user info: %@", result);
-//                NSMutableDictionary<FBOpenGraphObject> *myObject = result;
-//
-//                NSLog(@"fb token: %@", FBSession.activeSession.accessTokenData);
-                [self performSegueWithIdentifier:@"TabBarSegue" sender:self];
-            } else {
-                // An error occurred, we need to handle the error
-                // See: https://developers.facebook.com/docs/ios/errors
-            }
-        }];
-        
-
-    }
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    // Create Login View so that the app will be granted "status_update" permission.
-    FBLoginView *loginView = [[FBLoginView alloc] initWithReadPermissions:@[@"public_profile",@"email", @"user_friends", @"publish_actions", @"read_friendlists"]];
     
-    loginView.frame = CGRectOffset(loginView.frame, (self.view.center.x - (loginView.frame.size.width /2)), (self.view.center.y - (loginView.frame.size.height /2)));
-    loginView.delegate = self;
+    SCSessionManager *session = [SCSessionManager sharedManager];
+    NSArray *fbPermissions = @[@"public_profile",@"email", @"user_friends", @"publish_actions", @"read_friendlists"];
     
-    [self.view addSubview:loginView];
-    [loginView sizeToFit];
-    
-    if (FBSession.activeSession.state == FBSessionStateOpen) {
-        loginView.hidden = YES;
+    if (session.facebookTokenAvailable) {
+        NSLog(@"token is loaded");
+        
+        [[session authenticateUsingFacebookWithPermissions:fbPermissions] subscribeError:^(NSError *error) {
+            NSLog(@"sendError");
+            NSLog(@"DAMN IT!!!");
+        } completed:^{
+            NSLog(@"sendComplete");
+            NSLog(@"ALL GOOD!!!!");
+            [session loadUserFromCacheOrNetwork];
+            
+            
+            [self displayHomePage];
+        }];        
+    } else {
+        self.backgroundImageView.hidden = NO;
+        [self.activityIndicator stopAnimating];
+        self.welcomeLabel.hidden = YES;
+        
+        // Create Login View so that the app will be granted "status_update" permission.
+        FBLoginView *loginView = [[FBLoginView alloc] initWithReadPermissions:fbPermissions];
+        
+        loginView.frame = CGRectOffset(loginView.frame, (self.view.center.x - (loginView.frame.size.width /2)), (self.view.frame.size.height - (loginView.frame.size.height * 3)));
+        //self.view.frame.size.height - (loginView.frame.size.height *2)
+        //self.view.center.y - (loginView.frame.size.height /2)
+        loginView.delegate = self;
+        
+        [self.view addSubview:loginView];
+        [loginView sizeToFit];
+        
+        if (FBSession.activeSession.state == FBSessionStateOpen) {
+            loginView.hidden = YES;
+        }
     }
-    
 }
 
 - (void)didReceiveMemoryWarning
@@ -87,36 +81,37 @@
 
 #pragma mark - Navigation
 
+- (void)displayHomePage {
+    SCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    [appDelegate loadRoot];
+    NSLog(@"did it present?");
+}
+
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     UIViewController *destination = [segue destinationViewController];
     NSLog(@"destination: %@", destination);
-    // Get the new view controller using [segue destinationViewController].
-//    UINavigationController *navVC = [segue destinationViewController];
-//    NSLog(@"navVC: %@", navVC);
-//    SCTermsConditionsController *tcVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"TermsConditionsController"];
     
 }
 
 
 
 #pragma mark - FBLoginViewDelegate
-//for some reason, this method is called twice...
-//- (void)loginViewFetchedUserInfo:(FBLoginView *)loginView
-//                            user:(id<FBGraphUser>)user {
-//    NSLog(@"user: %@", user);
-//    NSLog(@"fb token: %@", FBSession.activeSession.accessTokenData);
-////    [self performSegueWithIdentifier:@"showTCs" sender:self];
-//}
+- (void)loginViewFetchedUserInfo:(FBLoginView *)loginView
+                            user:(id<FBGraphUser>)user {
+    NSLog(@"user: %@", user);
+    NSLog(@"fb token: %@", FBSession.activeSession.accessTokenData);
+    
+    SCSessionManager *session = [SCSessionManager sharedManager];
+    [session loadUserFromCacheOrNetworkByFBUser:user fbToken:FBSession.activeSession.accessTokenData.accessToken];
+    
+    [self displayHomePage];
 
-//- (void)loginViewShowingLoggedInUser:(FBLoginView *)loginView {
-//    NSLog(@"FBLoginView: %@", loginView);
-//}
+}
 
-- (void)loginView:(FBLoginView *)loginView handleError:(NSError *)error {
-    //TODO
-    NSLog(@"handle this someday");
+- (void)loadUser {
+    NSLog(@"what about this?");
 }
 
 @end

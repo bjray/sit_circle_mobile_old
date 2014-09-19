@@ -2,41 +2,24 @@
 //  SCCircle.m
 //  SitCircles
 //
-//  Created by B.J. Ray on 7/4/14.
+//  Created by B.J. Ray on 8/30/14.
 //  Copyright (c) 2014 109Software. All rights reserved.
 //
 
 #import "SCCircle.h"
-#import "SCSitters.h"
-#import "SCAppDelegate.h"
-#import "SCSittersHelper.h"
+#import "SCSitter.h"
+#import "SCUser.h"
+
 
 @implementation SCCircle
-@synthesize sitters = _sitters;
-@synthesize ownerId = _ownerId;
-@synthesize name = _name;
 
-- (id)init {
-    SCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    NSString *ownerId =  appDelegate.user.fbId;
-    
-    return [self initCircleWithName:@"My Circle" sitters:nil ownerId:ownerId];
-}
-
-- (id)initCircleWithName:(NSString *)name sitters:(NSArray *)sitterArray ownerId:(NSString *)ownerId {
-    self = [super init];
-    if (self) {
-        _sitters = sitterArray;
-        _name = name;
-        _ownerId = ownerId;
-    }
-    
-    return self;
-}
-
-- (void)addSitter:(__autoreleasing id<SCSitters> *)sitter {
-    
-}
+@dynamic circleId;
+@dynamic isPrimary;
+@dynamic name;
+@dynamic createdAt;
+@dynamic updatedAt;
+@dynamic sitters;
+@dynamic user;
 
 - (void)addContactsToSitterList:(NSArray *)contacts {
     SCSittersHelper *sitterHelper = [SCSittersHelper sharedManager];

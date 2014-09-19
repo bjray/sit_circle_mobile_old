@@ -7,6 +7,10 @@
 //
 
 #import "SCSittersHelper.h"
+#import "SCDataManager.h"
+#import "SCPhoneNumber.h"
+#import "SCEmailAddress.h"
+#import "SCCircle.h"
 
 
 @implementation SCSittersHelper
@@ -29,8 +33,9 @@
     return self;
 }
 
-- (NSMutableArray *)sittersFromContacts:(NSArray *)contacts {
-    NSMutableArray *sitters = [NSMutableArray array];
+
+- (NSSet *)sittersFromContacts:(NSArray *)contacts {
+    NSMutableSet *sitters = [NSMutableSet set];
     
     for (SCContact *contact in contacts) {
         [sitters addObject:[self sitterFromContact:contact]];
@@ -40,22 +45,82 @@
 }
 
 - (SCSitter *)sitterFromContact:(SCContact *)contact {
-    SCSitter *sitter = [[SCSitter alloc] init];
+    SCDataManager *dataManager = [SCDataManager sharedManager];
+    NSManagedObjectContext *context = [dataManager managedObjectContext];
+    SCSitter *sitter = [NSEntityDescription insertNewObjectForEntityForName:@"SCSitter"
+                                                     inManagedObjectContext:context];
+    
     sitter.firstName = contact.firstName;
     sitter.lastName = contact.lastName;
-    sitter.addressBookId = contact.uniqueId;
-    sitter.numbers = contact.numbers;
-    sitter.emails = contact.emails;
-    sitter.image = contact.image;
-    sitter.primaryEmailLabel = contact.primaryEmailLabel;
-    sitter.primaryEmailValue = contact.primaryEmailValue;
-    sitter.primaryNumberLabel = contact.primaryNumberLabel;
-    sitter.primaryNumberValue = contact.primaryNumberValue;
+    sitter.addressBookId = [NSNumber numberWithLong:contact.uniqueId];
+    [sitter addPhoneNumbers:[self phoneNumbersSetFromContact:contact forContext:context]];
+    [sitter addEmailAddresses:[self emailAddressSetFromContact:contact forContext:context]];
+    sitter.imageData = contact.imageData;
 
     return sitter;
 }
 
-- (BOOL)sitters:(NSArray *)sitters containsContact:(id)contact {
+- (NSSet *)phoneNumbersSetFromContact:(SCContact *)contact forContext:(NSManagedObjectContext *)context {
+    NSMutableSet *set = [NSMutableSet set];
+    SCPhoneNumber *phoneNumber;
+    
+    
+    NSEnumerator *enumerator = [contact.numbers keyEnumerator];
+    NSString *theKey = nil;
+    
+    while ((theKey = [enumerator nextObject])) {
+        phoneNumber = [NSEntityDescription insertNewObjectForEntityForName:@"SCPhoneNumber"
+                                                    inManagedObjectContext:context];
+        
+        phoneNumber.label = theKey;
+        phoneNumber.value = [contact.numbers valueForKey:theKey];
+        NSLog(@"phone for %@ is: %@", contact.firstName, phoneNumber.value);
+        
+        if ([theKey isEqualToString:@"iPhone"]) {
+            phoneNumber.isPrimary = YES;
+        } else if ([theKey isEqualToString:@"Mobile"]) {
+            phoneNumber.isPrimary = YES;
+        }
+        [set addObject:phoneNumber];
+    }
+    
+    //if there is only one, always make it primary...
+    if (([set count] == 1) && (phoneNumber != nil)) {
+        phoneNumber.isPrimary = YES;
+    }
+    
+    return set;
+}
+
+- (NSSet *)emailAddressSetFromContact:(SCContact *)contact forContext:(NSManagedObjectContext *)context {
+    NSMutableSet *set = [NSMutableSet set];
+    SCEmailAddress *emailAddress;
+    
+    NSEnumerator *enumerator = [contact.emails keyEnumerator];
+    NSString *theKey = nil;
+    int i = 0;
+    
+    
+    while ((theKey = [enumerator nextObject])) {
+        emailAddress = [NSEntityDescription insertNewObjectForEntityForName:@"SCEmailAddress"
+                                                    inManagedObjectContext:context];
+        
+        emailAddress.label = theKey;
+        emailAddress.value = [contact.emails valueForKey:theKey];
+        if (i == 0) {
+            emailAddress.isPrimary = YES;
+        }
+        
+        [set addObject:emailAddress];
+        i++;
+    }
+    
+    
+    return set;
+}
+
+
+- (BOOL)sitters:(NSSet *)sitters containsContact:(id)contact {
     BOOL result = NO;
     if ([contact isKindOfClass:[SCContact class]]) {
         
@@ -79,11 +144,33 @@
 - (BOOL)compareSitter:(SCSitter *)sitter toContact:(SCContact *)contact {
     BOOL result = NO;
     
-    if (sitter.addressBookId == contact.uniqueId) {
+    if ([sitter.addressBookId integerValue] == contact.uniqueId) {
         result = YES;
     }
     
     return result;
 }
+
+- (NSDictionary *)dictionaryFromSitter:(SCSitter *)sitter {
+    NSDictionary *dict = @{@"first_name":(sitter.firstName) ? sitter.firstName : @"",
+                           @"last_name": (sitter.lastName) ? sitter.lastName : @"",
+                           @"phone_number":(sitter.primaryPhone) ? sitter.primaryPhone.value : @"",
+                           @"email":(sitter.primaryEmail) ? sitter.primaryEmail.value : @"",
+                           @"circle_id": (sitter.circle.circleId) ? sitter.circle.circleId : @""};
+
+    return dict;
+}
+
+
+//- (BOOL)containsContact:(id)contact {
+//    BOOL result = NO;
+//    
+//    
+//    
+//    SCSittersHelper *sitterHelper = [SCSittersHelper sharedManager];
+//    result = [sitterHelper sitters:self.sitters containsContact:contact];
+//    
+//    return result;
+//}
 
 @end

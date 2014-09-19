@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RESideMenu.h"
 
 @interface SCHomeTableViewController : UITableViewController <UIPickerViewDataSource, UIPickerViewDelegate>
 

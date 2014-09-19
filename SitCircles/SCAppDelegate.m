@@ -8,6 +8,7 @@
 
 #import "SCAppDelegate.h"
 #import <FacebookSDK/FacebookSDK.h>
+#import "SCSessionManager.h"
 
 @implementation SCAppDelegate
 
@@ -21,21 +22,20 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
-    if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded) {
-        NSLog(@"token is loaded");
-    }
-    
-    if (FBSession.activeSession.state == FBSessionStateOpen) {
-        NSLog(@"session is open!");
-        // Push the next view controller without animation
-    }
+
     
     // TODO: Temp logic - replace with real User object...
-    self.user = [[SCUser alloc] init];
+//    self.user = [[SCUser alloc] init];
     
     return YES;
 }
+
+- (void)loadRoot {
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UIViewController *initViewController = [storyboard instantiateViewControllerWithIdentifier:@"rootViewController"];
+    [self.window setRootViewController:initViewController];
+}
+
 							
 - (void)applicationWillResignActive:(UIApplication *)application
 {
@@ -64,5 +64,6 @@
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
+
 
 @end

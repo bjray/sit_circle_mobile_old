@@ -15,7 +15,8 @@
 @property (nonatomic, copy) NSString *lastName;
 @property (nonatomic, copy) NSDictionary *numbers;
 @property (nonatomic, copy) NSDictionary *emails;
-@property (nonatomic, retain) UIImage *image;
+//@property (nonatomic, retain) UIImage *image;
+@property (nonatomic, retain) NSData *imageData;
 
 @property (nonatomic, retain, readonly) NSString *primaryNumberLabel;
 @property (nonatomic, retain, readonly) NSString *primaryNumberValue;
