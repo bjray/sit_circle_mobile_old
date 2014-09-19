@@ -10,29 +10,29 @@
 	<string>SitCircles</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>2BCE1100-3625-4F0D-AC85-8F27379131E0</key>
+		<key>5B43AB2E9144E5A1A463565FC0C1D877EF3C6E0E</key>
 		<string>https://github.com/bjray/sit_circle_mobile.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>SitCircles.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>2BCE1100-3625-4F0D-AC85-8F27379131E0</key>
+		<key>5B43AB2E9144E5A1A463565FC0C1D877EF3C6E0E</key>
 		<string>..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/bjray/sit_circle_mobile.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>2BCE1100-3625-4F0D-AC85-8F27379131E0</string>
+	<string>5B43AB2E9144E5A1A463565FC0C1D877EF3C6E0E</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>2BCE1100-3625-4F0D-AC85-8F27379131E0</string>
+			<string>5B43AB2E9144E5A1A463565FC0C1D877EF3C6E0E</string>
 			<key>IDESourceControlWCCName</key>
 			<string>sit_circle_mobile</string>
 		</dict>
