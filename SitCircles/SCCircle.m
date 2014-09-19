@@ -21,17 +21,4 @@
 @dynamic sitters;
 @dynamic user;
 
-- (void)addContactsToSitterList:(NSArray *)contacts {
-    SCSittersHelper *sitterHelper = [SCSittersHelper sharedManager];
-    self.sitters = [sitterHelper sittersFromContacts:contacts];
-}
-
-- (BOOL)containsContact:(id)contact {
-    BOOL result = NO;
-    SCSittersHelper *sitterHelper = [SCSittersHelper sharedManager];
-    result = [sitterHelper sitters:self.sitters containsContact:contact];
-    
-    return result;
-}
-
 @end

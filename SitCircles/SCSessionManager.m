@@ -174,14 +174,14 @@ NSInteger const kHOURS_TIL_EXPIRE = 24;
 
 }
 
-- (BOOL)saveUser:(SCUser *)user {
-    BOOL result = NO;
-    
-    [self saveUserToCache:user];
-    [self saveUserToServer:user];
-    
-    return result;
-}
+//- (BOOL)saveUser:(SCUser *)user {
+//    BOOL result = NO;
+//    
+//    [self saveUserToCache:user];
+//    [self saveUserToServer:user];
+//    
+//    return result;
+//}
 
 - (BOOL)saveUserToCache:(SCUser *) user {
     BOOL result = NO;

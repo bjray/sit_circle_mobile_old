@@ -172,13 +172,6 @@
 }
 
 - (IBAction)save:(id)sender {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.mode = MBProgressHUDModeIndeterminate;
-    hud.labelText = @"Saving...";
-    SCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    [appDelegate.user.primaryCircle addContactsToSitterList:self.selectedContacts];
-    
-    
     [self dismissViewControllerAnimated:YES completion:nil];
     [self.delegate addContactsToSitterList:self.selectedContacts];
 }
