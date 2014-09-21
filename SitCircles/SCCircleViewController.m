@@ -7,16 +7,25 @@
 //
 
 #import "SCCircleViewController.h"
-#import "SCAppDelegate.h"
+#import "SCSessionManager.h"
+#import "SCSitterTableViewCell.h"
 #import "SCUser.h"
 #import "SCCircle.h"
 #import "SCSitter.h"
+#import "SCPhoneNumber.h"
+#import "SCEmailAddress.h"
+#import "SCSittersHelper.h"
+
+#import "MBProgressHUD.h"
+#import <TSMessages/TSMessage.h>
+#import <ReactiveCocoa/ReactiveCocoa/ReactiveCocoa.h>
 
 @interface SCCircleViewController ()
-
+@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 @end
 
 @implementation SCCircleViewController
+@synthesize fetchedResultsController = _fetchedResultsController;
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     if(self = [super initWithCoder:aDecoder]) {
@@ -41,6 +50,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    self.fetchedResultsController = nil;
     [super viewWillAppear:animated];
     [self.tableView reloadData];
 }
@@ -61,25 +71,19 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-    SCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    //TODO: Dont default to primary circle - user may select any circle...
-    return [appDelegate.user.primaryCircle.sitters count];
+    return [self.circle.sitters count];
+    
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"sitterCell" forIndexPath:indexPath];
+    SCSitterTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"sitterCell" forIndexPath:indexPath];
     
     // Configure the cell...
-    SCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    //TODO: Dont default to primary circle - user may select any circle...
-    SCCircle *circle = appDelegate.user.primaryCircle;
-    SCSitter *sitter = [circle.sitters objectAtIndex:indexPath.row];
-    cell.textLabel.text = sitter.fullName;
-    cell.detailTextLabel.text = sitter.primaryNumberValue;
-    cell.imageView.image = sitter.image;
+    SCSitter *sitter = (SCSitter *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+    cell.sitter = sitter;
+
     return cell;
 }
 
@@ -106,31 +110,110 @@
 }
 */
 
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
+#pragma mark - Delegate Methods
+- (void)addContactsToSitterList:(NSArray *)contacts {
+    if (contacts.count > 0) {
+        
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.mode = MBProgressHUDModeIndeterminate;
+        hud.labelText = @"Saving...";
+        
+        //save locally...
+        SCSittersHelper *helper = [SCSittersHelper sharedManager];
+        NSSet *sitters = [helper sittersFromContacts:contacts];
+        [self.circle addSitters:sitters];
+        
+        NSError *error = nil;
+        if (![self.circle.managedObjectContext save:&error]) {
+            NSLog(@"error!");
+            [self displayError:error optionalMsg:@"Failed to save sitters!"];
+        }
+        
+        
+        //save remotely...
+        SCSessionManager *manager = [SCSessionManager sharedManager];
+        NSEnumerator *enumerator = [sitters objectEnumerator];
+        SCSitter *aSitter;
+        NSDictionary *sitterDict;
+        while ((aSitter = [enumerator nextObject])) {
+            sitterDict = [helper dictionaryFromSitter:aSitter];
+            NSLog(@"sitterDict: %@:", sitterDict);
+            //remote save...
+            [[[manager saveSitterAsDictionary:sitterDict] deliverOn:RACScheduler.mainThreadScheduler] subscribeNext:^(id json) {
+                NSLog(@"sitter %@ had this json response: %@", aSitter.firstName, json);
+            } error:^(NSError *error) {
+                NSLog(@"sitter %@ had the error: %@", aSitter.firstName, error.localizedDescription);
+            }];
+        }
+        
+        [self.tableView reloadData];
+        [hud hide:YES];
+    }
 }
-*/
 
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
+#pragma mark - Helper Methods
+- (void)displayError:(NSError *)error optionalMsg:(NSString *)optionalMsg{
+    NSString *msg = [NSString stringWithFormat:@"%@ %@", [error localizedDescription], optionalMsg];
+    
+    [TSMessage showNotificationWithTitle:@"Error" subtitle:msg type:TSMessageNotificationTypeError];
 }
-*/
 
-/*
+
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    UIViewController *destination = [segue destinationViewController];
+    if ([segue.identifier isEqualToString:@"contactsSegue"]) {
+        NSLog(@"contacts");
+        [destination setValue:self.circle forKey:@"circle"];
+        [destination setValue:self forKey:@"delegate"];
+    } else if ([segue.identifier isEqualToString:@"SitterSegue"]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+        
+        SCSitter *aSitter = (SCSitter *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+        [destination setValue:aSitter forKeyPath:@"sitter"];
+    }
 }
-*/
+
+#pragma mark - Result controller
+- (NSFetchedResultsController *)fetchedResultsController
+{
+    if (_fetchedResultsController != nil) {
+        return _fetchedResultsController;
+    }
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    
+    NSEntityDescription *entity = [NSEntityDescription
+                                   entityForName:@"SCSitter"
+                                   inManagedObjectContext:self.circle.managedObjectContext];
+    [fetchRequest setEntity:entity];
+    
+    NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc]
+                                         initWithKey:@"lastName"
+                                         ascending:NO];
+    NSSortDescriptor *sortDescriptor2 = [[NSSortDescriptor alloc]
+                                         initWithKey:@"firstName"
+                                         ascending:NO];
+    
+    [fetchRequest setSortDescriptors:@[sortDescriptor1, sortDescriptor2]];
+    NSFetchedResultsController *fetchedResults;
+    fetchedResults = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+                                                         managedObjectContext:self.circle.managedObjectContext
+                                                           sectionNameKeyPath:nil
+                                                                    cacheName:nil];
+    
+    
+    
+    self.fetchedResultsController = fetchedResults;
+    
+	NSError *error = nil;
+    if (![self.fetchedResultsController performFetch:&error]) {
+	    NSLog(@"Core data error %@, %@", error, [error userInfo]);
+	    abort();
+	}
+    
+    return _fetchedResultsController;
+}
 
 @end

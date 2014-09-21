@@ -17,6 +17,7 @@
 
 //- (NSString *)saveSitter:(SCSitter *)sitter forCircleId:(NSString *)circleId;
 - (SCSitter *)sitterFromContact:(SCContact *)contact;
-- (NSMutableArray *)sittersFromContacts:(NSArray *)contacts;
-- (BOOL)sitters:(NSArray *)sitters containsContact:(id)contact;
+- (NSSet *)sittersFromContacts:(NSArray *)contacts;
+- (BOOL)sitters:(NSSet *)sitters containsContact:(id)contact;
+- (NSDictionary *)dictionaryFromSitter:(SCSitter *)sitter;
 @end

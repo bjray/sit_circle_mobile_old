@@ -9,26 +9,24 @@
 #import "SCAddressesViewController.h"
 #import "SCContactTableViewCell.h"
 #import "SCContactsHelper.h"
-#import "SCAppDelegate.h"
-#import "SCUser.h"
+#import "SCSessionManager.h"
 #import "SCCircle.h"
-
-#import "MBProgressHUD.h"
-#import <TSMessages/TSMessage.h>
+#import "SCSittersHelper.h"
 #import <ReactiveCocoa/ReactiveCocoa/ReactiveCocoa.h>
 
-
-
 @interface SCAddressesViewController () <UISearchDisplayDelegate>
-@property (nonatomic, retain) NSMutableArray *sitters;    //TODO: replace with userclass property
+//@property (nonatomic, retain) NSMutableArray *sitters;    //TODO: replace with userclass property
 @property (nonatomic, retain) NSMutableArray *selectedContacts;
-
+@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 @end
 
 @implementation SCAddressesViewController
+
 {
     NSArray *_searchResults;
 }
+
+@synthesize fetchedResultsController = _fetchedResultsController;
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     if(self = [super initWithCoder:aDecoder]) {
@@ -58,11 +56,12 @@
 }
 
 - (void)updateSelectedContacts:(NSArray *)contacts {
-    SCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    SCSittersHelper *helper = [SCSittersHelper sharedManager];
+    
     for (SCContact *contact in contacts) {
-        if ([appDelegate.user.primaryCircle containsContact:contact]) {
+        if ([helper sitters:self.circle.sitters containsContact:contact]) {
             contact.isLocked = YES;
-            [self.selectedContacts addObject:contact];
+//            [self.selectedContacts addObject:contact];
         }
     }
 }
@@ -110,10 +109,8 @@
         
         cell.contact = [[SCContactsHelper sharedManager].contacts objectAtIndex:indexPath.row];
         
-        //TODO: Eventually add logic to checkmark cells that have already been added as sitters...
-        if ([self.selectedContacts containsObject:[[SCContactsHelper sharedManager].contacts objectAtIndex:indexPath.row]]) {
+        if (cell.contact.isLocked) {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
-            
         } else {
             cell.accessoryType = UITableViewCellAccessoryNone;
         }
@@ -167,30 +164,16 @@
     return [[SCContactsHelper sharedManager].contacts filteredArrayUsingPredicate:predicate];
 }
 
-#pragma mark - Picker DataSource Methods
--(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
-    return 0;
-}
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-    return 0;
-}
-
-#pragma mark - Picker Delegate Methods
-
 #pragma mark - User Actions
 
 - (IBAction)cancel:(id)sender {
+    self.selectedContacts = nil;
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)save:(id)sender {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.mode = MBProgressHUDModeIndeterminate;
-    hud.labelText = @"Saving...";
-    SCAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    [appDelegate.user.primaryCircle addContactsToSitterList:self.selectedContacts];
-    
-    
     [self dismissViewControllerAnimated:YES completion:nil];
+    [self.delegate addContactsToSitterList:self.selectedContacts];
 }
+
 @end

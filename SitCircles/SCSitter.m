@@ -2,41 +2,88 @@
 //  SCSitter.m
 //  SitCircles
 //
-//  Created by B.J. Ray on 7/19/14.
+//  Created by B.J. Ray on 8/25/14.
 //  Copyright (c) 2014 109Software. All rights reserved.
 //
 
 #import "SCSitter.h"
+#import "SCCircle.h"
+#import "SCEmailAddress.h"
+#import "SCPhoneNumber.h"
+#import "SCDataManager.h"
 
-@interface SCSitter()
-
-
+@interface SCSitter ()
 @end
 
 @implementation SCSitter
-@synthesize sitterId = _sitterId;
-@synthesize addressBookId = _addressBookId;
-@synthesize firstName = _firstName;
-@synthesize lastName = _lastName;
-@synthesize  numbers = _numbers;
-@synthesize emails = _emails;
-@synthesize image = _image;
-@synthesize primaryEmailLabel = _primaryEmailLabel;
-@synthesize primaryEmailValue = _primaryEmailValue;
-@synthesize primaryNumberLabel = _primaryNumberLabel;
-@synthesize primaryNumberValue = _primaryNumberValue;
-
-
-
-- (id)init {
-    if (self = [super init]) {
-        self.sitterId = nil;
-    }
-    
-    return self;
-}
+@dynamic imageData;
+@dynamic firstName;
+@dynamic lastName;
+@dynamic addressBookId;
+@dynamic sitterId;
+@dynamic circle;
+@dynamic emailAddresses;
+@dynamic phoneNumbers;
 
 - (NSString *)fullName {
-    return [NSString stringWithFormat:@"%@ %@", _firstName, _lastName];
+    return [NSString stringWithFormat:@"%@ %@", self.firstName, self.lastName];
 }
+
+- (UIImage *)image {
+    return [UIImage imageWithData:self.imageData];
+}
+
+
+- (SCPhoneNumber *)primaryPhone {
+
+    
+    SCPhoneNumber *pNumber = nil;
+
+//    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+//    NSError *error;
+//    NSEntityDescription *entity = [NSEntityDescription entityForName:@"SCPhoneNumber"
+//                                              inManagedObjectContext:self.managedObjectContext];
+//    
+//    
+//    [request setEntity:entity];
+//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isPrimary == 1"];
+//    [request setPredicate:predicate];
+//    
+//
+//    NSArray *objects = [self.managedObjectContext executeFetchRequest:request error:&error];
+    for (SCPhoneNumber *number in self.phoneNumbers) {
+        if (number.isPrimary) {
+            pNumber = number;
+            break;
+        }
+    }
+    
+    return pNumber;
+}
+
+- (SCEmailAddress *)primaryEmail {
+    
+    SCEmailAddress *pEmail = nil;
+//    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+//    NSError *error;
+//    NSEntityDescription *entity = [NSEntityDescription entityForName:@"SCEmailAddress"
+//                                              inManagedObjectContext:self.managedObjectContext];
+//    
+//    
+//    [request setEntity:entity];
+//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isPrimary == 1"];
+//    [request setPredicate:predicate];
+//    
+//    
+//    NSArray *objects = [self.managedObjectContext executeFetchRequest:request error:&error];
+    for (SCEmailAddress *email in self.emailAddresses) {
+        if (email.isPrimary) {
+            pEmail = email;
+            break;
+        }
+    }
+    
+    return pEmail;
+}
+
 @end
