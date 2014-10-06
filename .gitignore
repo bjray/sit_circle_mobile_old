@@ -26,3 +26,4 @@ profile
 DerivedData
 *.hmap
 *.ipa
+*xcuserdata*
