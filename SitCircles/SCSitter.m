@@ -30,7 +30,11 @@
 }
 
 - (UIImage *)image {
-    return [UIImage imageWithData:self.imageData];
+    if (self.imageData) {
+        return [UIImage imageWithData:self.imageData];
+    }
+    
+    return [UIImage imageNamed:@"placeholder"];
 }
 
 
