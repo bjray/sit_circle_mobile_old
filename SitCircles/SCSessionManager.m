@@ -91,7 +91,7 @@ NSInteger const kHOURS_TIL_EXPIRE = 24;
     //check if user is in cache
     SCUser *user = [self fetchUserFromCache];
     if (user != nil) {
-        if (![user.fbID isEqualToString:fbUser.id]) {
+        if (![user.fbID isEqualToString:fbUser.objectID]) {
             NSLog(@"Ahhh shit - user in DB doesn't match?");
             //TODO: delete user and create a new one...
         }
@@ -114,7 +114,7 @@ NSInteger const kHOURS_TIL_EXPIRE = 24;
         [userDict setObject:token forKey:@"access_token"];
         [userDict setObject:fbUser.first_name forKey:@"first_name"];
         [userDict setObject:fbUser.last_name forKey:@"last_name"];
-        [userDict setObject:fbUser.id forKey:@"facebook_id"];
+        [userDict setObject:fbUser.objectID forKey:@"facebook_id"];
         
         [[self saveUserToServer:userDict] subscribeNext:^(id json) {
             self.user = [self createNewUserFromUserDictionary:json];

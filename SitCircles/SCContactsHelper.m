@@ -75,8 +75,8 @@
     if ([self.contacts count] > 0) {
         return self.contacts;
     }
-    CFErrorRef *error;
-    ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, error);
+//    CFErrorRef *error;
+    ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, nil);
     CFArrayRef allPeople = ABAddressBookCopyArrayOfAllPeople( addressBook );
     NSInteger peopleCount = ABAddressBookGetPersonCount(addressBook);
     SCContact *contact;
