@@ -58,12 +58,13 @@
     [[manager fetchSittersByUser:manager.user] subscribeNext:^(id json) {
         NSLog(@"json received: %@", json);
         [hud hide:YES];
-        [self.tableView reloadData];
+        
     } error:^(NSError *error) {
         NSLog(@"error!");
         [self displayError:error optionalMsg:nil];
         [hud hide:YES];
     }];
+    [self.tableView reloadData];
 }
 
 #pragma mark - Table view data source
