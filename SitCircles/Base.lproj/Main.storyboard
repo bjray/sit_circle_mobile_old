@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="RqQ-K3-QsT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="RqQ-K3-QsT">
     <dependencies>
-        <deployment defaultVersion="1808" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <scenes>
@@ -23,9 +22,18 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="200"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="sittingCircleTmp" translatesAutoresizingMaskIntoConstraints="NO" id="avf-wN-FDG">
-                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="200"/>
-                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="12" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aQG-fg-e2b">
+                                                    <rect key="frame" x="85" y="52" width="150" height="67"/>
+                                                    <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="72"/>
+                                                    <color key="textColor" red="0.90196078430000004" green="0.47058823529999999" blue="0.090196078430000007" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Sitters" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q6z-Cz-maI">
+                                                    <rect key="frame" x="85" y="127" width="150" height="21"/>
+                                                    <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="24"/>
+                                                    <color key="textColor" red="0.90196078430000004" green="0.47058823529999999" blue="0.090196078430000007" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -157,6 +165,9 @@
                         <outlet property="appointmentDatePicker" destination="ClR-zE-zRb" id="8Re-Js-EWI"/>
                         <outlet property="appointmentDurationLbl" destination="08x-JE-AN6" id="65y-cb-RLq"/>
                         <outlet property="appointmentDurationPicker" destination="Ipq-7p-2eq" id="uPw-iN-akA"/>
+                        <outlet property="sitterCountLabel" destination="aQG-fg-e2b" id="Hon-kD-Bde"/>
+                        <outlet property="sitterLabel" destination="q6z-Cz-maI" id="I8a-zj-Hld"/>
+                        <outlet property="tableCellView" destination="CFG-0C-JKc" id="Vb5-xz-3bN"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W6L-kz-WVa" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -659,7 +670,6 @@
         <image name="calendar" width="40" height="40"/>
         <image name="loading" width="640" height="1136"/>
         <image name="seperator" width="260" height="10"/>
-        <image name="sittingCircleTmp" width="320" height="200"/>
         <image name="timer" width="40" height="40"/>
         <image name="warningBadge" width="70" height="70"/>
     </resources>

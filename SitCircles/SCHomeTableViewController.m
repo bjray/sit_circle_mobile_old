@@ -7,6 +7,10 @@
 //
 
 #import "SCHomeTableViewController.h"
+#import "SCSessionManager.h"
+#import "SCUser.h"
+#import "SCCircle.h"
+
 
 #define CIRCLE_ROW 0
 #define DATE_ROW 2
@@ -45,6 +49,67 @@
 
     self.minutesArray = @[@"0",@"15",@"30",@"45"];
     
+    [self displaySitterCount];
+    [self.appointmentDatePicker setMinimumDate:[NSDate date]];
+}
+
+
+- (void)displaySitterCount {
+    SCSessionManager *manager = [SCSessionManager sharedManager];
+    SCCircle *primaryCircle = [manager.user.circles anyObject];
+    self.sitterCountLabel.text = [NSString stringWithFormat:@"%ld", [primaryCircle.sitters count]];
+    
+    UIColor *blue = [UIColor colorWithRed:(89.0/255.0) green:(181.0/255.0) blue:(218.0/255.0) alpha:1.0];
+//    UIColor *orange = [UIColor colorWithRed:(230.0/255.0) green:(120.0/255.0) blue:(23.0/255.0) alpha:1.0];
+    int radius = 80;
+    CAShapeLayer *circle = [self drawCircleWithColor:blue radius:radius];
+    [self animateCircle:circle];
+    [self fadeInSitterCount];
+    
+}
+
+- (void)fadeInSitterCount {
+    [UIView animateWithDuration:0.3
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         self.sitterCountLabel.alpha = 1.0;
+                         self.sitterLabel.alpha = 1.0;
+                     } completion:^(BOOL finished) {
+                         nil;
+                     }];
+}
+
+- (CAShapeLayer *)drawCircleWithColor: (UIColor *) color radius:(int) radius {
+    CAShapeLayer *circle = [CAShapeLayer layer];
+    
+//    NSLog(@"tablecell Frame: %@", NSStringFromCGRect(self.tableCellView.frame));
+    
+    circle.path = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(0, 0, 2*radius, 2*radius)].CGPath;
+    circle.position = CGPointMake(CGRectGetMidX(self.tableCellView.frame)-radius, CGRectGetMidY(self.tableCellView.frame)-radius);
+    
+//    NSLog(@"circle Position: %@", NSStringFromCGPoint(circle.position));
+    
+    circle.fillColor = [UIColor clearColor].CGColor;
+    circle.strokeColor = color.CGColor;
+    circle.lineWidth = 5.0;
+    
+    return circle;
+}
+
+- (void)animateCircle: (CAShapeLayer *) circle {
+    
+    [self.tableCellView.layer addSublayer:circle];
+    
+    CABasicAnimation *drawAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
+    drawAnimation.delegate = self;
+    drawAnimation.duration = 0.5; //animate over 3 seconds
+    drawAnimation.repeatCount = 1.0;
+    
+    drawAnimation.fromValue = [NSNumber numberWithFloat:0.0f];
+    drawAnimation.toValue = [NSNumber numberWithFloat:1.0f];
+    drawAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+    [circle addAnimation:drawAnimation forKey:@"drawCircleAnimation"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -69,16 +134,6 @@
 //    return 0;
 //}
 
-/*
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
-    
-    // Configure the cell...
-    
-    return cell;
-}
-*/
 
 
 #pragma mark - Table View Delegate Methods
