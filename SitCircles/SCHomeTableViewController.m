@@ -10,11 +10,13 @@
 #import "SCSessionManager.h"
 #import "SCUser.h"
 #import "SCCircle.h"
+#import "SCCustomNoteViewController.h"
 
 
 #define CIRCLE_ROW 0
 #define DATE_ROW 2
 #define DURATION_ROW 4
+#define NOTE_ROW 6
 #define ANIMATION_DURATION 0.25f
 
 @interface SCHomeTableViewController ()
@@ -25,6 +27,7 @@
 {
     NSInteger _hour;
     NSInteger _minute;
+    SCCustomNoteViewController *_customNoteVC;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -54,63 +57,7 @@
 }
 
 
-- (void)displaySitterCount {
-    SCSessionManager *manager = [SCSessionManager sharedManager];
-    SCCircle *primaryCircle = [manager.user.circles anyObject];
-    self.sitterCountLabel.text = [NSString stringWithFormat:@"%ld", [primaryCircle.sitters count]];
-    
-    UIColor *blue = [UIColor colorWithRed:(89.0/255.0) green:(181.0/255.0) blue:(218.0/255.0) alpha:1.0];
-//    UIColor *orange = [UIColor colorWithRed:(230.0/255.0) green:(120.0/255.0) blue:(23.0/255.0) alpha:1.0];
-    int radius = 80;
-    CAShapeLayer *circle = [self drawCircleWithColor:blue radius:radius];
-    [self animateCircle:circle];
-    [self fadeInSitterCount];
-    
-}
 
-- (void)fadeInSitterCount {
-    [UIView animateWithDuration:0.3
-                          delay:0
-                        options:UIViewAnimationOptionCurveEaseIn
-                     animations:^{
-                         self.sitterCountLabel.alpha = 1.0;
-                         self.sitterLabel.alpha = 1.0;
-                     } completion:^(BOOL finished) {
-                         nil;
-                     }];
-}
-
-- (CAShapeLayer *)drawCircleWithColor: (UIColor *) color radius:(int) radius {
-    CAShapeLayer *circle = [CAShapeLayer layer];
-    
-//    NSLog(@"tablecell Frame: %@", NSStringFromCGRect(self.tableCellView.frame));
-    
-    circle.path = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(0, 0, 2*radius, 2*radius)].CGPath;
-    circle.position = CGPointMake(CGRectGetMidX(self.tableCellView.frame)-radius, CGRectGetMidY(self.tableCellView.frame)-radius);
-    
-//    NSLog(@"circle Position: %@", NSStringFromCGPoint(circle.position));
-    
-    circle.fillColor = [UIColor clearColor].CGColor;
-    circle.strokeColor = color.CGColor;
-    circle.lineWidth = 5.0;
-    
-    return circle;
-}
-
-- (void)animateCircle: (CAShapeLayer *) circle {
-    
-    [self.tableCellView.layer addSublayer:circle];
-    
-    CABasicAnimation *drawAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
-    drawAnimation.delegate = self;
-    drawAnimation.duration = 0.5; //animate over 3 seconds
-    drawAnimation.repeatCount = 1.0;
-    
-    drawAnimation.fromValue = [NSNumber numberWithFloat:0.0f];
-    drawAnimation.toValue = [NSNumber numberWithFloat:1.0f];
-    drawAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
-    [circle addAnimation:drawAnimation forKey:@"drawCircleAnimation"];
-}
 
 - (void)didReceiveMemoryWarning
 {
@@ -167,6 +114,9 @@
     } else {
         [self hidePicker:self.appointmentDatePicker withLabel:self.appointmentDateLabel];
         [self hidePicker:self.appointmentDurationPicker withLabel:self.appointmentDurationLbl];
+        if (indexPath.row == NOTE_ROW-1) {
+            [self addCustomNote];
+        }
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -267,6 +217,16 @@
     self.appointmentDateLabel.text = [self formatDate:self.appointmentDatePicker.date];
 }
 
+- (void)cancelNote {
+    NSLog(@"Cancel");
+    [self hideCustomNoteView];
+}
+
+- (void)saveNote {
+    NSLog(@"Save");
+    [self hideCustomNoteView];
+}
+
 #pragma mark - Helper Methods
 - (void)showPicker:(UIView *)picker withLabel:(UILabel *)label {
     //    NSIndexPath *pickerCellPath = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
@@ -279,6 +239,9 @@
     [UIView animateWithDuration:ANIMATION_DURATION animations:^{
         picker.alpha = 1.0f;
     }];
+    
+    //This ensures date gets set the first time...
+    [self appointmentDateChanged:picker];
     
 }
 
@@ -307,5 +270,94 @@
 	}
     
 	return [formatter stringFromDate:theDate];
+}
+
+- (void)displaySitterCount {
+    SCSessionManager *manager = [SCSessionManager sharedManager];
+    SCCircle *primaryCircle = [manager.user.circles anyObject];
+    self.sitterCountLabel.text = [NSString stringWithFormat:@"%ld", [primaryCircle.sitters count]];
+    
+    UIColor *blue = [UIColor colorWithRed:(89.0/255.0) green:(181.0/255.0) blue:(218.0/255.0) alpha:1.0];
+    //    UIColor *orange = [UIColor colorWithRed:(230.0/255.0) green:(120.0/255.0) blue:(23.0/255.0) alpha:1.0];
+    int radius = 80;
+    CAShapeLayer *circle = [self drawCircleWithColor:blue radius:radius];
+    [self animateCircle:circle];
+    [self fadeInSitterCount];
+    
+}
+
+- (void)fadeInSitterCount {
+    [UIView animateWithDuration:0.3
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         self.sitterCountLabel.alpha = 1.0;
+                         self.sitterLabel.alpha = 1.0;
+                     } completion:^(BOOL finished) {
+                         nil;
+                     }];
+}
+
+- (CAShapeLayer *)drawCircleWithColor: (UIColor *) color radius:(int) radius {
+    CAShapeLayer *circle = [CAShapeLayer layer];
+    
+    //    NSLog(@"tablecell Frame: %@", NSStringFromCGRect(self.tableCellView.frame));
+    
+    circle.path = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(0, 0, 2*radius, 2*radius)].CGPath;
+    circle.position = CGPointMake(CGRectGetMidX(self.tableCellView.frame)-radius, CGRectGetMidY(self.tableCellView.frame)-radius);
+    
+    //    NSLog(@"circle Position: %@", NSStringFromCGPoint(circle.position));
+    
+    circle.fillColor = [UIColor clearColor].CGColor;
+    circle.strokeColor = color.CGColor;
+    circle.lineWidth = 5.0;
+    
+    return circle;
+}
+
+- (void)animateCircle: (CAShapeLayer *) circle {
+    
+    [self.tableCellView.layer addSublayer:circle];
+    
+    CABasicAnimation *drawAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
+    drawAnimation.delegate = self;
+    drawAnimation.duration = 0.5; //animate over 3 seconds
+    drawAnimation.repeatCount = 1.0;
+    
+    drawAnimation.fromValue = [NSNumber numberWithFloat:0.0f];
+    drawAnimation.toValue = [NSNumber numberWithFloat:1.0f];
+    drawAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+    [circle addAnimation:drawAnimation forKey:@"drawCircleAnimation"];
+}
+
+- (void)addCustomNote {
+    _customNoteVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SCCustomNoteViewController"];
+    [self addChildViewController:_customNoteVC];
+    _customNoteVC.view.frame = self.view.bounds;
+    _customNoteVC.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    [self.view addSubview:_customNoteVC.view];
+    [_customNoteVC didMoveToParentViewController:self];
+    
+    [_customNoteVC.cancelButton addTarget:self action:@selector(cancelNote) forControlEvents:UIControlEventTouchUpInside];
+    [_customNoteVC.submitButton addTarget:self action:@selector(saveNote) forControlEvents:UIControlEventTouchUpInside];
+    
+    _customNoteVC.view.alpha = 0.0f;
+    [UIView animateWithDuration:0.4 animations:^{
+        _customNoteVC.view.alpha = 1.0f;
+    }];
+}
+
+
+
+- (void)hideCustomNoteView {
+    [UIView animateWithDuration:0.2 animations:^{
+        _customNoteVC.view.alpha = 0.0f;
+        
+    } completion:^(BOOL finished) {
+        [_customNoteVC willMoveToParentViewController:nil];
+        [_customNoteVC.view removeFromSuperview];
+        [_customNoteVC removeFromParentViewController];
+        _customNoteVC = nil;
+    }];
 }
 @end

@@ -73,6 +73,8 @@
 		B6A53DFB1967365F006D95B9 /* SCContact.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A53DF91967365F006D95B9 /* SCContact.m */; };
 		B6A53E091967A808006D95B9 /* SCTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A53E081967A808006D95B9 /* SCTabBarController.m */; };
 		B6A53E0A1967A808006D95B9 /* SCTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A53E081967A808006D95B9 /* SCTabBarController.m */; };
+		B6E21EFA19F0BF9F00E38D3C /* SCCustomNoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6E21EF919F0BF9F00E38D3C /* SCCustomNoteViewController.m */; };
+		B6E21EFB19F0BF9F00E38D3C /* SCCustomNoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6E21EF919F0BF9F00E38D3C /* SCCustomNoteViewController.m */; };
 		B6FD32C7195F670000534CA4 /* SCContactTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FD32C6195F670000534CA4 /* SCContactTableViewCell.m */; };
 		B6FD32C8195F670000534CA4 /* SCContactTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FD32C6195F670000534CA4 /* SCContactTableViewCell.m */; };
 		B6FD32CB19607D2800534CA4 /* SCContactsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FD32CA19607D2800534CA4 /* SCContactsHelper.m */; };
@@ -164,6 +166,8 @@
 		B6A53DF91967365F006D95B9 /* SCContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCContact.m; sourceTree = "<group>"; };
 		B6A53E071967A808006D95B9 /* SCTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCTabBarController.h; sourceTree = "<group>"; };
 		B6A53E081967A808006D95B9 /* SCTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCTabBarController.m; sourceTree = "<group>"; };
+		B6E21EF819F0BF9F00E38D3C /* SCCustomNoteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCCustomNoteViewController.h; sourceTree = "<group>"; };
+		B6E21EF919F0BF9F00E38D3C /* SCCustomNoteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCCustomNoteViewController.m; sourceTree = "<group>"; };
 		B6FD32C5195F670000534CA4 /* SCContactTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCContactTableViewCell.h; sourceTree = "<group>"; };
 		B6FD32C6195F670000534CA4 /* SCContactTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCContactTableViewCell.m; sourceTree = "<group>"; };
 		B6FD32C919607D2800534CA4 /* SCContactsHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCContactsHelper.h; sourceTree = "<group>"; };
@@ -209,6 +213,8 @@
 				B633C5541933EC7E00B0B8F5 /* SCLoginViewController.m */,
 				B616C909194E5E7500FB5D68 /* SCHomeTableViewController.h */,
 				B616C90A194E5E7500FB5D68 /* SCHomeTableViewController.m */,
+				B6E21EF819F0BF9F00E38D3C /* SCCustomNoteViewController.h */,
+				B6E21EF919F0BF9F00E38D3C /* SCCustomNoteViewController.m */,
 				B616C90D194E5EE600FB5D68 /* SCTermsConditionsController.h */,
 				B616C90E194E5EE600FB5D68 /* SCTermsConditionsController.m */,
 				B6114EB71957B9470076BB03 /* SCCirclesViewController.h */,
@@ -518,7 +524,6 @@
 				B616C90B194E5E7500FB5D68 /* SCHomeTableViewController.m in Sources */,
 				B633C5551933EC7E00B0B8F5 /* SCLoginViewController.m in Sources */,
 				B6114ECD1957BEAE0076BB03 /* SCClient.m in Sources */,
-				B65A611C197AF1E60016667D /* SCSitter.m in Sources */,
 				B6A53DFA1967365F006D95B9 /* SCContact.m in Sources */,
 				B617BED51985435F0092ECAB /* SCSessionManager.m in Sources */,
 				B65A6120197AF94E0016667D /* SCSittersHelper.m in Sources */,
@@ -533,6 +538,7 @@
 				B6FD32CB19607D2800534CA4 /* SCContactsHelper.m in Sources */,
 				B647F62B19AB7BDA008D395F /* SCDataManager.m in Sources */,
 				B6114EC51957BA110076BB03 /* SCAddressesViewController.m in Sources */,
+				B6E21EFA19F0BF9F00E38D3C /* SCCustomNoteViewController.m in Sources */,
 				B6114EB91957B9470076BB03 /* SCCirclesViewController.m in Sources */,
 				B67128871919E9A200E6AFC1 /* main.m in Sources */,
 			);
@@ -555,6 +561,7 @@
 				B647F69E19ABE5F4008D395F /* SCSitter.m in Sources */,
 				B6A53E0A1967A808006D95B9 /* SCTabBarController.m in Sources */,
 				B65A6121197AF94E0016667D /* SCSittersHelper.m in Sources */,
+				B6E21EFB19F0BF9F00E38D3C /* SCCustomNoteViewController.m in Sources */,
 				B6114EC21957B9D80076BB03 /* SCSitterViewController.m in Sources */,
 				B6665503197C6D9800DBA4D6 /* SCSitterTableViewCell.m in Sources */,
 				B6114EC61957BA110076BB03 /* SCAddressesViewController.m in Sources */,
