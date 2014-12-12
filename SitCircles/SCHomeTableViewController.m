@@ -46,6 +46,7 @@
     [super viewDidLoad];
     self.appointmentDatePicker.hidden = YES;
     self.appointmentDurationPicker.hidden = YES;
+    self.tableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"table_background"]];
     
     _hour = 0;
     _minute = 0;
@@ -172,7 +173,7 @@
         default:
             break;
     }
-    
+    label.textColor = [UIColor whiteColor];
     label.text = title;
     
     return label;
@@ -187,7 +188,6 @@
     } else if (component == 2) {
         _minute = [[_minutesArray objectAtIndex:row] integerValue];
     }
-    
     self.appointmentDurationLbl.text = [NSString stringWithFormat:@"%li hr %li min", _hour, _minute];
 }
 
@@ -247,7 +247,7 @@
 
 - (void)hidePicker:(UIView *)picker withLabel:(UILabel *)label {
     
-    label.textColor = [UIColor blackColor];
+    label.textColor = [UIColor whiteColor];
     
     if (!picker.hidden) {
         [UIView animateWithDuration:ANIMATION_DURATION animations:^{

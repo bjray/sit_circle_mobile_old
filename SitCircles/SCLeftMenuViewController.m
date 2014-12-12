@@ -87,13 +87,13 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         cell.backgroundColor = [UIColor clearColor];
         cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:21];
-        cell.textLabel.textColor = [UIColor darkGrayColor];
+        cell.textLabel.textColor = [UIColor lightGrayColor];
         cell.textLabel.highlightedTextColor = [UIColor lightGrayColor];
         cell.selectedBackgroundView = [[UIView alloc] init];
     }
     
     NSArray *titles = @[@"Home", @"Circles", @"Settings"];
-    NSArray *images = @[@"apptTabSelected", @"iconCircles", @"settingsTab"];
+    NSArray *images = @[@"appointment", @"circles", @"settings"];
     cell.textLabel.text = titles[indexPath.row];
     cell.imageView.image = [UIImage imageNamed:images[indexPath.row]];
     

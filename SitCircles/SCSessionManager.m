@@ -392,7 +392,7 @@ NSInteger const kHOURS_TIL_EXPIRE = 24;
     SCCircle *aCircle = [user.circles anyObject];
     NSInteger circleId = [aCircle.circleId integerValue];
     
-    NSString *urlString = [NSString stringWithFormat:@"%@/%ld", routes[kURL_KEY_BABYSITTERS], circleId];
+    NSString *urlString = [NSString stringWithFormat:@"%@?circle_id=%ld", routes[kURL_KEY_BABYSITTERS], circleId];
     return [[self.client fetchJSONFromRelativeURLString:urlString] deliverOn:RACScheduler.mainThreadScheduler];
 }
 @end
