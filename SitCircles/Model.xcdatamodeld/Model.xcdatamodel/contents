@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6244" systemVersion="13F34" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="SCAcknowledgement" syncable="YES">
+    <entity name="SCAcknowledgement" representedClassName="SCAcknowledgement" syncable="YES">
         <attribute name="acknowledgementId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
         <relationship name="appointment" maxCount="1" deletionRule="Nullify" destinationEntity="SCAppointment" inverseName="acknowledgements" inverseEntity="SCAppointment" syncable="YES"/>
         <relationship name="babysitter" maxCount="1" deletionRule="Nullify" destinationEntity="SCSitter" inverseName="acknowledgements" inverseEntity="SCSitter" syncable="YES"/>
     </entity>
-    <entity name="SCAppointment" syncable="YES">
+    <entity name="SCAppointment" representedClassName="SCAppointment" syncable="YES">
         <attribute name="appointmentId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="endDate" optional="YES" attributeType="Date" syncable="YES"/>
