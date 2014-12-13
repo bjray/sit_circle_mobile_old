@@ -185,7 +185,7 @@ NSInteger const kHOURS_TIL_EXPIRE = 24;
 
 - (BOOL)saveUserToCache:(SCUser *) user {
     BOOL result = NO;
-    SCDataManager *dataManager = [SCDataManager sharedManager];
+//    SCDataManager *dataManager = [SCDataManager sharedManager];
     
     
 //    SCUserCache *cache = [SCCacheManager loadUserCache];

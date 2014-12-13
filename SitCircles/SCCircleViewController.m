@@ -164,7 +164,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     UIViewController *destination = [segue destinationViewController];
-    if ([segue.identifier isEqualToString:@"contactsSegue"]) {
+    if ([segue.identifier isEqualToString:@"ContactsSegue"]) {
         NSLog(@"contacts");
         [destination setValue:self.circle forKey:@"circle"];
         [destination setValue:self forKey:@"delegate"];

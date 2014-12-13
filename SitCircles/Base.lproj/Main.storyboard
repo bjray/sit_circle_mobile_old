@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="RqQ-K3-QsT">
     <dependencies>
+        <deployment defaultVersion="1808" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <scenes>
@@ -182,7 +183,7 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <connections>
-                                            <segue destination="aLT-7L-fV0" kind="push" id="RCe-3f-K0d"/>
+                                            <segue destination="aLT-7L-fV0" kind="push" identifier="UpcomingSegue" id="RCe-3f-K0d"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="PendingSegue" id="9GM-0J-bLF">
@@ -202,7 +203,7 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <connections>
-                                            <segue destination="aLT-7L-fV0" kind="push" id="ldw-uy-GcE"/>
+                                            <segue destination="aLT-7L-fV0" kind="push" identifier="PendingAcksSegue" id="ldw-uy-GcE"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
@@ -243,7 +244,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="7bx-AB-HJl">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="appointmentCell" id="7bx-AB-HJl">
                                 <rect key="frame" x="0.0" y="86" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7bx-AB-HJl" id="1c2-w4-D8D">
@@ -394,8 +395,8 @@
                     </navigationBar>
                     <connections>
                         <segue destination="jmS-hY-uPz" kind="relationship" relationship="rootViewController" id="0oX-cF-pEp"/>
-                        <segue destination="lCt-d2-e0L" kind="push" id="nfF-U0-mUn"/>
-                        <segue destination="rsy-U1-4Jd" kind="push" id="qwr-Ry-qb5"/>
+                        <segue destination="lCt-d2-e0L" kind="push" identifier="MyCircleSegue" id="nfF-U0-mUn"/>
+                        <segue destination="rsy-U1-4Jd" kind="push" identifier="SettingsSegue" id="qwr-Ry-qb5"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M7U-b7-j3e" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -545,7 +546,7 @@
                     <navigationItem key="navigationItem" title="My Sitting Circle" id="2WB-yc-Ug9">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="r2N-yT-7Ba">
                             <connections>
-                                <segue destination="i20-dV-m8k" kind="modal" identifier="contactsSegue" id="Jrs-Jx-I8f"/>
+                                <segue destination="i20-dV-m8k" kind="modal" identifier="ContactsSegue" id="Jrs-Jx-I8f"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -622,10 +623,10 @@
             </objects>
             <point key="canvasLocation" x="2403" y="-318"/>
         </scene>
-        <!--Title-->
+        <!--Contacts-->
         <scene sceneID="hI2-ce-Dql">
             <objects>
-                <viewController id="i20-dV-m8k" customClass="SCAddressesViewController" sceneMemberID="viewController">
+                <viewController title="Contacts" id="i20-dV-m8k" customClass="SCAddressesViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="drF-Bj-7Re"/>
                         <viewControllerLayoutGuide type="bottom" id="OJR-8b-wG5"/>
@@ -793,6 +794,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="ldw-uy-GcE"/>
+        <segue reference="RCe-3f-K0d"/>
     </inferredMetricsTieBreakers>
 </document>
