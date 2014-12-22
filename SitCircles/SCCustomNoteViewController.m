@@ -18,6 +18,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"menu_background"]];
     // Do any additional setup after loading the view.
+    self.textView.layer.cornerRadius = 5;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -25,14 +26,14 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (IBAction)save:(id)sender {
+    NSString *note = self.textView.text;
+    self.saveCallback(note);
 }
-*/
+
+- (IBAction)cancel:(id)sender {
+    self.cancelCallback();
+}
 
 @end

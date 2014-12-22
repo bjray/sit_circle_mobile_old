@@ -11,22 +11,30 @@
 #import "SCUser.h"
 #import "SCCircle.h"
 #import "SCCustomNoteViewController.h"
+#import <ReactiveCocoa/ReactiveCocoa.h>
 
 
 #define CIRCLE_ROW 0
+#define WHEN_LABEL_ROW 1
 #define DATE_ROW 2
+#define HOW_LONG_LABEL_ROW 3
 #define DURATION_ROW 4
-#define NOTE_ROW 6
+#define NOTE_ROW 5
+#define BOOK_IT_ROW 6
+#define APPOINTMENTS_ROW 7
 #define ANIMATION_DURATION 0.25f
+static NSString *defaultNote = @"Hey #sitter#, I'm looking for a babysitter and was hoping you are available.  Reply to this message if you are available.  Thanks!";
 
 @interface SCHomeTableViewController ()
 @property (nonatomic, retain)NSArray *minutesArray;
+@property (nonatomic) BOOL canBook;
+@property (nonatomic, retain)NSDate *startDate;
+@property (nonatomic, retain)NSDate *endDate;
+@property (nonatomic, retain)NSString *note;
 @end
 
 @implementation SCHomeTableViewController
 {
-    NSInteger _hour;
-    NSInteger _minute;
     SCCustomNoteViewController *_customNoteVC;
 }
 
@@ -44,17 +52,45 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.canBook = NO;
     self.appointmentDatePicker.hidden = YES;
     self.appointmentDurationPicker.hidden = YES;
     self.tableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"table_background"]];
     
-    _hour = 0;
-    _minute = 0;
-
     self.minutesArray = @[@"0",@"15",@"30",@"45"];
+    self.startDate = [NSDate date];
     
     [self displaySitterCount];
-    [self.appointmentDatePicker setMinimumDate:[NSDate date]];
+    [self.appointmentDatePicker setMinimumDate:self.startDate];
+    
+
+    RACSignal *startDateSignal = [[RACObserve(self, startDate) skip:1] doNext:^(id x) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:WHEN_LABEL_ROW inSection:0];
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+        [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+    }];
+    
+    RACSignal *endDateSignal = [RACObserve(self, endDate) doNext:^(id x) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:HOW_LONG_LABEL_ROW inSection:0];
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+        [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+    }];
+    
+    
+    [RACObserve(self, note) subscribeNext:^(id x) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:NOTE_ROW inSection:0];
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+        [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+    }];
+    
+    RAC(self, canBook) = [[RACSignal combineLatest:@[startDateSignal, endDateSignal]
+                                           reduce:^id(NSDate *startDt, NSDate *endDt){
+                                               return @((startDt != nil) && (endDt != nil));
+                                           }] doNext:^(id x) {
+                                               NSIndexPath *indexPath = [NSIndexPath indexPathForItem:BOOK_IT_ROW inSection:0];
+                                               UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+                                               [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+                                           }];
 }
 
 
@@ -77,12 +113,15 @@
         return self.appointmentDatePicker.hidden ? 0.0f : 217.0f;
     } else if (indexPath.row == DURATION_ROW) {
         return self.appointmentDurationPicker.hidden ? 0.0f : 217.0f;
+    } else if (indexPath.row == APPOINTMENTS_ROW) {
+        return 67.0f;
     } else {
-        return 44.0f;
+        return 55.0f;
     }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"indexPath: %ld", indexPath.row);
     if (indexPath.row == DATE_ROW-1) {
         if (self.appointmentDatePicker.hidden) {
             [self showPicker:self.appointmentDatePicker withLabel:self.appointmentDateLabel];
@@ -97,10 +136,17 @@
         } else {
             [self hidePicker:self.appointmentDurationPicker withLabel:self.appointmentDurationLbl];
         }
-    } else {
+    } else if (indexPath.row == BOOK_IT_ROW) {
+        if (self.canBook) {
+            NSLog(@"lets book this bitch!");
+            [self scheduleAppointment];
+        } else {
+            NSLog(@"can't book yet...");
+        }
+    }else {
         [self hidePicker:self.appointmentDatePicker withLabel:self.appointmentDateLabel];
         [self hidePicker:self.appointmentDurationPicker withLabel:self.appointmentDurationLbl];
-        if (indexPath.row == NOTE_ROW-1) {
+        if (indexPath.row == NOTE_ROW) {
             [self addCustomNote];
         }
     }
@@ -165,15 +211,18 @@
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-
     NSLog(@"picker row selected");
+    NSInteger hour = 0;
+    NSInteger minute = 0;
     
     if (component == 0) {
-        _hour = row;
+        hour = row;
     } else if (component == 2) {
-        _minute = [[_minutesArray objectAtIndex:row] integerValue];
+        minute = [[_minutesArray objectAtIndex:row] integerValue];
     }
-    self.appointmentDurationLbl.text = [NSString stringWithFormat:@"%li hr %li min", _hour, _minute];
+    
+    self.endDate = [self dateFromStartDate:self.startDate hours:hour minutes:minute];
+    self.appointmentDurationLbl.text = [NSString stringWithFormat:@"%li hr %li min", hour, minute];
 }
 
 - (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component
@@ -186,33 +235,70 @@
 	return 40.0;
 }
 
-/*
+
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
+    BOOL result = NO;
+    if ([identifier isEqualToString:@"BookItSegue"]) {
+        result = self.canBook;
+    }
+    return result;
 }
-*/
+
+//// In a storyboard-based application, you will often want to do a little preparation before navigation
+//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+//{
+//    // Pass the selected object to the new view controller.
+//}
+
 
 #pragma mark - User Actions
 - (IBAction)appointmentDateChanged:(id)sender {
+    self.startDate = self.appointmentDatePicker.date;
     self.appointmentDateLabel.text = [self formatDate:self.appointmentDatePicker.date];
 }
 
 - (void)cancelNote {
     NSLog(@"Cancel");
-    [self hideCustomNoteView];
 }
 
-- (void)saveNote {
-    NSLog(@"Save");
-    [self hideCustomNoteView];
+- (void)saveNote:(NSString *)note {
+    self.note = note;
+    NSLog(@"new note...");
+}
+
+- (void)scheduleAppointment {
+//    NSDate *beginDate;
+//    NSDate *endDate;
+//    NSString *note = @"";
+    SCSessionManager *manager = [SCSessionManager sharedManager];
+    [[[manager createAppointmentForUser:manager.user
+                            startDate:self.startDate
+                              endDate:self.endDate
+                                 note:self.note]
+      deliverOn:RACScheduler.mainThreadScheduler]
+     subscribeNext:^(NSDictionary *json) {
+         NSLog(@"json");
+    } error:^(NSError *error) {
+        NSLog(@"error");
+    }];
+    
 }
 
 #pragma mark - Helper Methods
+
+- (void)fetchData {
+    SCSessionManager *manager = [SCSessionManager sharedManager];
+    [[[manager fetchAppointmentsByUser:manager.user]
+      deliverOn:RACScheduler.mainThreadScheduler]
+     subscribeNext:^(id x) {
+         NSLog(@"json");
+     } error:^(NSError *error) {
+         NSLog(@"error");
+     }];
+}
+
 - (void)showPicker:(UIView *)picker withLabel:(UILabel *)label {
     //    NSIndexPath *pickerCellPath = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
     label.textColor = self.tableView.tintColor;
@@ -252,6 +338,8 @@
 		formatter = [[NSDateFormatter alloc] init];
 		[formatter setDateStyle:NSDateFormatterMediumStyle];
 		[formatter setTimeStyle:NSDateFormatterShortStyle];
+//        [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZ"];
+//        [self.formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZ"];
 	}
     
 	return [formatter stringFromDate:theDate];
@@ -286,12 +374,8 @@
 - (CAShapeLayer *)drawCircleWithColor: (UIColor *) color radius:(int) radius {
     CAShapeLayer *circle = [CAShapeLayer layer];
     
-    //    NSLog(@"tablecell Frame: %@", NSStringFromCGRect(self.tableCellView.frame));
-    
     circle.path = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(0, 0, 2*radius, 2*radius)].CGPath;
     circle.position = CGPointMake(CGRectGetMidX(self.tableCellView.frame)-radius, CGRectGetMidY(self.tableCellView.frame)-radius);
-    
-    //    NSLog(@"circle Position: %@", NSStringFromCGPoint(circle.position));
     
     circle.fillColor = [UIColor clearColor].CGColor;
     circle.strokeColor = color.CGColor;
@@ -322,9 +406,18 @@
     _customNoteVC.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.view addSubview:_customNoteVC.view];
     [_customNoteVC didMoveToParentViewController:self];
+    _customNoteVC.textView.text = defaultNote;
+    __weak SCHomeTableViewController *weakSelf = self;
+
+    _customNoteVC.saveCallback = ^(NSString *note) {
+        [weakSelf saveNote:note];
+        [weakSelf hideCustomNoteView];
+    };
     
-    [_customNoteVC.cancelButton addTarget:self action:@selector(cancelNote) forControlEvents:UIControlEventTouchUpInside];
-    [_customNoteVC.submitButton addTarget:self action:@selector(saveNote) forControlEvents:UIControlEventTouchUpInside];
+    _customNoteVC.cancelCallback = ^{
+        [weakSelf cancelNote];
+        [weakSelf hideCustomNoteView];
+    };
     
     _customNoteVC.view.alpha = 0.0f;
     [UIView animateWithDuration:0.4 animations:^{
@@ -345,4 +438,13 @@
         _customNoteVC = nil;
     }];
 }
+
+- (NSDate *)dateFromStartDate:(NSDate *)startDt hours:(NSInteger)hrs minutes:(NSInteger)mins {
+    NSTimeInterval totalSeconds = (hrs * 3600) + (mins * 60);
+    NSDate *newDate = [startDt dateByAddingTimeInterval:totalSeconds];
+    NSLog(@"delta dateTime: %@", newDate);
+    return newDate;
+}
+
+
 @end

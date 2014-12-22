@@ -395,4 +395,38 @@ NSInteger const kHOURS_TIL_EXPIRE = 24;
     NSString *urlString = [NSString stringWithFormat:@"%@?circle_id=%ld", routes[kURL_KEY_BABYSITTERS], circleId];
     return [[self.client fetchJSONFromRelativeURLString:urlString] deliverOn:RACScheduler.mainThreadScheduler];
 }
+
+- (RACSignal *)createAppointmentForUser:(SCUser *)user
+                              startDate:(NSDate *)start
+                                endDate:(NSDate *)end
+                                   note:(NSString *)note {
+    NSString *routesPlist = [[NSBundle mainBundle] pathForResource:@"routes" ofType:@"plist"];
+    NSDictionary *routes = [[NSDictionary alloc] initWithContentsOfFile:routesPlist];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    NSMutableDictionary *details = [NSMutableDictionary dictionary];
+    
+    
+    [details setObject:[self.formatter stringFromDate:start] forKey:@"start_date"];
+    [details setObject:[self.formatter stringFromDate:end] forKey:@"end_date"];
+    [details setObject:note forKey:@"note"];
+    
+    //TODO: Fine now because user will only have 1 circle...
+    SCCircle *aCircle = [user.circles anyObject];
+    [dict setObject:aCircle.circleId forKey:@"circle_id"];
+    [dict setObject:details forKey:@"appointment"];
+    
+    return [[self.client postJSONData:dict toRelativeURLString:routes[kURL_KEY_APPOINTMENT]] deliverOn:RACScheduler.mainThreadScheduler];
+}
+
+- (RACSignal *)fetchAppointmentsByUser:(SCUser *)user {
+    NSString *routesPlist = [[NSBundle mainBundle] pathForResource:@"routes" ofType:@"plist"];
+    NSDictionary *routes = [[NSDictionary alloc] initWithContentsOfFile:routesPlist];
+    
+    //TODO: Fine now because user will only have 1 circle...
+    SCCircle *aCircle = [user.circles anyObject];
+    NSInteger circleId = [aCircle.circleId integerValue];
+    NSString *urlString = [NSString stringWithFormat:@"%@?circle_id=%ld", routes[kURL_KEY_BABYSITTERS], circleId];
+    return [[self.client fetchJSONFromRelativeURLString:urlString] deliverOn:RACScheduler.mainThreadScheduler];
+    
+}
 @end
