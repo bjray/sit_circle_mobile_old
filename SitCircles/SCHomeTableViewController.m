@@ -91,6 +91,8 @@ static NSString *defaultNote = @"Hey #sitter#, I'm looking for a babysitter and 
                                                UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
                                                [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
                                            }];
+    
+    [self fetchData];
 }
 
 
@@ -444,6 +446,11 @@ static NSString *defaultNote = @"Hey #sitter#, I'm looking for a babysitter and 
     NSDate *newDate = [startDt dateByAddingTimeInterval:totalSeconds];
     NSLog(@"delta dateTime: %@", newDate);
     return newDate;
+}
+
+- (void)updateAppointmentDetailsLabel {
+//    self.apptDetailsLabel
+    
 }
 
 
