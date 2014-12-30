@@ -80,6 +80,8 @@
 		B6A53E0A1967A808006D95B9 /* SCTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A53E081967A808006D95B9 /* SCTabBarController.m */; };
 		B6E21EFA19F0BF9F00E38D3C /* SCCustomNoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6E21EF919F0BF9F00E38D3C /* SCCustomNoteViewController.m */; };
 		B6E21EFB19F0BF9F00E38D3C /* SCCustomNoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6E21EF919F0BF9F00E38D3C /* SCCustomNoteViewController.m */; };
+		B6F8518E1A48CEE2008CD9F9 /* SCAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6F8518D1A48CEE2008CD9F9 /* SCAlertViewController.m */; };
+		B6F8518F1A48CEE2008CD9F9 /* SCAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6F8518D1A48CEE2008CD9F9 /* SCAlertViewController.m */; };
 		B6FD32C7195F670000534CA4 /* SCContactTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FD32C6195F670000534CA4 /* SCContactTableViewCell.m */; };
 		B6FD32C8195F670000534CA4 /* SCContactTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FD32C6195F670000534CA4 /* SCContactTableViewCell.m */; };
 		B6FD32CB19607D2800534CA4 /* SCContactsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FD32CA19607D2800534CA4 /* SCContactsHelper.m */; };
@@ -177,6 +179,8 @@
 		B6A53E081967A808006D95B9 /* SCTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCTabBarController.m; sourceTree = "<group>"; };
 		B6E21EF819F0BF9F00E38D3C /* SCCustomNoteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCCustomNoteViewController.h; sourceTree = "<group>"; };
 		B6E21EF919F0BF9F00E38D3C /* SCCustomNoteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCCustomNoteViewController.m; sourceTree = "<group>"; };
+		B6F8518C1A48CEE2008CD9F9 /* SCAlertViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCAlertViewController.h; sourceTree = "<group>"; };
+		B6F8518D1A48CEE2008CD9F9 /* SCAlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCAlertViewController.m; sourceTree = "<group>"; };
 		B6FD32C5195F670000534CA4 /* SCContactTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCContactTableViewCell.h; sourceTree = "<group>"; };
 		B6FD32C6195F670000534CA4 /* SCContactTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCContactTableViewCell.m; sourceTree = "<group>"; };
 		B6FD32C919607D2800534CA4 /* SCContactsHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCContactsHelper.h; sourceTree = "<group>"; };
@@ -238,6 +242,8 @@
 				B6A53E081967A808006D95B9 /* SCTabBarController.m */,
 				B617BECF198403770092ECAB /* SCSettingsViewController.h */,
 				B617BED0198403770092ECAB /* SCSettingsViewController.m */,
+				B6F8518C1A48CEE2008CD9F9 /* SCAlertViewController.h */,
+				B6F8518D1A48CEE2008CD9F9 /* SCAlertViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -554,6 +560,7 @@
 				B647F62B19AB7BDA008D395F /* SCDataManager.m in Sources */,
 				B6114EC51957BA110076BB03 /* SCAddressesViewController.m in Sources */,
 				B6E21EFA19F0BF9F00E38D3C /* SCCustomNoteViewController.m in Sources */,
+				B6F8518E1A48CEE2008CD9F9 /* SCAlertViewController.m in Sources */,
 				B6114EB91957B9470076BB03 /* SCCirclesViewController.m in Sources */,
 				B67128871919E9A200E6AFC1 /* main.m in Sources */,
 			);
@@ -594,6 +601,7 @@
 				B6114ECE1957BEAE0076BB03 /* SCClient.m in Sources */,
 				B617BECA1983FA7A0092ECAB /* SCRootViewController.m in Sources */,
 				B693374F1943B90B0073E2A0 /* SCLoginHelper.m in Sources */,
+				B6F8518F1A48CEE2008CD9F9 /* SCAlertViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,7 +10,10 @@
 #import "SCSessionManager.h"
 #import "SCUser.h"
 #import "SCCircle.h"
+#import "SCAppointment.h"
+#import "SCAcknowledgement.h"
 #import "SCCustomNoteViewController.h"
+#include "SCAlertViewController.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
 
 
@@ -31,11 +34,13 @@ static NSString *defaultNote = @"Hey #sitter#, I'm looking for a babysitter and 
 @property (nonatomic, retain)NSDate *startDate;
 @property (nonatomic, retain)NSDate *endDate;
 @property (nonatomic, retain)NSString *note;
+@property (nonatomic, retain)NSMutableArray *appointments;
 @end
 
 @implementation SCHomeTableViewController
 {
     SCCustomNoteViewController *_customNoteVC;
+    SCAlertViewController *_alertVC;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -242,9 +247,9 @@ static NSString *defaultNote = @"Hey #sitter#, I'm looking for a babysitter and 
 
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
     BOOL result = NO;
-    if ([identifier isEqualToString:@"BookItSegue"]) {
-        result = self.canBook;
-    }
+//    if ([identifier isEqualToString:@"BookItSegue"]) {
+//        result = self.canBook;
+//    }
     return result;
 }
 
@@ -274,6 +279,9 @@ static NSString *defaultNote = @"Hey #sitter#, I'm looking for a babysitter and 
 //    NSDate *beginDate;
 //    NSDate *endDate;
 //    NSString *note = @"";
+    
+    
+    
     SCSessionManager *manager = [SCSessionManager sharedManager];
     [[[manager createAppointmentForUser:manager.user
                             startDate:self.startDate
@@ -282,6 +290,7 @@ static NSString *defaultNote = @"Hey #sitter#, I'm looking for a babysitter and 
       deliverOn:RACScheduler.mainThreadScheduler]
      subscribeNext:^(NSDictionary *json) {
          NSLog(@"json");
+         [self showAppointmentCreateSuccess];
     } error:^(NSError *error) {
         NSLog(@"error");
     }];
@@ -296,6 +305,8 @@ static NSString *defaultNote = @"Hey #sitter#, I'm looking for a babysitter and 
       deliverOn:RACScheduler.mainThreadScheduler]
      subscribeNext:^(id x) {
          NSLog(@"json");
+         //TODO: Temp call only - need to remove...
+         [self updateAppointmentDetailsLabel];
      } error:^(NSError *error) {
          NSLog(@"error");
      }];
@@ -401,6 +412,52 @@ static NSString *defaultNote = @"Hey #sitter#, I'm looking for a babysitter and 
     [circle addAnimation:drawAnimation forKey:@"drawCircleAnimation"];
 }
 
+- (void)showAppointmentCreateSuccess {
+    _alertVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SCAlertViewController"];
+    [self addChildViewController:_alertVC];
+    _alertVC.view.frame = self.view.bounds;
+    _alertVC.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    [self.view addSubview:_alertVC.view];
+    [_alertVC didMoveToParentViewController:self];
+    
+    SCSessionManager *manager = [SCSessionManager sharedManager];
+    SCCircle *primaryCircle = [manager.user.circles anyObject];
+    _alertVC.detailsTextField.text = [NSString stringWithFormat:@"You have taken one step closer to getting some time away from the kids.  Your appointment for December 31st was successfully sent to %ld sitters.", [primaryCircle.sitters count]];
+    
+    __weak SCHomeTableViewController *weakSelf = self;
+    
+    _alertVC.button1Callback = ^ {
+        [weakSelf resetAppointments];
+        [weakSelf hideAppointmentCreateSuccess];
+    };
+    
+    _alertVC.button2Callback = ^ {
+        [weakSelf hideAppointmentCreateSuccess];
+    };
+    
+    _alertVC.button3Callback = ^ {
+        [weakSelf hideAppointmentCreateSuccess];
+    };
+    
+    _alertVC.view.alpha = 0.0f;
+    [UIView animateWithDuration:0.4 animations:^{
+        _alertVC.view.alpha = 1.0f;
+    }];
+    
+}
+
+- (void)hideAppointmentCreateSuccess {
+    [UIView animateWithDuration:0.2 animations:^{
+        _alertVC.view.alpha = 0.0f;
+        
+    } completion:^(BOOL finished) {
+        [_alertVC willMoveToParentViewController:nil];
+        [_alertVC.view removeFromSuperview];
+        [_alertVC removeFromParentViewController];
+        _alertVC = nil;
+    }];
+}
+
 - (void)addCustomNote {
     _customNoteVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SCCustomNoteViewController"];
     [self addChildViewController:_customNoteVC];
@@ -449,9 +506,48 @@ static NSString *defaultNote = @"Hey #sitter#, I'm looking for a babysitter and 
 }
 
 - (void)updateAppointmentDetailsLabel {
-//    self.apptDetailsLabel
+    // get upcoming data...
+    // get response (ack) data...
+    NSString *appt = [self upcomingAppointmentsText];
+    NSString *ack = [self appointmentAcknowledgementsText];
+    NSString *combinedText;
+    UIFont *font = [UIFont fontWithName:@"Avenir-Light" size:11.0];
+    UIColor* textColor = [UIColor colorWithRed:(89.0/255.0) green:(181.0/255.0) blue:(218.0/255.0) alpha:1.0];
+    NSDictionary *attrs = @{NSForegroundColorAttributeName : textColor,
+                            NSFontAttributeName : font};
     
+
+    if (appt && ack) {
+        combinedText = [NSString stringWithFormat:@"%@  %@", appt, ack];
+        
+    } else if (appt) {
+        combinedText = appt;
+    } else {
+        combinedText = ack;
+    }
+    NSMutableAttributedString *more = [[NSMutableAttributedString alloc] initWithString:combinedText attributes:attrs];
+    self.apptDetailsLabel.attributedText = more;
 }
+
+- (NSString *)upcomingAppointmentsText {
+    NSString *text = nil;
+    text = @"Upcoming (5)";
+    return text;
+}
+
+- (NSString *)appointmentAcknowledgementsText {
+    NSString *text = nil;
+    
+    text = @"Responses (2)";
+    return text;
+}
+
+
+
+- (void)resetAppointments {
+    NSLog(@"reset all appointment related data...");
+}
+
 
 
 @end

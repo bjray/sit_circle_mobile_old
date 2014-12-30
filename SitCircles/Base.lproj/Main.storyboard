@@ -179,17 +179,10 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="upcoming" translatesAutoresizingMaskIntoConstraints="NO" id="i88-4s-Dab">
                                                     <rect key="frame" x="20" y="8" width="30" height="30"/>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="upU-04-mjJ">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="upU-04-mjJ">
                                                     <rect key="frame" x="68" y="39" width="232" height="17"/>
-                                                    <attributedString key="attributedText">
-                                                        <fragment content="Upcoming (5)   Responses (2)">
-                                                            <attributes>
-                                                                <color key="NSColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                <font key="NSFont" size="11" name="Avenir-Light"/>
-                                                                <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
-                                                            </attributes>
-                                                        </fragment>
-                                                    </attributedString>
+                                                    <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="11"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -259,6 +252,81 @@
             </objects>
             <point key="canvasLocation" x="1859" y="-1890"/>
         </scene>
+        <!--Alert View Controller-->
+        <scene sceneID="HAI-4o-44P">
+            <objects>
+                <viewController storyboardIdentifier="SCAlertViewController" id="rAK-NI-6ev" customClass="SCAlertViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="vAQ-7M-NDv"/>
+                        <viewControllerLayoutGuide type="bottom" id="DmL-gg-jea"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="MWM-4y-YzQ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FvT-yZ-Yq3" userLabel="Content View">
+                                <rect key="frame" x="16" y="81" width="288" height="394"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Congrats!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l5F-R7-DHg">
+                                        <rect key="frame" x="8" y="8" width="272" height="39"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="25"/>
+                                        <color key="textColor" red="0.34901960780000002" green="0.70980392160000005" blue="0.85490196080000003" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" editable="NO" text="You have successfully scheduled your appointment..." textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="EXe-fb-XUr">
+                                        <rect key="frame" x="8" y="55" width="272" height="160"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="textColor" red="0.72177368402481079" green="0.79200118780136108" blue="0.82074779272079468" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7OB-ge-va0">
+                                        <rect key="frame" x="0.0" y="223" width="288" height="30"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="15"/>
+                                        <state key="normal" title="Ok, I got it">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="button1Click:" destination="rAK-NI-6ev" eventType="touchUpInside" id="NXs-UJ-PNH"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WEJ-q4-lq1">
+                                        <rect key="frame" x="0.0" y="261" width="288" height="33"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="15"/>
+                                        <state key="normal" title="Show me this appointment">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="button2Click:" destination="rAK-NI-6ev" eventType="touchUpInside" id="feg-sY-no6"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XSm-LA-Gxd">
+                                        <rect key="frame" x="0.0" y="302" width="288" height="30"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="15"/>
+                                        <state key="normal" title="Show me all the appointments">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="button3Click:" destination="rAK-NI-6ev" eventType="touchUpInside" id="j7T-a7-BVL"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                    </view>
+                    <connections>
+                        <outlet property="button1" destination="7OB-ge-va0" id="b7Y-eJ-MYS"/>
+                        <outlet property="button2" destination="WEJ-q4-lq1" id="Uhn-9W-blj"/>
+                        <outlet property="button3" destination="XSm-LA-Gxd" id="QtR-OB-T5R"/>
+                        <outlet property="detailsTextField" destination="EXe-fb-XUr" id="p3p-9x-Lks"/>
+                        <outlet property="titleLabel" destination="l5F-R7-DHg" id="dcE-V1-iVG"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="67C-MK-MSF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2463" y="-2269"/>
+        </scene>
         <!--Custom Note View Controller-->
         <scene sceneID="pnc-tx-Fsu">
             <objects>
@@ -283,7 +351,7 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Send a custom message" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="39E-MD-exW">
                                         <rect key="frame" x="0.0" y="8" width="240" height="21"/>
                                         <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="17"/>
-                                        <color key="textColor" red="0.90196078430000004" green="0.47058823529999999" blue="0.090196078430000007" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="0.34901960780000002" green="0.70980392160000005" blue="0.85490196080000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oBg-ox-Q1u">
@@ -759,6 +827,7 @@
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="loading" translatesAutoresizingMaskIntoConstraints="NO" id="egc-Jb-0RQ">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="tintColor" red="0.90196078430000004" green="0.47058823529999999" blue="0.090196078430000007" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Welcome back" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qkU-ry-R5F">
                                 <rect key="frame" x="20" y="66" width="280" height="49"/>
@@ -799,5 +868,5 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
-    <color key="tintColor" red="0.34901960784313724" green="0.70980392156862748" blue="0.85490196078431369" alpha="1" colorSpace="calibratedRGB"/>
+    <color key="tintColor" red="0.90196078430000004" green="0.47058823529999999" blue="0.090196078430000007" alpha="1" colorSpace="calibratedRGB"/>
 </document>
