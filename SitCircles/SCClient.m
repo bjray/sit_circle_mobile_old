@@ -121,9 +121,7 @@
         } else {
             NSLog(@"Failed to serialize request JSON");
             [subscriber sendError:serialError];
-            return [RACDisposable disposableWithBlock:^{
-                //nothing to kill...
-            }];
+            return nil;
         }
         
     }] doError:^(NSError *error) {

@@ -13,4 +13,5 @@
 #define kURL_KEY_SIGN_IN        @"signIn"
 #define kURL_KEY_SAVE_USER      @"createUser"
 #define kURL_KEY_BABYSITTERS    @"babysitters"
+#define kURL_KEY_APPOINTMENT    @"appointment"
 #endif

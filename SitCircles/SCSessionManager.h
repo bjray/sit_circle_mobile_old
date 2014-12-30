@@ -26,4 +26,10 @@
 //- (BOOL)saveUser:(SCUser *)user;
 - (RACSignal *)saveSitterAsDictionary:(NSDictionary *)dict;
 - (RACSignal *)fetchSittersByUser:(SCUser *)user;
+- (RACSignal *)createAppointmentForUser:(SCUser *)user
+                              startDate:(NSDate *)start
+                                endDate:(NSDate *)end
+                                   note:(NSString *)note;
+
+- (RACSignal *)fetchAppointmentsByUser:(SCUser *)user;
 @end

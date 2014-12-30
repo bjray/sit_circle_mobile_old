@@ -160,7 +160,7 @@
 
 #pragma mark - Helper methods...
 - (void)displayError:(NSError *)error optionalMsg:(NSString *)optionalMsg{
-    NSString *msg = [NSString stringWithFormat:@"%@ %@", [error localizedDescription], optionalMsg];
+//    NSString *msg = [NSString stringWithFormat:@"%@ %@", [error localizedDescription], optionalMsg];
     
 //    [TSMessage showNotificationWithTitle:@"Error" subtitle:msg type:TSMessageNotificationTypeError];
 }

@@ -10,21 +10,37 @@
 #import "SCSessionManager.h"
 #import "SCUser.h"
 #import "SCCircle.h"
+#import "SCAppointment.h"
+#import "SCAcknowledgement.h"
+#import "SCCustomNoteViewController.h"
+#include "SCAlertViewController.h"
+#import <ReactiveCocoa/ReactiveCocoa.h>
 
 
 #define CIRCLE_ROW 0
+#define WHEN_LABEL_ROW 1
 #define DATE_ROW 2
+#define HOW_LONG_LABEL_ROW 3
 #define DURATION_ROW 4
+#define NOTE_ROW 5
+#define BOOK_IT_ROW 6
+#define APPOINTMENTS_ROW 7
 #define ANIMATION_DURATION 0.25f
+static NSString *defaultNote = @"Hey #sitter#, I'm looking for a babysitter and was hoping you are available.  Reply to this message if you are available.  Thanks!";
 
 @interface SCHomeTableViewController ()
 @property (nonatomic, retain)NSArray *minutesArray;
+@property (nonatomic) BOOL canBook;
+@property (nonatomic, retain)NSDate *startDate;
+@property (nonatomic, retain)NSDate *endDate;
+@property (nonatomic, retain)NSString *note;
+@property (nonatomic, retain)NSMutableArray *appointments;
 @end
 
 @implementation SCHomeTableViewController
 {
-    NSInteger _hour;
-    NSInteger _minute;
+    SCCustomNoteViewController *_customNoteVC;
+    SCAlertViewController *_alertVC;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -41,76 +57,51 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.canBook = NO;
     self.appointmentDatePicker.hidden = YES;
     self.appointmentDurationPicker.hidden = YES;
+    self.tableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"table_background"]];
     
-    _hour = 0;
-    _minute = 0;
-
     self.minutesArray = @[@"0",@"15",@"30",@"45"];
+    self.startDate = [NSDate date];
     
     [self displaySitterCount];
-    [self.appointmentDatePicker setMinimumDate:[NSDate date]];
+    [self.appointmentDatePicker setMinimumDate:self.startDate];
+    
+
+    RACSignal *startDateSignal = [[RACObserve(self, startDate) skip:1] doNext:^(id x) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:WHEN_LABEL_ROW inSection:0];
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+        [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+    }];
+    
+    RACSignal *endDateSignal = [RACObserve(self, endDate) doNext:^(id x) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:HOW_LONG_LABEL_ROW inSection:0];
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+        [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+    }];
+    
+    
+    [RACObserve(self, note) subscribeNext:^(id x) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:NOTE_ROW inSection:0];
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+        [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+    }];
+    
+    RAC(self, canBook) = [[RACSignal combineLatest:@[startDateSignal, endDateSignal]
+                                           reduce:^id(NSDate *startDt, NSDate *endDt){
+                                               return @((startDt != nil) && (endDt != nil));
+                                           }] doNext:^(id x) {
+                                               NSIndexPath *indexPath = [NSIndexPath indexPathForItem:BOOK_IT_ROW inSection:0];
+                                               UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+                                               [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+                                           }];
+    
+    [self fetchData];
 }
 
 
-- (void)displaySitterCount {
-    SCSessionManager *manager = [SCSessionManager sharedManager];
-    SCCircle *primaryCircle = [manager.user.circles anyObject];
-    self.sitterCountLabel.text = [NSString stringWithFormat:@"%ld", [primaryCircle.sitters count]];
-    
-    UIColor *blue = [UIColor colorWithRed:(89.0/255.0) green:(181.0/255.0) blue:(218.0/255.0) alpha:1.0];
-//    UIColor *orange = [UIColor colorWithRed:(230.0/255.0) green:(120.0/255.0) blue:(23.0/255.0) alpha:1.0];
-    int radius = 80;
-    CAShapeLayer *circle = [self drawCircleWithColor:blue radius:radius];
-    [self animateCircle:circle];
-    [self fadeInSitterCount];
-    
-}
 
-- (void)fadeInSitterCount {
-    [UIView animateWithDuration:0.3
-                          delay:0
-                        options:UIViewAnimationOptionCurveEaseIn
-                     animations:^{
-                         self.sitterCountLabel.alpha = 1.0;
-                         self.sitterLabel.alpha = 1.0;
-                     } completion:^(BOOL finished) {
-                         nil;
-                     }];
-}
-
-- (CAShapeLayer *)drawCircleWithColor: (UIColor *) color radius:(int) radius {
-    CAShapeLayer *circle = [CAShapeLayer layer];
-    
-//    NSLog(@"tablecell Frame: %@", NSStringFromCGRect(self.tableCellView.frame));
-    
-    circle.path = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(0, 0, 2*radius, 2*radius)].CGPath;
-    circle.position = CGPointMake(CGRectGetMidX(self.tableCellView.frame)-radius, CGRectGetMidY(self.tableCellView.frame)-radius);
-    
-//    NSLog(@"circle Position: %@", NSStringFromCGPoint(circle.position));
-    
-    circle.fillColor = [UIColor clearColor].CGColor;
-    circle.strokeColor = color.CGColor;
-    circle.lineWidth = 5.0;
-    
-    return circle;
-}
-
-- (void)animateCircle: (CAShapeLayer *) circle {
-    
-    [self.tableCellView.layer addSublayer:circle];
-    
-    CABasicAnimation *drawAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
-    drawAnimation.delegate = self;
-    drawAnimation.duration = 0.5; //animate over 3 seconds
-    drawAnimation.repeatCount = 1.0;
-    
-    drawAnimation.fromValue = [NSNumber numberWithFloat:0.0f];
-    drawAnimation.toValue = [NSNumber numberWithFloat:1.0f];
-    drawAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
-    [circle addAnimation:drawAnimation forKey:@"drawCircleAnimation"];
-}
 
 - (void)didReceiveMemoryWarning
 {
@@ -119,21 +110,6 @@
 }
 
 #pragma mark - Table view data source
-
-//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-//{
-//#warning Potentially incomplete method implementation.
-//    // Return the number of sections.
-//    return 0;
-//}
-//
-//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-//{
-//#warning Incomplete method implementation.
-//    // Return the number of rows in the section.
-//    return 0;
-//}
-
 
 
 #pragma mark - Table View Delegate Methods
@@ -144,12 +120,15 @@
         return self.appointmentDatePicker.hidden ? 0.0f : 217.0f;
     } else if (indexPath.row == DURATION_ROW) {
         return self.appointmentDurationPicker.hidden ? 0.0f : 217.0f;
+    } else if (indexPath.row == APPOINTMENTS_ROW) {
+        return 67.0f;
     } else {
-        return 44.0f;
+        return 55.0f;
     }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"indexPath: %ld", indexPath.row);
     if (indexPath.row == DATE_ROW-1) {
         if (self.appointmentDatePicker.hidden) {
             [self showPicker:self.appointmentDatePicker withLabel:self.appointmentDateLabel];
@@ -164,9 +143,19 @@
         } else {
             [self hidePicker:self.appointmentDurationPicker withLabel:self.appointmentDurationLbl];
         }
-    } else {
+    } else if (indexPath.row == BOOK_IT_ROW) {
+        if (self.canBook) {
+            NSLog(@"lets book this bitch!");
+            [self scheduleAppointment];
+        } else {
+            NSLog(@"can't book yet...");
+        }
+    }else {
         [self hidePicker:self.appointmentDatePicker withLabel:self.appointmentDateLabel];
         [self hidePicker:self.appointmentDurationPicker withLabel:self.appointmentDurationLbl];
+        if (indexPath.row == NOTE_ROW) {
+            [self addCustomNote];
+        }
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -222,23 +211,25 @@
         default:
             break;
     }
-    
+    label.textColor = [UIColor whiteColor];
     label.text = title;
     
     return label;
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-
     NSLog(@"picker row selected");
+    NSInteger hour = 0;
+    NSInteger minute = 0;
     
     if (component == 0) {
-        _hour = row;
+        hour = row;
     } else if (component == 2) {
-        _minute = [[_minutesArray objectAtIndex:row] integerValue];
+        minute = [[_minutesArray objectAtIndex:row] integerValue];
     }
     
-    self.appointmentDurationLbl.text = [NSString stringWithFormat:@"%li hr %li min", _hour, _minute];
+    self.endDate = [self dateFromStartDate:self.startDate hours:hour minutes:minute];
+    self.appointmentDurationLbl.text = [NSString stringWithFormat:@"%li hr %li min", hour, minute];
 }
 
 - (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component
@@ -251,23 +242,76 @@
 	return 40.0;
 }
 
-/*
+
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
+    BOOL result = NO;
+//    if ([identifier isEqualToString:@"BookItSegue"]) {
+//        result = self.canBook;
+//    }
+    return result;
 }
-*/
+
+//// In a storyboard-based application, you will often want to do a little preparation before navigation
+//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+//{
+//    // Pass the selected object to the new view controller.
+//}
+
 
 #pragma mark - User Actions
 - (IBAction)appointmentDateChanged:(id)sender {
+    self.startDate = self.appointmentDatePicker.date;
     self.appointmentDateLabel.text = [self formatDate:self.appointmentDatePicker.date];
 }
 
+- (void)cancelNote {
+    NSLog(@"Cancel");
+}
+
+- (void)saveNote:(NSString *)note {
+    self.note = note;
+    NSLog(@"new note...");
+}
+
+- (void)scheduleAppointment {
+//    NSDate *beginDate;
+//    NSDate *endDate;
+//    NSString *note = @"";
+    
+    
+    
+    SCSessionManager *manager = [SCSessionManager sharedManager];
+    [[[manager createAppointmentForUser:manager.user
+                            startDate:self.startDate
+                              endDate:self.endDate
+                                 note:self.note]
+      deliverOn:RACScheduler.mainThreadScheduler]
+     subscribeNext:^(NSDictionary *json) {
+         NSLog(@"json");
+         [self showAppointmentCreateSuccess];
+    } error:^(NSError *error) {
+        NSLog(@"error");
+    }];
+    
+}
+
 #pragma mark - Helper Methods
+
+- (void)fetchData {
+    SCSessionManager *manager = [SCSessionManager sharedManager];
+    [[[manager fetchAppointmentsByUser:manager.user]
+      deliverOn:RACScheduler.mainThreadScheduler]
+     subscribeNext:^(id x) {
+         NSLog(@"json");
+         //TODO: Temp call only - need to remove...
+         [self updateAppointmentDetailsLabel];
+     } error:^(NSError *error) {
+         NSLog(@"error");
+     }];
+}
+
 - (void)showPicker:(UIView *)picker withLabel:(UILabel *)label {
     //    NSIndexPath *pickerCellPath = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
     label.textColor = self.tableView.tintColor;
@@ -280,11 +324,14 @@
         picker.alpha = 1.0f;
     }];
     
+    //This ensures date gets set the first time...
+    [self appointmentDateChanged:picker];
+    
 }
 
 - (void)hidePicker:(UIView *)picker withLabel:(UILabel *)label {
     
-    label.textColor = [UIColor blackColor];
+    label.textColor = [UIColor whiteColor];
     
     if (!picker.hidden) {
         [UIView animateWithDuration:ANIMATION_DURATION animations:^{
@@ -304,8 +351,203 @@
 		formatter = [[NSDateFormatter alloc] init];
 		[formatter setDateStyle:NSDateFormatterMediumStyle];
 		[formatter setTimeStyle:NSDateFormatterShortStyle];
+//        [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZ"];
+//        [self.formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZ"];
 	}
     
 	return [formatter stringFromDate:theDate];
 }
+
+- (void)displaySitterCount {
+    SCSessionManager *manager = [SCSessionManager sharedManager];
+    SCCircle *primaryCircle = [manager.user.circles anyObject];
+    self.sitterCountLabel.text = [NSString stringWithFormat:@"%ld", [primaryCircle.sitters count]];
+    
+    UIColor *blue = [UIColor colorWithRed:(89.0/255.0) green:(181.0/255.0) blue:(218.0/255.0) alpha:1.0];
+    //    UIColor *orange = [UIColor colorWithRed:(230.0/255.0) green:(120.0/255.0) blue:(23.0/255.0) alpha:1.0];
+    int radius = 80;
+    CAShapeLayer *circle = [self drawCircleWithColor:blue radius:radius];
+    [self animateCircle:circle];
+    [self fadeInSitterCount];
+    
+}
+
+- (void)fadeInSitterCount {
+    [UIView animateWithDuration:0.3
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         self.sitterCountLabel.alpha = 1.0;
+                         self.sitterLabel.alpha = 1.0;
+                     } completion:^(BOOL finished) {
+                         nil;
+                     }];
+}
+
+- (CAShapeLayer *)drawCircleWithColor: (UIColor *) color radius:(int) radius {
+    CAShapeLayer *circle = [CAShapeLayer layer];
+    
+    circle.path = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(0, 0, 2*radius, 2*radius)].CGPath;
+    circle.position = CGPointMake(CGRectGetMidX(self.tableCellView.frame)-radius, CGRectGetMidY(self.tableCellView.frame)-radius);
+    
+    circle.fillColor = [UIColor clearColor].CGColor;
+    circle.strokeColor = color.CGColor;
+    circle.lineWidth = 5.0;
+    
+    return circle;
+}
+
+- (void)animateCircle: (CAShapeLayer *) circle {
+    
+    [self.tableCellView.layer addSublayer:circle];
+    
+    CABasicAnimation *drawAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
+    drawAnimation.delegate = self;
+    drawAnimation.duration = 0.5; //animate over 3 seconds
+    drawAnimation.repeatCount = 1.0;
+    
+    drawAnimation.fromValue = [NSNumber numberWithFloat:0.0f];
+    drawAnimation.toValue = [NSNumber numberWithFloat:1.0f];
+    drawAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+    [circle addAnimation:drawAnimation forKey:@"drawCircleAnimation"];
+}
+
+- (void)showAppointmentCreateSuccess {
+    _alertVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SCAlertViewController"];
+    [self addChildViewController:_alertVC];
+    _alertVC.view.frame = self.view.bounds;
+    _alertVC.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    [self.view addSubview:_alertVC.view];
+    [_alertVC didMoveToParentViewController:self];
+    
+    SCSessionManager *manager = [SCSessionManager sharedManager];
+    SCCircle *primaryCircle = [manager.user.circles anyObject];
+    _alertVC.detailsTextField.text = [NSString stringWithFormat:@"You have taken one step closer to getting some time away from the kids.  Your appointment for December 31st was successfully sent to %ld sitters.", [primaryCircle.sitters count]];
+    
+    __weak SCHomeTableViewController *weakSelf = self;
+    
+    _alertVC.button1Callback = ^ {
+        [weakSelf resetAppointments];
+        [weakSelf hideAppointmentCreateSuccess];
+    };
+    
+    _alertVC.button2Callback = ^ {
+        [weakSelf hideAppointmentCreateSuccess];
+    };
+    
+    _alertVC.button3Callback = ^ {
+        [weakSelf hideAppointmentCreateSuccess];
+    };
+    
+    _alertVC.view.alpha = 0.0f;
+    [UIView animateWithDuration:0.4 animations:^{
+        _alertVC.view.alpha = 1.0f;
+    }];
+    
+}
+
+- (void)hideAppointmentCreateSuccess {
+    [UIView animateWithDuration:0.2 animations:^{
+        _alertVC.view.alpha = 0.0f;
+        
+    } completion:^(BOOL finished) {
+        [_alertVC willMoveToParentViewController:nil];
+        [_alertVC.view removeFromSuperview];
+        [_alertVC removeFromParentViewController];
+        _alertVC = nil;
+    }];
+}
+
+- (void)addCustomNote {
+    _customNoteVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SCCustomNoteViewController"];
+    [self addChildViewController:_customNoteVC];
+    _customNoteVC.view.frame = self.view.bounds;
+    _customNoteVC.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    [self.view addSubview:_customNoteVC.view];
+    [_customNoteVC didMoveToParentViewController:self];
+    _customNoteVC.textView.text = defaultNote;
+    __weak SCHomeTableViewController *weakSelf = self;
+
+    _customNoteVC.saveCallback = ^(NSString *note) {
+        [weakSelf saveNote:note];
+        [weakSelf hideCustomNoteView];
+    };
+    
+    _customNoteVC.cancelCallback = ^{
+        [weakSelf cancelNote];
+        [weakSelf hideCustomNoteView];
+    };
+    
+    _customNoteVC.view.alpha = 0.0f;
+    [UIView animateWithDuration:0.4 animations:^{
+        _customNoteVC.view.alpha = 1.0f;
+    }];
+}
+
+
+
+- (void)hideCustomNoteView {
+    [UIView animateWithDuration:0.2 animations:^{
+        _customNoteVC.view.alpha = 0.0f;
+        
+    } completion:^(BOOL finished) {
+        [_customNoteVC willMoveToParentViewController:nil];
+        [_customNoteVC.view removeFromSuperview];
+        [_customNoteVC removeFromParentViewController];
+        _customNoteVC = nil;
+    }];
+}
+
+- (NSDate *)dateFromStartDate:(NSDate *)startDt hours:(NSInteger)hrs minutes:(NSInteger)mins {
+    NSTimeInterval totalSeconds = (hrs * 3600) + (mins * 60);
+    NSDate *newDate = [startDt dateByAddingTimeInterval:totalSeconds];
+    NSLog(@"delta dateTime: %@", newDate);
+    return newDate;
+}
+
+- (void)updateAppointmentDetailsLabel {
+    // get upcoming data...
+    // get response (ack) data...
+    NSString *appt = [self upcomingAppointmentsText];
+    NSString *ack = [self appointmentAcknowledgementsText];
+    NSString *combinedText;
+    UIFont *font = [UIFont fontWithName:@"Avenir-Light" size:11.0];
+    UIColor* textColor = [UIColor colorWithRed:(89.0/255.0) green:(181.0/255.0) blue:(218.0/255.0) alpha:1.0];
+    NSDictionary *attrs = @{NSForegroundColorAttributeName : textColor,
+                            NSFontAttributeName : font};
+    
+
+    if (appt && ack) {
+        combinedText = [NSString stringWithFormat:@"%@  %@", appt, ack];
+        
+    } else if (appt) {
+        combinedText = appt;
+    } else {
+        combinedText = ack;
+    }
+    NSMutableAttributedString *more = [[NSMutableAttributedString alloc] initWithString:combinedText attributes:attrs];
+    self.apptDetailsLabel.attributedText = more;
+}
+
+- (NSString *)upcomingAppointmentsText {
+    NSString *text = nil;
+    text = @"Upcoming (5)";
+    return text;
+}
+
+- (NSString *)appointmentAcknowledgementsText {
+    NSString *text = nil;
+    
+    text = @"Responses (2)";
+    return text;
+}
+
+
+
+- (void)resetAppointments {
+    NSLog(@"reset all appointment related data...");
+}
+
+
+
 @end

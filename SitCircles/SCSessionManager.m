@@ -185,7 +185,7 @@ NSInteger const kHOURS_TIL_EXPIRE = 24;
 
 - (BOOL)saveUserToCache:(SCUser *) user {
     BOOL result = NO;
-    SCDataManager *dataManager = [SCDataManager sharedManager];
+//    SCDataManager *dataManager = [SCDataManager sharedManager];
     
     
 //    SCUserCache *cache = [SCCacheManager loadUserCache];
@@ -392,7 +392,40 @@ NSInteger const kHOURS_TIL_EXPIRE = 24;
     SCCircle *aCircle = [user.circles anyObject];
     NSInteger circleId = [aCircle.circleId integerValue];
     
-    NSString *urlString = [NSString stringWithFormat:@"%@/%ld", routes[kURL_KEY_BABYSITTERS], circleId];
+    NSString *urlString = [NSString stringWithFormat:@"%@?circle_id=%ld", routes[kURL_KEY_BABYSITTERS], circleId];
     return [[self.client fetchJSONFromRelativeURLString:urlString] deliverOn:RACScheduler.mainThreadScheduler];
+}
+
+- (RACSignal *)createAppointmentForUser:(SCUser *)user
+                              startDate:(NSDate *)start
+                                endDate:(NSDate *)end
+                                   note:(NSString *)note {
+    NSString *routesPlist = [[NSBundle mainBundle] pathForResource:@"routes" ofType:@"plist"];
+    NSDictionary *routes = [[NSDictionary alloc] initWithContentsOfFile:routesPlist];
+    NSMutableDictionary *details = [NSMutableDictionary dictionary];
+    
+    
+    [details setObject:[self.formatter stringFromDate:start] forKey:@"start_date"];
+    [details setObject:[self.formatter stringFromDate:end] forKey:@"end_date"];
+    [details setObject:note forKey:@"note"];
+    
+    
+    //TODO: Fine now because user will only have 1 circle...
+    SCCircle *aCircle = [user.circles anyObject];
+    [details setObject:aCircle.circleId forKey:@"circle_id"];
+    
+    return [[self.client postJSONData:details toRelativeURLString:routes[kURL_KEY_APPOINTMENT]] deliverOn:RACScheduler.mainThreadScheduler];
+}
+
+- (RACSignal *)fetchAppointmentsByUser:(SCUser *)user {
+    NSString *routesPlist = [[NSBundle mainBundle] pathForResource:@"routes" ofType:@"plist"];
+    NSDictionary *routes = [[NSDictionary alloc] initWithContentsOfFile:routesPlist];
+    
+    //TODO: Fine now because user will only have 1 circle...
+    SCCircle *aCircle = [user.circles anyObject];
+    NSInteger circleId = [aCircle.circleId integerValue];
+    NSString *urlString = [NSString stringWithFormat:@"%@?circle_id=%ld", routes[kURL_KEY_APPOINTMENT], circleId];
+    return [[self.client fetchJSONFromRelativeURLString:urlString] deliverOn:RACScheduler.mainThreadScheduler];
+    
 }
 @end
